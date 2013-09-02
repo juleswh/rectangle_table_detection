@@ -1,0 +1,22 @@
+rectangular_table_detection
+
+This package provides a tool for seeking for a plane that is orthogonal to the 'z' axis
+of a provided tf frame. It also provides an implementation of the filtering process (from pcl tutorial)
+Contains an helpfull launcher, for demo
+
+node ransac_plane_detection
+parameters
+	reference_tf : the name of the tf frame to use. The program will seek for a plane that is orthogonal to the z axis of this frame
+		default = "/world", for tables, floor...
+	ransac_dist_threshold : for pcl ransac method, default = 0.01
+	ransac_model_espilon : for pcl ransac method, the epsilon angle offset for plane matching
+
+topics
+	~input : input pointcloud
+	~output : pointcloud of inliers (the pointcloud of the plane)
+
+published transform
+	/camera_depth_optical_frame -> /plane : the transform from the camera to the estimated center of the plane
+
+node simple_filtering
+	directly from ros pcl tutorial http://www.ros.org/wiki/pcl/Tutorials

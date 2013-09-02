@@ -1,0 +1,36 @@
+<launch>
+	<arg name="kinect_room" default="false"/>
+	<arg name="filter" default="true"/>
+	<arg name="ransac_source" if="$(arg filter)" value="/filtering/output"/>
+	<arg name="ransac_source" unless="$(arg filter)" value="/camera/depth_registered/points"/>
+  <env name="ROSCONSOLE_CONFIG_FILE" 
+       value="$(find rectangular_table_detection)/rosconsole_debug.conf"/>
+	<!-- creates 2 transforms :
+		world -> base_link
+		base_link -> camera_link
+		camera_link is the parent frame of all of the frames published by openni_launch-->
+	<!--group if="$(arg kinect_room)">
+		<node pkg="tf" type="static_transform_publisher" name="world_base_link_broadcaster" args="-1 0 0 0 0 0 world base_link 100" />
+		<node pkg="tf" type="static_transform_publisher" name="base_camera_link_broadcaster" args="0 0 2.8 0 0.8 0 base_link camera_link 100" />
+	</group>
+	<group unless="$(arg kinect_room)">
+		<node pkg="tf" type="static_transform_publisher" name="world_base_link_broadcaster" args="-1 0 0 0 0 0 world base_link 100" />
+		<node pkg="tf" type="static_transform_publisher" name="base_camera_link_broadcaster" args="0 0 1 0 0.3 0 base_link camera_link 100" />
+	</group-->
+
+	<!-- launch the filtering node, the ransac node, and link them together-->
+	<!--group if="$(arg filter)"-->
+	<node name="filtering" pkg="rectangular_table_detection" type="simple_filtering" args="/filtering/input:=/camera/depth_registered/points"/>
+	<!--/group-->
+	<node name="ransac_ortho_plane" pkg="rectangular_table_detection" type="ransac_plane_detection" args="/ransac_ortho_plane/input:=$(arg ransac_source)" output="screen">
+		<param name="reference_tf" value="/world"/>
+		<param name="publish_hull_pcl" value="true"/>
+		<param name="publish_marker_rviz" value="true"/>
+		<param name="publish_plane_pcl" value="true"/>
+		<param name="min_height" value="0.65"/>
+		<param name="max_height" value="0.8"/>
+		<param name="incoming_pcl_sampling_period" value="4"/>
+		<param name="ransac_dist_threshold" value="0.05"/>
+		<!--param name="ransac_model_epsilon" value="0.05"/-->
+	</node>
+</launch>

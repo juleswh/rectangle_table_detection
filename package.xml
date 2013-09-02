@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>rectangular_table_detection</name>
+  <version>0.0.0</version>
+  <description>This package provides a tool for seeking for a plane that is orthogonal to the 'z' axis
+	of a provided tf frame. It also provides an implementation of the filtering process (from pcl tutorial)
+	Contains an helpfull launcher, for demo</description>
+
+  <maintainer email="jules.waldhart@laas.fr">Jules Waldhart</maintainer>
+
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>pcl</build_depend>
+  <build_depend>pcl_ros</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <run_depend>pcl</run_depend>
+  <run_depend>pcl_ros</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+</package>

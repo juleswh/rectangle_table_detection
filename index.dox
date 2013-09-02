@@ -1,0 +1,49 @@
+/**
+\mainpage rectangular_table_detection
+
+\tableofcontents
+
+\section sec_overview Overview
+
+This is a ROS package, developped for ROS Groovy.
+
+This package was created with the purpose of providing a table-detection
+tool for robotic manipulation, or any other purpose. Most of the existing
+table-detection tools only detects plane. We wanted a tool that could give
+us dimensions of the table. We also needed to give the system some indications
+about that table, so that it can 'choose' between several possibilities. These
+indications are the normal of the plane, a bounding box were the plane table is 
+expected to be, or at least a height range (for standard table we will be looking
+for a plane that is normal to the vertical, and in the range 70 - 90 cm)
+
+This package provides a tool for seeking for a plane that is orthogonal to the 'z' axis
+of a provided tf frame. It also provides an implementation of the filtering process (from pcl tutorial).
+Contains an helpfull launcher, for demo.
+
+\section sec_nodes Nodes
+Here is a list of the nodes of the package and their parameters, published and subscribed topics, services, etc...
+
+\subsection sec_node_detection node ransac_plane_detection
+The node that actually does the computation. It uses RanSAC methods for detecting the plane and its borders.
+
+\subsubsection sec_detection_param Parameters
+reference_tf 
+The name of the tf frame to use. The program will seek for a plane that is orthogonal to the z axis of this frame
+default = "/world", for tables, floor...
+
+ransac_dist_threshold : for pcl ransac method, default = 0.01
+
+ransac_model_espilon : for pcl ransac method, the epsilon angle offset for plane matching
+
+\subsubsection sec_detection_pub_topics Published topics
+	- ~input : input pointcloud
+
+\subsubsection sec_detection_sub_topics Subscribed topics
+	- ~output : pointcloud of inliers (the pointcloud of the plane)
+
+\subsubsection sec_detection_tf Published transform
+	- /camera_depth_optical_frame -> /plane : the transform from the camera to the estimated center of the plane
+
+\subsection sec_node_filtering Node simple_filtering
+	directly from ros pcl tutorial http://www.ros.org/wiki/pcl/Tutorials
+*/
