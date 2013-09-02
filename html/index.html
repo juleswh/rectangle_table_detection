@@ -80,10 +80,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#sec_overview">Overview</a></li>
-<li class="level1"><a href="#sec_nodes">Nodes</a><ul><li class="level2"><a href="#sec_node_detection">node ransac_plane_detection</a><ul><li class="level3"><a href="#sec_detection_param">Parameters</a></li>
-<li class="level3"><a href="#sec_detection_pub_topics">Published topics</a></li>
+<ul><li class="level1"><a href="#links">Links</a></li>
+<li class="level1"><a href="#sec_overview">Overview</a></li>
+<li class="level1"><a href="#sec_nodes">Nodes</a><ul><li class="level2"><a href="#sec_node_detection">Node ransac_plane_detection</a><ul><li class="level3"><a href="#sec_detection_param">Parameters</a></li>
 <li class="level3"><a href="#sec_detection_sub_topics">Subscribed topics</a></li>
+<li class="level3"><a href="#sec_detection_pub_topics">Published topics</a></li>
 <li class="level3"><a href="#sec_detection_tf">Published transform</a></li>
 </ul>
 </li>
@@ -92,7 +93,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="sec_overview"></a>
+<div class="textblock"><h1><a class="anchor" id="links"></a>
+Links</h1>
+<p>GitHub repo <a href="https://github.com/julesw/rectangle_table_detection/tree/master">https://github.com/julesw/rectangle_table_detection/tree/master</a></p>
+<p>Documentation (this) <a href="http://julesw.github.io/rectangle_table_detection/html">http://julesw.github.io/rectangle_table_detection/html</a></p>
+<h1><a class="anchor" id="sec_overview"></a>
 Overview</h1>
 <p>This is a ROS package, developped for ROS Groovy.</p>
 <p>This package was created with the purpose of providing a table-detection tool for robotic manipulation, or any other purpose. Most of the existing table-detection tools only detects plane. We wanted a tool that could give us dimensions of the table. We also needed to give the system some indications about that table, so that it can 'choose' between several possibilities. These indications are the normal of the plane, a bounding box were the plane table is expected to be, or at least a height range (for standard table we will be looking for a plane that is normal to the vertical, and in the range 70 - 90 cm)</p>
@@ -101,35 +106,49 @@ Overview</h1>
 Nodes</h1>
 <p>Here is a list of the nodes of the package and their parameters, published and subscribed topics, services, etc...</p>
 <h2><a class="anchor" id="sec_node_detection"></a>
-node ransac_plane_detection</h2>
+Node ransac_plane_detection</h2>
+<p>Defined here: <a class="el" href="ransac__plane__detection_8h.html" title="The main file header for the ransac_plane_detection node. ">ransac_plane_detection.h</a>.</p>
 <p>The node that actually does the computation. It uses RanSAC methods for detecting the plane and its borders.</p>
 <h3><a class="anchor" id="sec_detection_param"></a>
 Parameters</h3>
-<p>reference_tf The name of the tf frame to use. The program will seek for a plane that is orthogonal to the z axis of this frame default = "/world", for tables, floor...</p>
-<p>ransac_dist_threshold : for pcl ransac method, default = 0.01</p>
-<p>ransac_model_espilon : for pcl ransac method, the epsilon angle offset for plane matching</p>
-<h3><a class="anchor" id="sec_detection_pub_topics"></a>
-Published topics</h3>
-<ul>
-<li>~input : input pointcloud</li>
-</ul>
+<p><em>reference_tf</em> (string, default: "/world")<br/>
+The name of the reference frame. The program will seek for a plane that is orthogonal to the z axis of this frame.</p>
+<p><em>ransac_dist_threshold</em> (float, default: 0.01)<br/>
+for pcl ransac method.</p>
+<p><em>ransac_model_espilon</em> (float, default: 0.05)<br/>
+For pcl ransac method, the epsilon angle offset for plane matching.</p>
+<p><em>ortho_rad_thresh</em> (float, default: 0.08)<br/>
+The angle threshold that will be used to determine if an angle is ~pi/2 (90°).</p>
+<p><em>publish_plane_pcl</em> (boolean, default: false)<br/>
+Choose to publish the point cloud of the detected table (inliers).</p>
+<p><em>publish_hull_pcl</em> (boolean, default: false)<br/>
+Deprecated: only usefull for debug, should be removed. Choose to publish the detected hull (for debug).</p>
+<p><em>publish_marker_rviz</em> (boolean, default: false)<br/>
+Choose to publish a rviz marker to visualize detection results in rviz.</p>
+<p><em>max_height</em> (float, default: 0.9)<br/>
+The maximal height of the table we search.</p>
+<p><em>min_height</em> (float, default: 0.65)<br/>
+The minimal height of the table we search.</p>
 <h3><a class="anchor" id="sec_detection_sub_topics"></a>
 Subscribed topics</h3>
-<ul>
-<li>~output : pointcloud of inliers (the pointcloud of the plane)</li>
-</ul>
+<p><em>~input</em> (sensor_msgs/PointCloud2)<br/>
+Input pointcloud, organized or not (can be filtered)</p>
+<h3><a class="anchor" id="sec_detection_pub_topics"></a>
+Published topics</h3>
+<p><em>~output</em> (sensor_msgs/PointCloud2)<br/>
+Pointcloud of inliers (the pointcloud of the plane)</p>
 <h3><a class="anchor" id="sec_detection_tf"></a>
 Published transform</h3>
-<ul>
-<li>/camera_depth_optical_frame -&gt; /plane : the transform from the camera to the estimated center of the plane</li>
-</ul>
+<p>/camera_depth_optical_frame -&gt; /plane<br/>
+The transform from the camera to the estimated center of the plane</p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>end node documentation <a class="el" href="index.html#sec_node_detection">Node ransac_plane_detection</a> </dd></dl>
 <h2><a class="anchor" id="sec_node_filtering"></a>
 Node simple_filtering</h2>
 <p>directly from ros pcl tutorial <a href="http://www.ros.org/wiki/pcl/Tutorials">http://www.ros.org/wiki/pcl/Tutorials</a> </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 2 2013 15:58:24 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Sep 2 2013 17:31:38 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
