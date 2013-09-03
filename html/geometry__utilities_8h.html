@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -124,49 +124,32 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a6d77c68a9afcbe333c55765fa50545b6">_PRINT_HERE_</a>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
+<tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_PRINT_HERE_</b>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
 <tr class="separator:a6d77c68a9afcbe333c55765fa50545b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abd3b1df0898612213fb62ed0d8f6847b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#abd3b1df0898612213fb62ed0d8f6847b">print_graph</a> (<a class="el" href="struct_line__def.html">Line_def</a> *edge, int index, std::ostream &amp;outstream)</td></tr>
-<tr class="separator:abd3b1df0898612213fb62ed0d8f6847b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60364ae187c2564af4e33712670d4177"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a60364ae187c2564af4e33712670d4177">recursively_find_connected_vertices</a> (std::vector&lt; <a class="el" href="struct_vertex__def.html">Vertex_def</a> * &gt; &amp;vertices, <a class="el" href="struct_line__def.html">Line_def</a> *edge)</td></tr>
 <tr class="memdesc:a60364ae187c2564af4e33712670d4177"><td class="mdescLeft">&#160;</td><td class="mdescRight">recursively explore the vertices of an edge an add connected points to vertices.  <a href="#a60364ae187c2564af4e33712670d4177">More...</a><br/></td></tr>
 <tr class="separator:a60364ae187c2564af4e33712670d4177"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f53668dc573be63cfc5418cfb390f9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a90f53668dc573be63cfc5418cfb390f9">select_best_matching_rectangle</a> (const std::vector&lt; <a class="el" href="struct_rectangle.html">Rectangle</a> &gt; &amp;possible_rectangles, pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr pc_plan, pcl::PointIndices::ConstPtr indices, float required_score, float lead_score, int n_samples, float &amp;best_score, int &amp;best_index, pcl::PointIndices::Ptr not_matched_points)</td></tr>
-<tr class="memdesc:a90f53668dc573be63cfc5418cfb390f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">select the rectangle that best describes the plan in the point cloud pc_plan.  <a href="#a90f53668dc573be63cfc5418cfb390f9">More...</a><br/></td></tr>
-<tr class="separator:a90f53668dc573be63cfc5418cfb390f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b55daa2ba97cdcb6ed63191937175af"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a9b55daa2ba97cdcb6ed63191937175af">select_best_matching_rectangle</a> (const std::vector&lt; <a class="el" href="struct_rectangle.html">Rectangle</a> &gt; &amp;possible_rectangles, pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr pc_plan, pcl::PointIndices::ConstPtr indices, float required_score, float lead_score, int n_samples)</td></tr>
+<tr class="memdesc:a9b55daa2ba97cdcb6ed63191937175af"><td class="mdescLeft">&#160;</td><td class="mdescRight">select the rectangle that best describes the plane in the point cloud pc_plan.  <a href="#a9b55daa2ba97cdcb6ed63191937175af">More...</a><br/></td></tr>
+<tr class="separator:a9b55daa2ba97cdcb6ed63191937175af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a69c2795fa896d7b519a873bdb269563e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_rectangle.html">Rectangle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a69c2795fa896d7b519a873bdb269563e">compute_rectangle</a> (std::vector&lt; <a class="el" href="struct_vertex__def.html">Vertex_def</a> * &gt; &amp;vertices, Eigen::Vector3f vertical, double <a class="el" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a>)</td></tr>
 <tr class="memdesc:a69c2795fa896d7b519a873bdb269563e"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns a rectangle from the given vertices.  <a href="#a69c2795fa896d7b519a873bdb269563e">More...</a><br/></td></tr>
 <tr class="separator:a69c2795fa896d7b519a873bdb269563e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e1686f4fab6faca9b44bd000945fdc3"><td class="memItemLeft" align="right" valign="top">tf::Transform&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a3e1686f4fab6faca9b44bd000945fdc3">computeTransform</a> (Eigen::Vector3f origin, Eigen::Vector3f x_axis, Eigen::Vector3f y_axis, double <a class="el" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a>)</td></tr>
-<tr class="memdesc:a3e1686f4fab6faca9b44bd000945fdc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute a transform so that the child frame have given x and y axis.  <a href="#a3e1686f4fab6faca9b44bd000945fdc3">More...</a><br/></td></tr>
+<tr class="memdesc:a3e1686f4fab6faca9b44bd000945fdc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a transform so that the child frame have given x and y axis.  <a href="#a3e1686f4fab6faca9b44bd000945fdc3">More...</a><br/></td></tr>
 <tr class="separator:a3e1686f4fab6faca9b44bd000945fdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1d48a978460ba0bc24377537e646186"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#ab1d48a978460ba0bc24377537e646186">get_vertical_referecence</a> (tf::Vector3 &amp;vertical, tf::Vector3 &amp;origin, std::string <a class="el" href="ransac__plane__detection_8h.html#ae33db55a8c244d0bea8c4f9c67f78941">reference_tf_name</a>)</td></tr>
+<tr class="memitem:ab1d48a978460ba0bc24377537e646186"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#ab1d48a978460ba0bc24377537e646186">get_vertical_referecence</a> (tf::Vector3 &amp;vertical, tf::Vector3 &amp;origin, std::string reference_tf_name)</td></tr>
+<tr class="memdesc:ab1d48a978460ba0bc24377537e646186"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the world's vertical reference from tf.  <a href="#ab1d48a978460ba0bc24377537e646186">More...</a><br/></td></tr>
 <tr class="separator:ab1d48a978460ba0bc24377537e646186"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structures and functions in relation to the geometry of a table. </p>
 <p>These function mainly work over Eigen and are used to compute a model of the table </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _PRINT_HERE_</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">s</td><td>)</td>
-          <td>&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a69c2795fa896d7b519a873bdb269563e"></a>
 <div class="memitem">
 <div class="memproto">
@@ -198,7 +181,17 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>returns a rectangle from the given vertices. </p>
-<p>the returned rectangle is such that all points in it can be defined as a*vect_x + b*vect_y with a and b &gt;=0 vect_x and vect_y are choosen so that vect_x x vect_y have (approx) the same direction than the given vertical </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertices</td><td>the vertices of the rectangle to compute. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertical</td><td>a vector indicating the vertical direction, pointing up. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">param_cos_ortho_tolerance</td><td>the nil cosinus threshold </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the rectangle, as defined bellow.</dd></dl>
+<p>The returned rectangle is such that all points in it can be defined as <img class="formulaInl" alt="$ a \cdot \overrightarrow{x} + b \cdot \overrightarrow{y}$" src="form_2.png"/> with <img class="formulaInl" alt="$(a,b) \geq (0,0)$" src="form_3.png"/> <br/>
+ <img class="formulaInl" alt="$\overrightarrow{x}$" src="form_4.png"/> (vect_x) and <img class="formulaInl" alt="$\overrightarrow{y}$" src="form_5.png"/> (vect_y) are choosen so that <img class="formulaInl" alt="$\overrightarrow{x} \times \overrightarrow{y}$" src="form_6.png"/> have (approx) the same direction than the given vertical </p>
 
 </div>
 </div>
@@ -238,8 +231,18 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>compute a transform so that the child frame have given x and y axis. </p>
-<p>(nota : axis CAN be not normalized) </p>
+<p>Compute a transform so that the child frame have given x and y axis. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">origin</td><td>the origin of the child frame in the parent frame coordinates. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x_axis</td><td>a vector indicating the desired x axis direction of the child frame. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y_axis</td><td>idem. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">param_cos_ortho_tolerance</td><td>the nil cosinus threshold </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the transform, as described.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>axes CAN be not normalized </dd></dl>
 
 </div>
 </div>
@@ -273,37 +276,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-</div>
-</div>
-<a class="anchor" id="abd3b1df0898612213fb62ed0d8f6847b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int print_graph </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_line__def.html">Line_def</a> *&#160;</td>
-          <td class="paramname"><em>edge</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ostream &amp;&#160;</td>
-          <td class="paramname"><em>outstream</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>compute the world's vertical reference from tf. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">vertical</td><td>a vector colinear to the z axis of the &lt;reference_tf_name&gt; expressed in the &lt;camera_tf_name&gt; coordinates. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">the</td><td>origin of the &lt;reference_tf_name&gt; frame in the &lt;camera_tf_name&gt; coordinates. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">reference_tf_name</td><td>the name of the reference (world) frame, in tf. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">camera_tf_name</td><td>the name of the camera frame in tf. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -339,11 +321,11 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>Run over the graph formed by <a class="el" href="struct_line__def.html" title="a line representation ">Line_def</a> and <a class="el" href="struct_vertex__def.html" title="a vertex representation with a list of lines passing through this point. ">Vertex_def</a> and returns a list of pointers to vertices that are all connected by edges. This list can represent one or more overlapping rectangles, assuming that a vertex is defined as the intersection of two orthogonals lines </p>
+<p>Run over the graph formed by <a class="el" href="struct_line__def.html" title="a line representation ">Line_def</a> and <a class="el" href="struct_vertex__def.html" title="a vertex representation with a list of lines passing through this point. ">Vertex_def</a> and returns a list of pointers to vertices that are all connected by edges. This list can represent one or more overlapping rectangles, assuming that a vertex is defined as the intersection of two orthogonals lines. </p>
 
 </div>
 </div>
-<a class="anchor" id="a90f53668dc573be63cfc5418cfb390f9"></a>
+<a class="anchor" id="a9b55daa2ba97cdcb6ed63191937175af"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -381,25 +363,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>n_samples</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">float &amp;&#160;</td>
-          <td class="paramname"><em>best_score</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int &amp;&#160;</td>
-          <td class="paramname"><em>best_index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">pcl::PointIndices::Ptr&#160;</td>
-          <td class="paramname"><em>not_matched_points</em>&#160;</td>
+          <td class="paramname"><em>n_samples</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -409,15 +373,27 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>select the rectangle that best describes the plan in the point cloud pc_plan. </p>
-<p>Select randomly n_samples points in the input pc_plan and check for each rectangle if it contains this point If the best rectangle have a score &gt; required_score and a &lt;lead_score&gt; points lead on the 2nd best, we return it's index returns -1 if no good rectangle found </p>
+<p>select the rectangle that best describes the plane in the point cloud pc_plan. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">possible_rectangles</td><td>an array of rectangles to compare. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">pc_plan</td><td>the point cloud containing the plane we want to represent. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>the indices of the points in pc_plan that actually represent the plane. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">required_score</td><td>the minimum score(in proportion of matching points) required to be considered as a describing rectangle. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lead_score</td><td>the difference of score between 1st and 2nd best rectangles so that there is no possible ambiguity between who is the best. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">n_samples</td><td>the number of points to try. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the index of the selected rectangle, or -1 if no rectangle satisfies the required_score and the lead_score constraints.</dd></dl>
+<p>Select randomly n_samples points in the input pc_plan and check for each rectangle if it contains this point If the best rectangle have a score &gt; required_score and a &lt;lead_score&gt; points lead on the 2nd best, we return it's index. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 2 2013 17:31:38 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

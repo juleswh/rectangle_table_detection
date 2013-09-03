@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,67 +97,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a97eb662b8bc1040f86629d59cebba4d3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="struct_line__def.html">Line_def</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_vertex__def.html#a97eb662b8bc1040f86629d59cebba4d3">edges</a></td></tr>
-<tr class="memdesc:a97eb662b8bc1040f86629d59cebba4d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">edges passing by this point (usually, the vertex is defined as the intersection of these edges)  <a href="#a97eb662b8bc1040f86629d59cebba4d3">More...</a><br/></td></tr>
+<tr class="memitem:a97eb662b8bc1040f86629d59cebba4d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97eb662b8bc1040f86629d59cebba4d3"></a>
+std::vector&lt; <a class="el" href="struct_line__def.html">Line_def</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_vertex__def.html#a97eb662b8bc1040f86629d59cebba4d3">edges</a></td></tr>
+<tr class="memdesc:a97eb662b8bc1040f86629d59cebba4d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">edges passing by this point (usually, the vertex is defined as the intersection of these edges) <br/></td></tr>
 <tr class="separator:a97eb662b8bc1040f86629d59cebba4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a440f6344cbdf3330be82271eb000712c"><td class="memItemLeft" align="right" valign="top">Eigen::Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_vertex__def.html#a440f6344cbdf3330be82271eb000712c">vertex</a></td></tr>
-<tr class="memdesc:a440f6344cbdf3330be82271eb000712c"><td class="mdescLeft">&#160;</td><td class="mdescRight">the position in space of this vertex  <a href="#a440f6344cbdf3330be82271eb000712c">More...</a><br/></td></tr>
+<tr class="memitem:a440f6344cbdf3330be82271eb000712c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a440f6344cbdf3330be82271eb000712c"></a>
+Eigen::Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_vertex__def.html#a440f6344cbdf3330be82271eb000712c">vertex</a></td></tr>
+<tr class="memdesc:a440f6344cbdf3330be82271eb000712c"><td class="mdescLeft">&#160;</td><td class="mdescRight">the position in space of this vertex <br/></td></tr>
 <tr class="separator:a440f6344cbdf3330be82271eb000712c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42bf1b382e29861f0033959bdac60e8a"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_vertex__def.html#a42bf1b382e29861f0033959bdac60e8a">rank</a></td></tr>
-<tr class="separator:a42bf1b382e29861f0033959bdac60e8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>a vertex representation with a list of lines passing through this point. </p>
 <p>This structure represent a node of a graph formed by vertices and lines </p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="geometry__utilities_8h.html#a60364ae187c2564af4e33712670d4177" title="recursively explore the vertices of an edge an add connected points to vertices. ">recursively_find_connected_vertices()</a> </dd></dl>
-</div><h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a97eb662b8bc1040f86629d59cebba4d3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="struct_line__def.html">Line_def</a>*&gt; Vertex_def::edges</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>edges passing by this point (usually, the vertex is defined as the intersection of these edges) </p>
-
-</div>
-</div>
-<a class="anchor" id="a42bf1b382e29861f0033959bdac60e8a"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">size_t Vertex_def::rank</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a440f6344cbdf3330be82271eb000712c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Eigen::Vector3f Vertex_def::vertex</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>the position in space of this vertex </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="geometry__utilities_8h_source.html">geometry_utilities.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 2 2013 17:31:38 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

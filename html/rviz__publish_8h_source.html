@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,20 +89,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">rviz_publish.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="rviz__publish_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RVIZ_PUBLISH_H_</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef _RVIZ_PUBLISH_H_</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define _RVIZ_PUBLISH_H_</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;ros/ros.h&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;visualization_msgs/Marker.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> <a class="code" href="rviz__publish_8h.html#ae64fbf0f28bf61c4f69ca2a68a2594d0">publish_rviz_shape</a>(ros::Publisher* <a class="code" href="ransac__plane__detection_8h.html#af884c9d7e4937faf15d46131d87c8f93">marker_pub</a>, <span class="keywordtype">float</span> dim_x, <span class="keywordtype">float</span> dim_y, <span class="keywordtype">float</span> dim_z=0.1, <span class="keywordtype">bool</span> remove_shape = <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> publish_rviz_shape(ros::Publisher* <a class="code" href="ransac__plane__detection_8h.html#af884c9d7e4937faf15d46131d87c8f93">marker_pub</a>, <span class="keywordtype">float</span> dim_x, <span class="keywordtype">float</span> dim_y, <span class="keywordtype">float</span> dim_z=0.1, <span class="keywordtype">bool</span> remove_shape = <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#endif // _RVIZ_PUBLISH_H_</span></div>
-<div class="ttc" id="rviz__publish_8h_html_ae64fbf0f28bf61c4f69ca2a68a2594d0"><div class="ttname"><a href="rviz__publish_8h.html#ae64fbf0f28bf61c4f69ca2a68a2594d0">publish_rviz_shape</a></div><div class="ttdeci">void publish_rviz_shape(ros::Publisher *marker_pub, float dim_x, float dim_y, float dim_z=0.1, bool remove_shape=false)</div><div class="ttdoc">publish an rviz shape for displaying the detected table on rviz </div></div>
 <div class="ttc" id="ransac__plane__detection_8h_html_af884c9d7e4937faf15d46131d87c8f93"><div class="ttname"><a href="ransac__plane__detection_8h.html#af884c9d7e4937faf15d46131d87c8f93">marker_pub</a></div><div class="ttdeci">ros::Publisher marker_pub</div><div class="ttdoc">Publisher for the rviz marker representing the table. </div><div class="ttdef"><b>Definition:</b> ransac_plane_detection.h:61</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 2 2013 17:31:38 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

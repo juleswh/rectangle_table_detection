@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -119,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;math.h&gt;</code><br/>
 <code>#include &quot;<a class="el" href="concave__hull_8h_source.html">concave_hull.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="ransac__plane__compute_8h_source.html">ransac_plane_compute.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="rviz__publish_8h_source.html">rviz_publish.h</a>&quot;</code><br/>
+<code>#include &quot;rviz_publish.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="group__matrix_8h_source.html">group_matrix.h</a>&quot;</code><br/>
 <code>#include &quot;<a class="el" href="geometry__utilities_8h_source.html">geometry_utilities.h</a>&quot;</code><br/>
 </div>
@@ -127,125 +127,85 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a525335710b53cb064ca56b936120431e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a525335710b53cb064ca56b936120431e">_USE_MATH_DEFINES</a></td></tr>
+<tr class="memitem:a525335710b53cb064ca56b936120431e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a525335710b53cb064ca56b936120431e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_USE_MATH_DEFINES</b></td></tr>
 <tr class="separator:a525335710b53cb064ca56b936120431e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a6d77c68a9afcbe333c55765fa50545b6">_PRINT_HERE_</a>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
+<tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_PRINT_HERE_</b>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
 <tr class="separator:a6d77c68a9afcbe333c55765fa50545b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2cfae4063baf8cbd2ce1bd4db70453d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a2cfae4063baf8cbd2ce1bd4db70453d6">get_parameters</a> ()</td></tr>
+<tr class="memitem:a2cfae4063baf8cbd2ce1bd4db70453d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2cfae4063baf8cbd2ce1bd4db70453d6"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>get_parameters</b> ()</td></tr>
 <tr class="separator:a2cfae4063baf8cbd2ce1bd4db70453d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ecc7830b8d0c24f1149525c50c487c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a2ecc7830b8d0c24f1149525c50c487c1">cloud_cb</a> (const sensor_msgs::PointCloud2ConstPtr &amp;input)</td></tr>
+<tr class="memitem:a2ecc7830b8d0c24f1149525c50c487c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ecc7830b8d0c24f1149525c50c487c1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a2ecc7830b8d0c24f1149525c50c487c1">cloud_cb</a> (const sensor_msgs::PointCloud2ConstPtr &amp;input)</td></tr>
+<tr class="memdesc:a2ecc7830b8d0c24f1149525c50c487c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The callback where we call for all other functions and do all the computation. <br/></td></tr>
 <tr class="separator:a2ecc7830b8d0c24f1149525c50c487c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (int argc, char **argv)</td></tr>
+<tr class="memdesc:a3c04138a5bfe5d72780bb7e82a18e627"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a3c04138a5bfe5d72780bb7e82a18e627">More...</a><br/></td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr><td colspan="2"><div class="groupHeader">ROS-specific objects</div></td></tr>
-<tr class="memitem:a898856750d65dc6e6706ea4772115d04"><td class="memItemLeft" align="right" valign="top">ros::NodeHandle *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a898856750d65dc6e6706ea4772115d04">nh</a></td></tr>
+<tr class="memitem:a898856750d65dc6e6706ea4772115d04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a898856750d65dc6e6706ea4772115d04"></a>
+ros::NodeHandle *&#160;</td><td class="memItemRight" valign="bottom"><b>nh</b></td></tr>
 <tr class="separator:a898856750d65dc6e6706ea4772115d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca58666d4784734ad00ca908909eec03"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#aca58666d4784734ad00ca908909eec03">output_pcl_pub</a></td></tr>
-<tr class="memdesc:aca58666d4784734ad00ca908909eec03"><td class="mdescLeft">&#160;</td><td class="mdescRight">publisher for the output point cloud representing the detected table  <a href="#aca58666d4784734ad00ca908909eec03">More...</a><br/></td></tr>
+<tr class="memitem:aca58666d4784734ad00ca908909eec03"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca58666d4784734ad00ca908909eec03"></a>
+ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#aca58666d4784734ad00ca908909eec03">output_pcl_pub</a></td></tr>
+<tr class="memdesc:aca58666d4784734ad00ca908909eec03"><td class="mdescLeft">&#160;</td><td class="mdescRight">publisher for the output point cloud representing the detected table <br/></td></tr>
 <tr class="separator:aca58666d4784734ad00ca908909eec03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12a8121d12e58395babc0af3e1bc825c"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a12a8121d12e58395babc0af3e1bc825c">hull_pcl_pub</a></td></tr>
-<tr class="memdesc:a12a8121d12e58395babc0af3e1bc825c"><td class="mdescLeft">&#160;</td><td class="mdescRight">publisher for the output point cloud representing the hull of the detected table.  <a href="#a12a8121d12e58395babc0af3e1bc825c">More...</a><br/></td></tr>
+<tr class="memitem:a12a8121d12e58395babc0af3e1bc825c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12a8121d12e58395babc0af3e1bc825c"></a>
+ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a12a8121d12e58395babc0af3e1bc825c">hull_pcl_pub</a></td></tr>
+<tr class="memdesc:a12a8121d12e58395babc0af3e1bc825c"><td class="mdescLeft">&#160;</td><td class="mdescRight">publisher for the output point cloud representing the hull of the detected table. <br/></td></tr>
 <tr class="separator:a12a8121d12e58395babc0af3e1bc825c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9dc43099b14ccb7c38c1a85f8e8588e"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#ac9dc43099b14ccb7c38c1a85f8e8588e">dimensions_publisher</a></td></tr>
 <tr class="memdesc:ac9dc43099b14ccb7c38c1a85f8e8588e"><td class="mdescLeft">&#160;</td><td class="mdescRight">publisher for the dimensions of the detected table.  <a href="#ac9dc43099b14ccb7c38c1a85f8e8588e">More...</a><br/></td></tr>
 <tr class="separator:ac9dc43099b14ccb7c38c1a85f8e8588e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af884c9d7e4937faf15d46131d87c8f93"><td class="memItemLeft" align="right" valign="top">ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#af884c9d7e4937faf15d46131d87c8f93">marker_pub</a></td></tr>
-<tr class="memdesc:af884c9d7e4937faf15d46131d87c8f93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Publisher for the rviz marker representing the table.  <a href="#af884c9d7e4937faf15d46131d87c8f93">More...</a><br/></td></tr>
+<tr class="memitem:af884c9d7e4937faf15d46131d87c8f93"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af884c9d7e4937faf15d46131d87c8f93"></a>
+ros::Publisher&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#af884c9d7e4937faf15d46131d87c8f93">marker_pub</a></td></tr>
+<tr class="memdesc:af884c9d7e4937faf15d46131d87c8f93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Publisher for the rviz marker representing the table. <br/></td></tr>
 <tr class="separator:af884c9d7e4937faf15d46131d87c8f93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">User-set Parameters</div></td></tr>
-<tr><td colspan="2"><div class="groupText"><p>These variables can be set by user to control behavior of the program </p>
+<tr><td colspan="2"><div class="groupText"><p>These variables can be set by user to control behavior of the program</p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="index.html#sec_detection_param">ROS node description </a> </dd></dl>
 </div></td></tr>
-<tr class="memitem:ae33db55a8c244d0bea8c4f9c67f78941"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#ae33db55a8c244d0bea8c4f9c67f78941">reference_tf_name</a> =&quot;/world&quot;</td></tr>
+<tr class="memitem:ae33db55a8c244d0bea8c4f9c67f78941"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae33db55a8c244d0bea8c4f9c67f78941"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>reference_tf_name</b> =&quot;/world&quot;</td></tr>
 <tr class="separator:ae33db55a8c244d0bea8c4f9c67f78941"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4173c58f8ef9a768c6663138b143f777"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a4173c58f8ef9a768c6663138b143f777">ransac_model_epsilon</a> =0.05</td></tr>
+<tr class="memitem:a4173c58f8ef9a768c6663138b143f777"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4173c58f8ef9a768c6663138b143f777"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ransac_model_epsilon</b> =0.05</td></tr>
 <tr class="separator:a4173c58f8ef9a768c6663138b143f777"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb3f5327470aacdf8c7e75c43607cdd9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#afb3f5327470aacdf8c7e75c43607cdd9">ransac_dist_threshold</a> =0.01</td></tr>
+<tr class="memitem:afb3f5327470aacdf8c7e75c43607cdd9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb3f5327470aacdf8c7e75c43607cdd9"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ransac_dist_threshold</b> =0.01</td></tr>
 <tr class="separator:afb3f5327470aacdf8c7e75c43607cdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ff4b8014507a19e41c50fce10baeda4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a4ff4b8014507a19e41c50fce10baeda4">max_height_plane</a> =0.9</td></tr>
+<tr class="memitem:a4ff4b8014507a19e41c50fce10baeda4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ff4b8014507a19e41c50fce10baeda4"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>max_height_plane</b> =0.9</td></tr>
 <tr class="separator:a4ff4b8014507a19e41c50fce10baeda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abca0dd5173ee6922d62a8cb8cdf855d3"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#abca0dd5173ee6922d62a8cb8cdf855d3">min_height_plane</a> =0.65</td></tr>
+<tr class="memitem:abca0dd5173ee6922d62a8cb8cdf855d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abca0dd5173ee6922d62a8cb8cdf855d3"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>min_height_plane</b> =0.65</td></tr>
 <tr class="separator:abca0dd5173ee6922d62a8cb8cdf855d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98e80695d8ca56f2b24494c8fb63ec35"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a98e80695d8ca56f2b24494c8fb63ec35">param_publish_rviz_marker</a> =false</td></tr>
+<tr class="memitem:a98e80695d8ca56f2b24494c8fb63ec35"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98e80695d8ca56f2b24494c8fb63ec35"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>param_publish_rviz_marker</b> =false</td></tr>
 <tr class="separator:a98e80695d8ca56f2b24494c8fb63ec35"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a18c0e4f4f36a7361cc8cb099ce183f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a5a18c0e4f4f36a7361cc8cb099ce183f">param_publish_plane_pcl</a> =false</td></tr>
+<tr class="memitem:a5a18c0e4f4f36a7361cc8cb099ce183f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5a18c0e4f4f36a7361cc8cb099ce183f"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>param_publish_plane_pcl</b> =false</td></tr>
 <tr class="separator:a5a18c0e4f4f36a7361cc8cb099ce183f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06b419d7b5105cf6b243819619971edb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a06b419d7b5105cf6b243819619971edb">param_publish_hull_pcl</a> =false</td></tr>
+<tr class="memitem:a06b419d7b5105cf6b243819619971edb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06b419d7b5105cf6b243819619971edb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>param_publish_hull_pcl</b> =false</td></tr>
 <tr class="separator:a06b419d7b5105cf6b243819619971edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abccd4ca00795d8339d0efc0b110609cd"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a> =0.08</td></tr>
 <tr class="memdesc:abccd4ca00795d8339d0efc0b110609cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">threshold to consideer cos ~= 0.  <a href="#abccd4ca00795d8339d0efc0b110609cd">More...</a><br/></td></tr>
 <tr class="separator:abccd4ca00795d8339d0efc0b110609cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3afc80af87bf3facc7caac467d9b42b2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a3afc80af87bf3facc7caac467d9b42b2">param_interval</a> =1</td></tr>
+<tr class="memitem:a3afc80af87bf3facc7caac467d9b42b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3afc80af87bf3facc7caac467d9b42b2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>param_interval</b> =1</td></tr>
 <tr class="separator:a3afc80af87bf3facc7caac467d9b42b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The main file header for the ransac_plane_detection node. </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _PRINT_HERE_</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">s</td><td>)</td>
-          <td>&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a525335710b53cb064ca56b936120431e"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _USE_MATH_DEFINES</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="a2ecc7830b8d0c24f1149525c50c487c1"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void cloud_cb </td>
-          <td>(</td>
-          <td class="paramtype">const sensor_msgs::PointCloud2ConstPtr &amp;&#160;</td>
-          <td class="paramname"><em>input</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a2cfae4063baf8cbd2ce1bd4db70453d6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void get_parameters </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
+</div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <div class="memitem">
 <div class="memproto">
@@ -270,6 +230,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Main function. </p>
+<p>Initialization of ROS node, topics, parameters, etc... </p>
+
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -288,84 +251,6 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a12a8121d12e58395babc0af3e1bc825c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Publisher hull_pcl_pub</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>publisher for the output point cloud representing the hull of the detected table. </p>
-
-</div>
-</div>
-<a class="anchor" id="af884c9d7e4937faf15d46131d87c8f93"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Publisher marker_pub</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Publisher for the rviz marker representing the table. </p>
-
-</div>
-</div>
-<a class="anchor" id="a4ff4b8014507a19e41c50fce10baeda4"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double max_height_plane =0.9</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="abca0dd5173ee6922d62a8cb8cdf855d3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double min_height_plane =0.65</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a898856750d65dc6e6706ea4772115d04"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::NodeHandle* nh</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="aca58666d4784734ad00ca908909eec03"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ros::Publisher output_pcl_pub</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>publisher for the output point cloud representing the detected table </p>
-
-</div>
-</div>
 <a class="anchor" id="abccd4ca00795d8339d0efc0b110609cd"></a>
 <div class="memitem">
 <div class="memproto">
@@ -381,94 +266,10 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a3afc80af87bf3facc7caac467d9b42b2"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int param_interval =1</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a06b419d7b5105cf6b243819619971edb"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool param_publish_hull_pcl =false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a5a18c0e4f4f36a7361cc8cb099ce183f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool param_publish_plane_pcl =false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a98e80695d8ca56f2b24494c8fb63ec35"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool param_publish_rviz_marker =false</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="afb3f5327470aacdf8c7e75c43607cdd9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double ransac_dist_threshold =0.01</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="a4173c58f8ef9a768c6663138b143f777"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double ransac_model_epsilon =0.05</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ae33db55a8c244d0bea8c4f9c67f78941"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string reference_tf_name =&quot;/world&quot;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 2 2013 17:31:38 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

@@ -70,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,18 +112,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="concave__hull_8h.html#a6d77c68a9afcbe333c55765fa50545b6">_PRINT_HERE_</a>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
+<tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_PRINT_HERE_</b>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
 <tr class="separator:a6d77c68a9afcbe333c55765fa50545b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aaf2c4ffb6a5fd883314c0c5ef83526eb"><td class="memItemLeft" align="right" valign="top">pcl::PointCloud<br class="typebreak"/>
-&lt; pcl::PointXYZRGBA &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="concave__hull_8h.html#aaf2c4ffb6a5fd883314c0c5ef83526eb">calc_concave_hull</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients)</td></tr>
-<tr class="memdesc:aaf2c4ffb6a5fd883314c0c5ef83526eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute concave hull of a plan.  <a href="#aaf2c4ffb6a5fd883314c0c5ef83526eb">More...</a><br/></td></tr>
-<tr class="separator:aaf2c4ffb6a5fd883314c0c5ef83526eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e38d14560cee516f3dbe8578e37c831"><td class="memItemLeft" align="right" valign="top">pcl::PointCloud<br class="typebreak"/>
+&lt; pcl::PointXYZRGBA &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831">calc_concave_hull</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients, double alpha=0.05)</td></tr>
+<tr class="memdesc:a8e38d14560cee516f3dbe8578e37c831"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute concave hull of a plan.  <a href="#a8e38d14560cee516f3dbe8578e37c831">More...</a><br/></td></tr>
+<tr class="separator:a8e38d14560cee516f3dbe8578e37c831"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb9ea76a9b9c26347a32ba3536f53f79"><td class="memItemLeft" align="right" valign="top">pcl::PointCloud<br class="typebreak"/>
 &lt; pcl::PointXYZRGBA &gt;::Ptr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="concave__hull_8h.html#abb9ea76a9b9c26347a32ba3536f53f79">calc_convex_hull</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients)</td></tr>
-<tr class="memdesc:abb9ea76a9b9c26347a32ba3536f53f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">As <a class="el" href="concave__hull_8h.html#aaf2c4ffb6a5fd883314c0c5ef83526eb" title="Compute concave hull of a plan. ">calc_concave_hull()</a>, but for convex hull.  <a href="#abb9ea76a9b9c26347a32ba3536f53f79">More...</a><br/></td></tr>
+<tr class="memdesc:abb9ea76a9b9c26347a32ba3536f53f79"><td class="mdescLeft">&#160;</td><td class="mdescRight">As <a class="el" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831" title="Compute concave hull of a plan. ">calc_concave_hull()</a>, but for convex hull.  <a href="#abb9ea76a9b9c26347a32ba3536f53f79">More...</a><br/></td></tr>
 <tr class="separator:abb9ea76a9b9c26347a32ba3536f53f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f9f8f79c76e6b08b3fa544b52f008e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="concave__hull_8h.html#a0f9f8f79c76e6b08b3fa544b52f008e1">find_line_ransac</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr plane_hull, const double dist_thresh, pcl::IndicesPtr inliers, Eigen::VectorXf &amp;coefficients)</td></tr>
 <tr class="memdesc:a0f9f8f79c76e6b08b3fa544b52f008e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Search a line in a point cloud with RANSAC method.  <a href="#a0f9f8f79c76e6b08b3fa544b52f008e1">More...</a><br/></td></tr>
@@ -133,25 +134,8 @@ Functions</h2></td></tr>
 <div class="textblock"><p>2D hull computation utilities for point clouds. </p>
 <dl class="section author"><dt>Author</dt><dd>Jules Waldhart</dd></dl>
 <p>Utilities using pcl::ConcaveHull, pcl::ConvexHull to computer 2D hulls of 2D point clouds. Works on XYZRGBA (kinect-like, RGB + Depth) point clouds </p>
-</div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _PRINT_HERE_</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">s</td><td>)</td>
-          <td>&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aaf2c4ffb6a5fd883314c0c5ef83526eb"></a>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a8e38d14560cee516f3dbe8578e37c831"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -171,7 +155,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">pcl::ModelCoefficients::Ptr&#160;</td>
-          <td class="paramname"><em>coefficients</em>&#160;</td>
+          <td class="paramname"><em>coefficients</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>alpha</em> = <code>0.05</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -184,14 +174,16 @@ Functions</h2></td></tr>
 <p>Compute concave hull of a plan. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">cloud</td><td>the complete cloud </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">inliers</td><td>indices of points to compute; indicates plan inliers </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">coefficients</td><td>the coefficients of the plan </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cloud</td><td>the complete cloud. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">inliers</td><td>indices of points to compute; indicates plan inliers. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">coefficients</td><td>the coefficients of the plan. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">alpha</td><td>the alpha parameter for the concave hull method (the smaller the more detailed the hull). Only &gt;0 values. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the hull as a PointCloud of points representing the plan's hull</dd></dl>
-<p>This function firstly project inliers over the plan indicated by it's coefficients, and then compute the hull of these projected points</p>
+<dl class="section return"><dt>Returns</dt><dd>the hull as a PointCloud of points representing the plan's hull.</dd></dl>
+<p>This function firstly project inliers over the plan indicated by it's coefficients, and then compute the hull of these projected points.</p>
+<dl class="section see"><dt>See Also</dt><dd><a href="http://docs.pointclouds.org/trunk/classpcl_1_1_concave_hull.html">pcl documentation </a></dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>TODO add parameter for alpha</dd></dl>
 
 </div>
@@ -226,8 +218,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>As <a class="el" href="concave__hull_8h.html#aaf2c4ffb6a5fd883314c0c5ef83526eb" title="Compute concave hull of a plan. ">calc_concave_hull()</a>, but for convex hull. </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="concave__hull_8h.html#aaf2c4ffb6a5fd883314c0c5ef83526eb" title="Compute concave hull of a plan. ">calc_concave_hull()</a> </dd></dl>
+<p>As <a class="el" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831" title="Compute concave hull of a plan. ">calc_concave_hull()</a>, but for convex hull. </p>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831" title="Compute concave hull of a plan. ">calc_concave_hull()</a> </dd></dl>
 
 </div>
 </div>
@@ -284,7 +276,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 2 2013 17:31:38 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
