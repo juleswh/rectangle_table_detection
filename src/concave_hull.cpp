@@ -1,6 +1,6 @@
 #include "concave_hull.h"
 
-pcl::PointCloud<pcl::PointXYZRGBA>::Ptr calc_concave_hull(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients){
+pcl::PointCloud<pcl::PointXYZRGBA>::Ptr calc_concave_hull(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients, double alpha){
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud_hull (new pcl::PointCloud<pcl::PointXYZRGBA>),
 		cloud_projected (new pcl::PointCloud<pcl::PointXYZRGBA>);
 	pcl::ConcaveHull<pcl::PointXYZRGBA> chull;
@@ -14,7 +14,7 @@ pcl::PointCloud<pcl::PointXYZRGBA>::Ptr calc_concave_hull(pcl::PointCloud<pcl::P
 
 	// Create a Concave Hull representation of the projected inliers
 	chull.setInputCloud (cloud_projected);
-	chull.setAlpha (0.05);//TODO what is it???? find a good (parametrizable) setting
+	chull.setAlpha (alpha);//TODO what is it???? find a good (parametrizable) setting
 	//we want a 2D hull of a 2D surface (even if we are in a 3D space)
 	chull.setDimension(2);
 	chull.reconstruct (*cloud_hull);

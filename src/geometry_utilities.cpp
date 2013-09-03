@@ -1,13 +1,6 @@
 #include "geometry_utilities.h"
 
-/*std::vector<int> find_best_rectangle(std::vector<Vertex_def> vertices, double param_cos_ortho_tolerance){
-	std::vector<int> rectangles_vertices_indices; //a pseudo matrix of widht 4 storing indices of all rectangles
-
-	for (int i = 0 ; i < vertices.size() ; i++){
-		for (int j=0 ; j<i; j++){
-			
-*/
-
+#ifdef _DEBUG_FUNCTIONS_
 int print_graph(Line_def* edge, int index,std::ostream& outstream){
 	int r=0;
 	if(edge==NULL) return r;
@@ -26,6 +19,7 @@ int print_graph(Line_def* edge, int index,std::ostream& outstream){
 	}
 	return r;
 }
+#endif
 
 
 
@@ -91,10 +85,19 @@ bool point_is_in_rectangle(const pcl::PointXYZRGBA point, const Rectangle& rect,
  * we return it's index
  * returns -1 if no good rectangle found
  **/
-int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan, pcl::PointIndices::ConstPtr indices, float required_score,float lead_score, int n_samples, float& best_score, int& best_index, pcl::PointIndices::Ptr not_matched_points){
+int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
+		pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan,
+	 	pcl::PointIndices::ConstPtr indices,
+	 	float required_score, float lead_score,
+	 	int n_samples,
+	 	float& best_score, int& best_index,
+	 	pcl::PointIndices::Ptr not_matched_points){
 	
 	std::vector<float> scores(possible_rectangles.size());
-	std::vector<pcl::PointIndices::Ptr> not_matched(possible_rectangles.size(),pcl::PointIndices::Ptr(new pcl::PointIndices));
+	std::vector<pcl::PointIndices::Ptr> not_matched;
+	if (not_matched_points){
+		not_matched.resize(possible_rectangles.size(),pcl::PointIndices::Ptr(new pcl::PointIndices));
+	}
 	int i = 0;
 	int r_val;
 	int rand_index;
@@ -106,7 +109,7 @@ int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectan
 		for (int rect_i=0; rect_i<possible_rectangles.size(); rect_i++){
 			if (point_is_in_rectangle(pc_plan->at(indices->indices[rand_index]), possible_rectangles[rect_i])){
 				scores[rect_i]++;
-			}else{
+			}else if(not_matched_points){
 				not_matched[rect_i]->indices.push_back(indices->indices[rand_index]);
 			}
 		}
@@ -135,10 +138,28 @@ int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectan
 	}
 	best_score = max_score;
 	best_index = max_score_index;
-	*not_matched_points = *not_matched[max_score_index];
-	ROS_WARN("not_matched size = %d, return %d",not_matched[max_score_index]->indices.size(),not_matched_points->indices.size());
+	if(not_matched_points){
+		*not_matched_points = *not_matched[max_score_index];
+		ROS_WARN("not_matched size = %d, return %d",not_matched[max_score_index]->indices.size(),not_matched_points->indices.size());
+	}
 	return r_val;
 }
+
+int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
+		pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan,
+	 	pcl::PointIndices::ConstPtr indices,
+	 	float required_score, float lead_score,
+	 	int n_samples){
+	float best_score;
+	int best_score_index;
+	pcl::PointIndices::Ptr not_matched;
+	return select_best_matching_rectangle(possible_rectangles, pc_plan, indices,
+			required_score, lead_score,
+			n_samples,
+			best_score,best_score_index, not_matched);
+}
+
+
 
 
 

@@ -64,6 +64,7 @@ ros::Publisher marker_pub;
 /**
  * \name User-set Parameters
  * These variables can be set by user to control behavior of the program
+ * \see \link sec_detection_param ROS node description \endlink
  **/
 ///@{
 std::string reference_tf_name="/world";
@@ -86,8 +87,13 @@ int param_interval=1;
 
 void get_parameters();
 
+/** The callback where we call for all other functions and do all the computation.
+ */
 void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input);
 
+/** Main function.
+ * Initialization of ROS node, topics, parameters, etc...
+ */
 int main (int argc, char** argv);
 
 

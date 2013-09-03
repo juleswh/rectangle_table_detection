@@ -127,7 +127,6 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 				table_vertices.back()->vertex = borders_param_lines[j]->line.projection(borders_param_lines[i]->line.origin());
 				table_vertices.back()->edges.push_back(borders_param_lines[i]);
 				table_vertices.back()->edges.push_back(borders_param_lines[j]);
-				table_vertices.back()->rank=0;
 				borders_param_lines[i]->vertices.push_back(table_vertices.back());
 				borders_param_lines[j]->vertices.push_back(table_vertices.back());
 			}
@@ -187,9 +186,11 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 		//select the best rectangle
 		//let's play a match
+#ifdef _DEBUG_FUNCTIONS_
 		float best_score;
 		int best_index;
 		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,p_indices_filt,0.80,0.,plane_cloud->size()/10,best_score,best_index,not_matched_points);
+
 		if (best_rectangle_index >=0){
 			ROS_DEBUG("max score = %f, not matched : %d",best_score, not_matched_points->indices.size());
 			table_rectangle = possible_rectangles[best_rectangle_index];
@@ -209,10 +210,29 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 					debug_log_file <<"\\end{tikzpicture}\n";
 				}
 			}
-			debug_log_file << "\\caption{possible rectangles = " << possible_rectangles.size() << "; edges = " << borders_param_lines.size() << "; vertices = " << table_vertices.size() << "best score = " << best_score<<", best dimensions " << possible_rectangles[best_index].vect_x.norm() << " " << possible_rectangles[best_index].vect_y.norm() << ", not matched " << not_matched_points->indices.size() << "}\n";
+			debug_log_file << "\\caption{possible rectangles = " << possible_rectangles.size()
+				<< "; edges = " << borders_param_lines.size() 
+				<< "; vertices = " << table_vertices.size() 
+				<< "best score = " << best_score
+				<<", best dimensions " << possible_rectangles[best_index].vect_x.norm() 
+				<< " " << possible_rectangles[best_index].vect_y.norm() 
+				<< ", not matched " << not_matched_points->indices.size() 
+				<< "}\n";
 			debug_log_file << "\\end{figure}\n";
 			debug_log_file.close();
 		}
+
+#else
+
+		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,p_indices_filt,0.80,0.,plane_cloud->size()/10);
+		if (best_rectangle_index >=0){
+			table_rectangle = possible_rectangles[best_rectangle_index];
+			plane_center_found = true;
+		}else{
+			ROS_WARN("did not find a good definition of the table");
+			plane_center_found = false;
+		}
+#endif
 
 	}else{
 		ROS_WARN_STREAM("table not defined, "<< table_vertices.size() << "vertices found");
