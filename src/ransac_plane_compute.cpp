@@ -60,7 +60,7 @@ void ransac_plane_compute(
 	while(!ransac_plane_ok){
 		pcl::SampleConsensusModelPerpendicularPlane<pcl::PointXYZRGBA>::Ptr model ( new pcl::SampleConsensusModelPerpendicularPlane<pcl::PointXYZRGBA> (cloud));
 		if (indices_to_compute) {
-			model->setIndices(*indices_to_use);
+			model->setIndices(*indices_to_compute);
 		}
 
 		model->setAxis(vertical_param_line_camera.direction());
@@ -76,7 +76,7 @@ void ransac_plane_compute(
 		if (inliers->size () == 0)
 		{
 			ROS_WARN ("Could not estimate a planar model for the given dataset.");
-			return;
+			break;
 		}
 
 		//if the plane we found is not is the height range defined, we remove the points and start again
