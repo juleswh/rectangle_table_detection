@@ -1,19 +1,16 @@
 #include "ransac_plane_detection.h"
 
 
-void get_parameters();
-
 void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 {
-	nh->getParam("incoming_pcl_sampling_period",param_interval);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//ignore some point clouds, according to parameter sample period
 	static size_t compteur = 0;
 	if( (compteur++ % param_interval) != 0){
 		ROS_DEBUG("skipping this point cloud");
 		return;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	get_parameters();
 
 	tf::Transform plane_tf;
 	tf::StampedTransform cam_world_tf;
@@ -43,8 +40,14 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	ROS_DEBUG_STREAM("input height " << input->height);
 	pcl::fromROSMsg (*input, *cloud);
 
-	//Create RANSAC Model and object 
-	ransac_plane_compute(cloud,vertical_param_line_camera,ransac_model_epsilon,ransac_dist_threshold, inliers, coefficients, min_height_plane,max_height_plane);
+	//select only points that are in the height range
+	pcl::IndicesPtr in_range_filter_inliers;
+	//TODO put back the good one (for testing):
+	//filter_out_of_range_points(cloud,in_range_filter_inliers,vertical_param_line_camera,min_height_plane,max_height_plane);
+	filter_out_of_range_points(cloud,in_range_filter_inliers,vertical_param_line_camera,-10.,10.);
+
+	//search for the plane
+	ransac_plane_compute(cloud,vertical_param_line_camera,ransac_model_epsilon,ransac_dist_threshold,in_range_filter_inliers, inliers, coefficients, min_height_plane,max_height_plane);
 
 
 	/////////////////////////////////////////////////////////
@@ -286,6 +289,19 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		output_pcl_pub.publish (msg_cloud_inliers);
 	}
 
+	//publish the outliers point cloud
+	if(param_publish_outliers_pcl){
+		sensor_msgs::PointCloud2 msg_outliers;
+		pcl::PointCloud<pcl::PointXYZRGBA> cloud_outliers;
+		filt_extract.setInputCloud (cloud);
+		filt_extract.setIndices (p_indices);
+		filt_extract.setNegative (true);
+		filt_extract.filter (cloud_outliers);
+		pcl::toROSMsg(cloud_outliers, msg_outliers);
+		msg_outliers.header.frame_id=input->header.frame_id;
+		output_pcl_outliers_pub.publish(msg_outliers);
+	}
+
 	if(param_publish_hull_pcl){
 		//publish the hull
 		sensor_msgs::PointCloud2 msg_hull;
@@ -301,65 +317,50 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		delete table_vertices[i];
 	}
 	
-}
-
-void get_parameters(){
-	double ortho_rad_thresh;
-	nh->getParam("ortho_rad_thresh",ortho_rad_thresh);
-	param_cos_ortho_tolerance = cos(std::abs(M_PI/2 - ortho_rad_thresh));
-	nh->getParam("max_height",max_height_plane);
-	nh->getParam("min_height",min_height_plane);
-	nh->getParam("ransac_dist_threshold",ransac_dist_threshold);
-	nh->getParam("ransac_model_epsilon",ransac_model_epsilon);
+	return;
 }
 
 int main (int argc, char** argv)
 {
+	double ortho_rad_thresh;
 	// Initialize ROS
-	ros::init (argc, argv, "planar_segmentation");
+	ros::init (argc, argv, "ransac_plane_detection");
 	nh = new ros::NodeHandle("~");
-	marker_pub = nh->advertise<visualization_msgs::Marker>("visualization_marker", 1);
 
-	if(!nh->hasParam("reference_tf")){
-		nh->setParam("reference_tf", reference_tf_name);
-	}
-	if(!nh->hasParam("ransac_dist_threshold")){
-		nh->setParam("ransac_dist_threshold", ransac_dist_threshold );
-	}
-	if(!nh->hasParam("ransac_model_epsilon")){
-		nh->setParam("ransac_model_epsilon", ransac_model_epsilon );
-	}
-	if(!nh->hasParam("ortho_rad_thresh")){
-		nh->setParam("ortho_rad_thresh", M_PI/2 - acos(param_cos_ortho_tolerance));
-	}
-	if(!nh->hasParam("publish_plane_pcl")){
-		nh->setParam("publish_plane_pcl", param_publish_plane_pcl );
-	}
-	if(!nh->hasParam("publish_hull_pcl")){
-		nh->setParam("publish_hull_pcl", param_publish_hull_pcl );
-	}
-	if(!nh->hasParam("publish_marker_rviz")){
-		nh->setParam("publish_marker_rviz", param_publish_rviz_marker );
-	}
-	if(!nh->hasParam("max_height")){
-		nh->setParam("max_height", max_height_plane );
-	}
-	if(!nh->hasParam("min_height")){
-		nh->setParam("min_height", min_height_plane );
-	}
+	//get or set defaults values for parameters
+	nh->param<std::string>("reference_tf", reference_tf_name, DEFAULT_REFERENCE_TF);
+	nh->param("ransac_dist_threshold", ransac_dist_threshold, DEFAULT_RANSAC_DIST_THRESH);
+	nh->param("ransac_model_epsilon", ransac_model_epsilon, DEFAULT_RANSAC_MODEL_EPSILON);
 
-	nh->getParam("reference_tf",reference_tf_name);
-	nh->getParam("publish_plane_pcl",param_publish_plane_pcl);
-	nh->getParam("publish_marker_rviz",param_publish_rviz_marker);
-	nh->getParam("publish_hull_pcl",param_publish_hull_pcl);
+	nh->param("ortho_rad_thresh",ortho_rad_thresh, DEFAULT_ORTHO_RAD_THRESH);
+	param_cos_ortho_tolerance = cos(std::abs(M_PI/2 - ortho_rad_thresh));
+
+	//all publish options are set to false by default
+	nh->param("publish_plane_pcl", param_publish_plane_pcl, false);
+	nh->param("publish_hull_pcl", param_publish_hull_pcl, false );
+	nh->param("publish_marker_rviz", param_publish_rviz_marker, false );
+	nh->param("publish_outliers_pcl", param_publish_outliers_pcl, false);
+
+	nh->param("max_height", max_height_plane, DEFAULT_MAX_HEIGHT);
+	nh->param("min_height", min_height_plane, DEFAULT_MIN_HEIGHT);
+
+	nh->param("incoming_pcl_sampling_period", param_interval, 1);
 
 	ROS_INFO("starting ransac orthogonal plane detection");
 	// Create a ROS subscriber for the input point cloud
 	ros::Subscriber sub = nh->subscribe ("input", 1, cloud_cb);
 
 	// Create a ROS publisher for the output point cloud
-	output_pcl_pub = nh->advertise<sensor_msgs::PointCloud2> ("output", 1);
-	hull_pcl_pub = nh->advertise<sensor_msgs::PointCloud2> ("hull", 1);
+	if(param_publish_plane_pcl)
+		output_pcl_pub = nh->advertise<sensor_msgs::PointCloud2> ("output", 1);
+	if(param_publish_hull_pcl)
+		hull_pcl_pub = nh->advertise<sensor_msgs::PointCloud2> ("hull", 1);
+	if(param_publish_outliers_pcl)
+		output_pcl_outliers_pub = nh->advertise<sensor_msgs::PointCloud2> ("outliers",1);
+
+	if(param_publish_rviz_marker)
+		marker_pub = nh->advertise<visualization_msgs::Marker>("visualization_marker", 1);
+
 	dimensions_publisher = nh->advertise<geometry_msgs::Point> ("table_dimensions",1);
 
 	// Spin

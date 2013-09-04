@@ -1,6 +1,7 @@
 /**
  * \file ransac_plane_detection.h
  * The main file header for the ransac_plane_detection node
+ * \author Jules Waldhart
  */
 
 
@@ -59,6 +60,7 @@ ros::Publisher dimensions_publisher;
 /** Publisher for the rviz marker representing the table
  **/
 ros::Publisher marker_pub;
+ros::Publisher output_pcl_outliers_pub;
 ///@}
 
 /**
@@ -67,25 +69,31 @@ ros::Publisher marker_pub;
  * \see \link sec_detection_param ROS node description \endlink
  **/
 ///@{
-std::string reference_tf_name="/world";
-double ransac_model_epsilon=0.05;
-double ransac_dist_threshold=0.01;
+#define DEFAULT_REFERENCE_TF "/world"
+#define DEFAULT_RANSAC_DIST_THRESH 0.01
+#define DEFAULT_ORTHO_RAD_THRESH 0.08
+#define DEFAULT_RANSAC_MODEL_EPSILON 0.05
+#define DEFAULT_MAX_HEIGHT 0.9
+#define DEFAULT_MIN_HEIGHT 0.65
 
-double max_height_plane=0.9;
-double min_height_plane=0.65;
+std::string reference_tf_name;
+double ransac_model_epsilon;
+double ransac_dist_threshold;
 
-bool param_publish_rviz_marker=false;
-bool param_publish_plane_pcl=false;
-bool param_publish_hull_pcl=false;
+double max_height_plane;
+double min_height_plane;
+
+bool param_publish_rviz_marker;
+bool param_publish_plane_pcl;
+bool param_publish_hull_pcl;
+bool param_publish_outliers_pcl;
 
 /** threshold to consideer cos ~= 0.
  * an angle with a cosinus <= this value will be considerated to represent an orthogonal angle (i.e. approx pi/2)
  **/
-double param_cos_ortho_tolerance=0.08;
-int param_interval=1;
+double param_cos_ortho_tolerance;
+int param_interval;
 ///@}
-
-void get_parameters();
 
 /** The callback where we call for all other functions and do all the computation.
  */
