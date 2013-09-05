@@ -14,7 +14,7 @@ pcl::PointCloud<pcl::PointXYZRGBA>::Ptr calc_concave_hull(pcl::PointCloud<pcl::P
 
 	// Create a Concave Hull representation of the projected inliers
 	chull.setInputCloud (cloud_projected);
-	chull.setAlpha (alpha);//TODO what is it???? find a good (parametrizable) setting
+	chull.setAlpha (alpha);
 	//we want a 2D hull of a 2D surface (even if we are in a 3D space)
 	chull.setDimension(2);
 	chull.reconstruct (*cloud_hull);

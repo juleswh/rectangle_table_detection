@@ -33,15 +33,13 @@
  * \param[in] cloud the complete cloud.
  * \param[in] inliers indices of points to compute; indicates plan inliers.
  * \param[in] coefficients the coefficients of the plan.
- * \param[in] alpha the alpha parameter for the concave hull method (the smaller the more detailed the hull). Only >0 values.
+ * \param[in] alpha the alpha parameter for the concave hull method (the smaller, the more detailed is the hull). Only >0 values.
  * \return the hull as a PointCloud of points representing the plan's hull.
  *
  * This function firstly project inliers over the plan indicated by it's coefficients,
  * and then compute the hull of these projected points.
  *
  * \see  <a href="http://docs.pointclouds.org/trunk/classpcl_1_1_concave_hull.html"> pcl documentation </a>
- *
- * \todo TODO add parameter for alpha
  *
  **/
 pcl::PointCloud<pcl::PointXYZRGBA>::Ptr calc_concave_hull(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients, double alpha=0.05);

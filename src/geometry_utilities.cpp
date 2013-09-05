@@ -21,7 +21,43 @@ int print_graph(Line_def* edge, int index,std::ostream& outstream){
 }
 #endif
 
+inline float dot_product(const Eigen::Vector3f& v1, const Eigen::Vector3f& v2){
+	return (v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]);
+}
 
+int find_all_possible_rectangles(std::vector<Rectangle>& possible_rectangles, const std::vector<Line_def*>& borders_param_lines, const Eigen::Vector3f& vertical, float param_cos_ortho_tolerance){
+	//we search groups of connected vertices
+	//i.e. (pieces of) rectangles
+	for (int i=0; i<borders_param_lines.size(); i++){
+		std::vector<Vertex_def*> connected_points;
+		recursively_find_connected_vertices(connected_points,borders_param_lines[i]);
+		//get the vertex that will be used as the frame of the plane 
+		if (connected_points.size()==4){
+			possible_rectangles.push_back(compute_rectangle(connected_points,vertical,param_cos_ortho_tolerance));
+		}else if ((connected_points.size() >4) && connected_points.size() <=6){
+			std::vector<Vertex_def*> connected_points_sub(4);
+			for(int i1=0; i1<connected_points.size();i1++){
+				connected_points_sub[0]=connected_points[i1];
+				for(int i2=0; i2<i1;i2++){
+					connected_points_sub[1]=connected_points[i2];
+					for(int i3=0; i3<i2;i3++){
+						connected_points_sub[2]=connected_points[i3];
+						for(int i4=0; i4<i3;i4++){
+							connected_points_sub[3]=connected_points[i4];
+							possible_rectangles.push_back(compute_rectangle(connected_points_sub,vertical, param_cos_ortho_tolerance));
+						}
+					}
+				}
+			}
+		}else if(connected_points.size()>6){
+			ROS_WARN("too much vertices to compute all possible rectangles %d",connected_points.size());
+		}else if (connected_points.size()>0){
+			ROS_WARN("not enougth vertices to compute a rectangle %d", connected_points.size());
+		}
+	}
+
+	return possible_rectangles.size();
+}
 
 void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge){
 	if(edge==NULL) return;
@@ -49,9 +85,9 @@ bool point_is_in_rectangle(const pcl::PointXYZRGBA point, const Rectangle& rect,
 	bool rval;
 	Eigen::Vector3f p(point.x, point.y,point.z);
 	p-=rect.point;
-	float projx = sqrt(p[0]*rect.vect_x[0]+p[1]*rect.vect_x[1]+p[2]*rect.vect_x[2]);
-	float projy = sqrt(p[0]*rect.vect_y[0]+p[1]*rect.vect_y[1]+p[2]*rect.vect_y[2]);
-	float projz = p.dot(rect.vect_x.cross(rect.vect_y));
+	float projx = dot_product(p,rect.vect_x);
+	float projy = dot_product(p,rect.vect_y);
+	float projz = dot_product(p,rect.vect_x.cross(rect.vect_y));
 
 	rval = true;
 	if	(!(projx <= (1+relative_thresh) * rect.vect_x.norm())){

@@ -52,6 +52,8 @@ struct Line_def{
 
 /**
 	* defines an oriented rectangle in a 3D space.
+	* The vector \f$ \overrightarrow{x} x \overrightarrow{y} \f$ indicates the orientation of the rectangle.
+	* So this 3 vectors and the point would form an orthogonal repair in the space.
 	**/
 struct Rectangle{
 	Eigen::Vector3f vect_x; /**< the vector defining the 1st edge**/
@@ -65,6 +67,15 @@ struct Rectangle{
 int print_graph(Line_def* edge, int index, std::ostream& outstream);
 #endif
 
+/** A redefinition of the dot product.
+ * \param[in] v1 first vector
+ * \param[in] v2 2nd vector
+ * \return the dot product \f$ \overrightarrow{v_1} \cdot \overrightarrow{v_2} \f$
+ *
+ * Apparently, the Eigen dot product is not efficient
+ */
+inline float dot_product(const Eigen::Vector3f& v1, const Eigen::Vector3f& v2);
+
 /**
  * recursively explore the vertices of an edge an add connected points to vertices.
  * \param[out] vertices vector to which connected vertices will be appended
@@ -75,6 +86,16 @@ int print_graph(Line_def* edge, int index, std::ostream& outstream);
  * that a vertex is defined as the intersection of two orthogonals lines.
  **/
 void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge);
+
+/**
+ * runs over all vertices and tries to find all the possible rectangles.
+ * \param[out] possible_rectangles the list of rectangles found in the vertices list.
+ * \param[in] borders_param_lines the list of lines.
+ * \param[in] vertical a vector indicating the vertical, for oriented rectangle computation.
+ * \param[in] param_cos_ortho_tolerance the tolerance on the cosinus for orthogonal assertion.
+ *
+ */
+int find_all_possible_rectangles(std::vector<Rectangle>& possible_rectangles, const std::vector<Line_def*>& borders_param_lines, const Eigen::Vector3f& vertical, float param_cos_ortho_tolerance);
 
 #ifdef _DEBUG_FUNCTIONS_
 /**

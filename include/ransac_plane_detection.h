@@ -77,15 +77,19 @@ ros::Publisher output_pcl_outliers_pub;
  **/
 ///@{
 #define DEFAULT_REFERENCE_TF "/world"
-#define DEFAULT_RANSAC_DIST_THRESH 0.01
+#define DEFAULT_RANSAC_DIST_THRESH 0.05
+#define DEFAULT_RANSAC_LINE_DIST_THRESH 0.01
 #define DEFAULT_ORTHO_RAD_THRESH 0.08
 #define DEFAULT_RANSAC_MODEL_EPSILON 0.05
 #define DEFAULT_MAX_HEIGHT 0.9
 #define DEFAULT_MIN_HEIGHT 0.65
+#define DEFAULT_CONCAVE_HULL_ALPHA 0.05
 
 std::string reference_tf_name;
 double ransac_model_epsilon;
 double ransac_dist_threshold;
+double ransac_line_dist_threshold;
+double concave_hull_alpha;
 
 double max_height_plane;
 double min_height_plane;

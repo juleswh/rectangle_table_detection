@@ -26,7 +26,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 	//output values
 	Eigen::VectorXf coefficients;
-	pcl::IndicesPtr inliers(new std::vector<int>);
+	pcl::IndicesPtr plane_inliers(new std::vector<int>);
 
 	ROS_DEBUG("#################");
 	ROS_DEBUG("cloud_cb");
@@ -68,7 +68,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 #endif
 
 	//search for the plane in the selected range
-	ransac_plane_compute(cloud,vertical_param_line_camera,ransac_model_epsilon,ransac_dist_threshold,in_range_filter_inliers, inliers, coefficients, min_height_plane,max_height_plane);
+	ransac_plane_compute(cloud,vertical_param_line_camera,ransac_model_epsilon,ransac_dist_threshold,in_range_filter_inliers, plane_inliers, coefficients, min_height_plane,max_height_plane);
 
 #ifdef DO_TIME_SPEC
 	//ransac plane
@@ -85,33 +85,36 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		m_coefficients->values.push_back(coefficients[i]);
 	}
 
-	pcl::PointIndices::Ptr p_indices(new pcl::PointIndices);
-	pcl::PointIndices::Ptr p_indices_filt(new pcl::PointIndices);
-	p_indices->indices = *inliers;
-	//ROS_DEBUG("input union-find %d points", p_indices->indices.size());
+	/////////////////////////////////////////////////////////
+	//Extract the inliers to an other point cloud
+	
+	pcl::PointIndices::Ptr p_plane_inliers(new pcl::PointIndices);
+	pcl::PointIndices::Ptr table_indices(new pcl::PointIndices);
+	p_plane_inliers->indices = *plane_inliers;
 
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr plane_cloud(new pcl::PointCloud<pcl::PointXYZRGBA>);
 
 	std::vector<int> group_inliers;
-	//compute the point cloud representing the plan
+	//compute the point cloud representing the plan (extract inliers)
 	pcl::ExtractIndices<pcl::PointXYZRGBA> filt_extract;
 	filt_extract.setInputCloud (cloud);
-	filt_extract.setIndices (p_indices);
+	filt_extract.setIndices (p_plane_inliers);
 	filt_extract.setNegative (false);
 	filt_extract.filter (*plane_cloud);
 
+	//////////////////////////////////////////////////////////
+	//find the biggest group of points (table_indices)
 	union_find(plane_cloud,plane_cloud->size()/200, group_inliers);
-	p_indices_filt->indices = group_inliers;
+	table_indices->indices = group_inliers;
 
 #ifdef DO_TIME_SPEC
 	//union-find
 	time_output << ros::Time::now()-begin << ",";
 #endif
 
-	//statistical_filter(cloud,p_indices,p_indices->indices);
-	//ROS_DEBUG("output union-find %d points", group_inliers.size());
-	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr hull = calc_concave_hull(plane_cloud, p_indices_filt, m_coefficients);
 	/////////////////////////////////////////////////////////
+	//compute the hull of this biggest group
+	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr hull = calc_concave_hull(plane_cloud, table_indices, m_coefficients,concave_hull_alpha);
 
 #ifdef DO_TIME_SPEC
 	//hull
@@ -120,7 +123,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 	/////////////////////////////////////////////////////////
 	//	compute RANSAC lines of the hull ////////////////////
-	std::vector<pcl::PointCloud<pcl::PointXYZRGBA>::Ptr> lines_clouds;
+
 	std::vector<pcl::IndicesPtr> lines_inliers;
 	std::vector<Line_def*> borders_param_lines;
 	pcl::ExtractIndices<pcl::PointXYZRGBA> extract;
@@ -134,11 +137,10 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	size_t i=0;
 	//while we have points in the point cloud (more than a certain percentage of the initial hull)
 	while((borders_hull_cloud->size()>hull->size()*0.1) && (i < 10)){
-		lines_clouds.push_back(pcl::PointCloud<pcl::PointXYZRGBA>::Ptr(new pcl::PointCloud<pcl::PointXYZRGBA>));
 		lines_inliers.push_back(pcl::IndicesPtr(new std::vector<int>));
 		lines_coeffs.push_back(Eigen::VectorXf());
 
-		find_line_ransac(borders_hull_cloud, ransac_dist_threshold, lines_inliers.back(),lines_coeffs.back());
+		find_line_ransac(borders_hull_cloud, ransac_line_dist_threshold, lines_inliers.back(),lines_coeffs.back());
 
 		//check if we found a line or not, if not, exits loop
 		if (lines_inliers.back()->size() == 0) {
@@ -191,49 +193,18 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 	pcl::PointIndices::Ptr not_matched_points(new pcl::PointIndices);
 
-	//if we have 4 vertices, it's ok, otherwise, we notify the user
+	//if we have more than 4 vertices, it's ok, otherwise, we notify the user
 	if(table_vertices.size() >= 4 ){
-		//we search groups of connected vertices
-		//i.e. (pieces of) rectangles
-		for (int i=0; i<borders_param_lines.size(); i++){
-			std::vector<Vertex_def*> connected_points;
-			recursively_find_connected_vertices(connected_points,borders_param_lines[i]);
-			//get the vertex that will be used as the frame of the plane 
-			if (connected_points.size()==4){
-				possible_rectangles.push_back(compute_rectangle(connected_points,vertical_param_line_camera.direction(),param_cos_ortho_tolerance));
-			}else if ((connected_points.size() >4) && connected_points.size() <=6){
-				std::vector<Vertex_def*> connected_points_sub(4);
-				for(int i1=0; i1<connected_points.size();i1++){
-					connected_points_sub[0]=connected_points[i1];
-					for(int i2=0; i2<i1;i2++){
-						connected_points_sub[1]=connected_points[i2];
-						for(int i3=0; i3<i2;i3++){
-							connected_points_sub[2]=connected_points[i3];
-							for(int i4=0; i4<i3;i4++){
-								connected_points_sub[3]=connected_points[i4];
-								possible_rectangles.push_back(compute_rectangle(connected_points_sub,vertical_param_line_camera.direction(), param_cos_ortho_tolerance));
-							}
-						}
-					}
-				}
-			}else if(connected_points.size()>6){
-				ROS_WARN("too much vertices to compute all possible rectangles %d",connected_points.size());
-			}else if (connected_points.size()>0){
-				ROS_WARN("not enougth vertices to compute a rectangle %d", connected_points.size());
-			}
-
-
-
-		}
+		find_all_possible_rectangles(possible_rectangles,borders_param_lines,vertical_param_line_camera.direction(),param_cos_ortho_tolerance);
 
 		ROS_DEBUG("possible rectangles = %d",possible_rectangles.size());
 
 		//select the best rectangle
 		//let's play a match
-#ifdef _DEBUG_FUNCTIONS_
+#ifdef _DEBUG_FUNCTIONS_ //{
 		float best_score;
 		int best_index;
-		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,p_indices_filt,0.80,0.,plane_cloud->size()/10,best_score,best_index,not_matched_points);
+		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,table_indices,0.80,0.,plane_cloud->size()/10,best_score,best_index,not_matched_points);
 
 		if (best_rectangle_index >=0){
 			ROS_DEBUG("max score = %f, not matched : %d",best_score, not_matched_points->indices.size());
@@ -265,10 +236,10 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 			debug_log_file << "\\end{figure}\n";
 			debug_log_file.close();
 		}
+//}
+#else //{
 
-#else
-
-		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,p_indices_filt,0.80,0.,plane_cloud->size()/10);
+		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,table_indices,0.80,0.,plane_cloud->size()/10);
 		if (best_rectangle_index >=0){
 			table_rectangle = possible_rectangles[best_rectangle_index];
 			plane_center_found = true;
@@ -276,6 +247,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 			ROS_WARN("did not find a good definition of the table");
 			plane_center_found = false;
 		}
+//}
 #endif
 
 	}else{
@@ -320,16 +292,15 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 			publish_rviz_shape(&marker_pub,0,0,0,true);
 		}
 	}
-
 	//publish PointCloud of the plane (selects inliers in the PointCloud)
 	if (param_publish_plane_pcl) {
 		sensor_msgs::PointCloud2 msg_cloud_inliers;
 		pcl::PointCloud<pcl::PointXYZRGBA> cloud_inliers;
-		//for (size_t i = 0; i < inliers->size (); ++i)
-		//	cloud_inliers.insert(cloud_inliers.end(),cloud->points[(*inliers)[i]]);
-		//for (size_t i = 0; i < p_indices_filt->indices.size (); ++i)
+		//for (size_t i = 0; i < plane_inliers->size (); ++i)
+		//	cloud_inliers.insert(cloud_inliers.end(),cloud->points[(*plane_inliers)[i]]);
+		//for (size_t i = 0; i < table_indices->indices.size (); ++i)
 		for (size_t i = 0; i < not_matched_points->indices.size (); ++i)
-			//cloud_inliers.insert(cloud_inliers.end(),plane_cloud->points[(p_indices_filt->indices)[i]]);
+			//cloud_inliers.insert(cloud_inliers.end(),plane_cloud->points[(table_indices->indices)[i]]);
 			cloud_inliers.insert(cloud_inliers.end(),plane_cloud->points[(not_matched_points->indices)[i]]);
 
 		// convert and Publish the data
@@ -345,7 +316,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		sensor_msgs::PointCloud2 msg_outliers;
 		pcl::PointCloud<pcl::PointXYZRGBA> cloud_outliers;
 		filt_extract.setInputCloud (cloud);
-		filt_extract.setIndices (p_indices);
+		filt_extract.setIndices (p_plane_inliers);
 		filt_extract.setNegative (true);
 		filt_extract.filter (cloud_outliers);
 		pcl::toROSMsg(cloud_outliers, msg_outliers);
@@ -387,7 +358,9 @@ int main (int argc, char** argv)
 	//get or set defaults values for parameters
 	nh->param<std::string>("reference_tf", reference_tf_name, DEFAULT_REFERENCE_TF);
 	nh->param("ransac_dist_threshold", ransac_dist_threshold, DEFAULT_RANSAC_DIST_THRESH);
+	nh->param("ransac_line_dist_threshold", ransac_line_dist_threshold, DEFAULT_RANSAC_LINE_DIST_THRESH);
 	nh->param("ransac_model_epsilon", ransac_model_epsilon, DEFAULT_RANSAC_MODEL_EPSILON);
+	nh->param("concave_hull_alpha", concave_hull_alpha, DEFAULT_CONCAVE_HULL_ALPHA);
 
 	nh->param("ortho_rad_thresh",ortho_rad_thresh, DEFAULT_ORTHO_RAD_THRESH);
 	param_cos_ortho_tolerance = cos(std::abs(M_PI/2 - ortho_rad_thresh));

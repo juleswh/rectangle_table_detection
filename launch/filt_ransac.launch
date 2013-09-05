@@ -31,6 +31,9 @@
 		<param name="max_height" value="0.8"/>
 		<param name="incoming_pcl_sampling_period" value="4"/>
 		<param name="ransac_dist_threshold" value="0.05"/>
+		<!--param name="ransac_line_dist_threshold" value="0.05"/>
+		<param name="ortho_rad_thresh" value="0.08"/-->
+
 		<!--param name="ransac_model_epsilon" value="0.05"/-->
 	</node>
 </launch>
