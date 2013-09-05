@@ -87,7 +87,7 @@ void ransac_plane_compute(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, Ei
  */
 void filter_out_of_range_points(
 		pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud, 
-		pcl::IndicesPtr indices,
+		pcl::IndicesPtr& indices,
 		Eigen::ParametrizedLine<float,3> vertical_param_line_camera, 
 		double min_height_plane, double max_height_plane);
 

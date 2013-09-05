@@ -14,7 +14,7 @@ bool is_point_in_user_range(Eigen::ParametrizedLine<float, 3> line_vertical, pcl
 
 void filter_out_of_range_points(
 		pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud, 
-		pcl::IndicesPtr indices,
+		pcl::IndicesPtr& indices,
 		Eigen::ParametrizedLine<float,3> vertical_param_line_camera, 
 		double min_height_plane, double max_height_plane)
 {

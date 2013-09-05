@@ -165,10 +165,11 @@ Rectangle compute_rectangle(std::vector<Vertex_def*>& vertices, Eigen::Vector3f 
 tf::Transform computeTransform(Eigen::Vector3f origin, Eigen::Vector3f x_axis,Eigen::Vector3f y_axis,double param_cos_ortho_tolerance);
 
 /** compute the world's vertical reference from tf.
- * \param[out] vertical a vector colinear to the z axis of the <reference_tf_name> expressed in the <camera_tf_name> coordinates.
- * \param[out] the origin of the <reference_tf_name> frame in the <camera_tf_name> coordinates.
+ * \param[out] vertical a vector colinear to the z axis of the \c reference_tf_name expressed in the \c camera_tf_name coordinates.
+ * \param[out] origin the origin of the \c reference_tf_name frame in the \c camera_tf_name coordinates.
  * \param[in] reference_tf_name the name of the reference (world) frame, in tf.
  * \param[in] camera_tf_name the name of the camera frame in tf.
  */
-void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, std::string reference_tf_name);
+void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name,const std::string& camera_tf_name);
+
 #endif // _GEOMETRY_UTILITIES_H_

@@ -40,6 +40,13 @@
 #include "group_matrix.h"
 #include "geometry_utilities.h"
 
+//for printing durations of functions
+#define DO_TIME_SPEC
+#ifdef DO_TIME_SPEC
+std::ofstream time_output;
+#endif
+
+
 //a debug utility
 #define _PRINT_HERE_(s) ROS_DEBUG_STREAM("in " << __FILE__ << " line " << __LINE__ << "\t-\t" << s)
 

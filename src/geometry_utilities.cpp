@@ -250,14 +250,14 @@ tf::Transform computeTransform(Eigen::Vector3f origin, Eigen::Vector3f x_axis,Ei
 	return transform;
 }
 
-void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, std::string reference_tf_name){
+void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name, const std::string& camera_tf_name){
 	static tf::TransformListener tf_listener;
 	tf::StampedTransform cam_world_tf;
 	tf::Vector3 z(0,0,1);
 
 	//get the transform from the camera to the world to get the vertical axis
 	try{
-		tf_listener.lookupTransform("/camera_depth_optical_frame", reference_tf_name,  
+		tf_listener.lookupTransform(camera_tf_name, reference_tf_name,  
 				ros::Time(0), cam_world_tf);
 	}
 	catch (tf::TransformException ex){

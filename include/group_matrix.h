@@ -1,6 +1,7 @@
 /**
  * a clustering method using union-find algorithm to look for groups of points.
  * \file group_matrix.h
+ * \author Jules Waldhart
  *
  * Uses a kdtree to find k-nearest neighbors over a point cloud.
  * Usefull to find a group of points in a point cloud
@@ -49,11 +50,15 @@ union_find_node* find(union_find_node* x);
 /**
 	* returns the biggest group of points.
 	* \param[in] cloud the cloud to compute
+	* \param[in] K the \c K nearest neighbors of a point will be considered to belong to the same group\.
+	* A high value will speed up the process, while a low value would be more accurate.
 	* \param[out] inliers the inliers of cloud belonging to the biggest group
 	*
-	* Uses a union find algorithm
-	* and uses K nearest neighbors pcl algorithm
-	* the K nearest neighbors of a point are added 
-	* to the same group than the point
+	* Uses a union find algorithm and uses K nearest neighbors pcl algorithm
+	* the K nearest neighbors of a point are added to the same group than the point
+	*
+	* \note The pcl::KdTreeFLANN object used in this function doesn't accept
+	* an inliers array and compute only an entire point cloud. That's why this
+	* function doesn't accept it neither.
 	**/
 void union_find(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr cloud, int K, std::vector<int>& inliers);

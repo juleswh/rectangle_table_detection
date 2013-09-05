@@ -11,6 +11,9 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		return;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#ifdef DO_TIME_SPEC
+	ros::Time begin = ros::Time::now();
+#endif
 
 	tf::Transform plane_tf;
 	tf::StampedTransform cam_world_tf;
@@ -29,26 +32,48 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	ROS_DEBUG("cloud_cb");
 	ROS_DEBUG("#################");
 
+#ifdef DO_TIME_SPEC
+	//init
+	time_output << ros::Time::now()-begin << ",";
+#endif
+
 	//get the vertical reference of the world in the camera coordinates
 	tf::Vector3 vert_camera,origin_world_camera;
-	get_vertical_referecence(vert_camera,origin_world_camera, reference_tf_name);
+	get_vertical_referecence(vert_camera,origin_world_camera, reference_tf_name,input->header.frame_id);
 	//from these, create a line that will be used to get the height of the plane we find
 	Eigen::ParametrizedLine<float,3> vertical_param_line_camera(Eigen::Vector3f(origin_world_camera[0],origin_world_camera[1],origin_world_camera[2]),Eigen::Vector3f(vert_camera[0],vert_camera[1],vert_camera[2]));
+
+#ifdef DO_TIME_SPEC
+	//get vertical
+	time_output << ros::Time::now()-begin << ",";
+#endif
 
 	// Convert the sensor_msgs/PointCloud2 data to pcl/PointCloud
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZRGBA>());
 	ROS_DEBUG_STREAM("input height " << input->height);
 	pcl::fromROSMsg (*input, *cloud);
 
+#ifdef DO_TIME_SPEC
+	//convert msg
+	time_output << ros::Time::now()-begin << ",";
+#endif
+
 	//select only points that are in the height range
 	pcl::IndicesPtr in_range_filter_inliers;
-	//TODO put back the good one (for testing):
-	//filter_out_of_range_points(cloud,in_range_filter_inliers,vertical_param_line_camera,min_height_plane,max_height_plane);
-	filter_out_of_range_points(cloud,in_range_filter_inliers,vertical_param_line_camera,-10.,10.);
+	filter_out_of_range_points(cloud,in_range_filter_inliers,vertical_param_line_camera,min_height_plane,max_height_plane);
 
-	//search for the plane
+#ifdef DO_TIME_SPEC
+	//select range
+	time_output << ros::Time::now()-begin << ",";
+#endif
+
+	//search for the plane in the selected range
 	ransac_plane_compute(cloud,vertical_param_line_camera,ransac_model_epsilon,ransac_dist_threshold,in_range_filter_inliers, inliers, coefficients, min_height_plane,max_height_plane);
 
+#ifdef DO_TIME_SPEC
+	//ransac plane
+	time_output << ros::Time::now()-begin << ",";
+#endif
 
 	/////////////////////////////////////////////////////////
 	//compute CONVEX HULL of the plane
@@ -77,10 +102,21 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 	union_find(plane_cloud,plane_cloud->size()/200, group_inliers);
 	p_indices_filt->indices = group_inliers;
+
+#ifdef DO_TIME_SPEC
+	//union-find
+	time_output << ros::Time::now()-begin << ",";
+#endif
+
 	//statistical_filter(cloud,p_indices,p_indices->indices);
 	//ROS_DEBUG("output union-find %d points", group_inliers.size());
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr hull = calc_concave_hull(plane_cloud, p_indices_filt, m_coefficients);
 	/////////////////////////////////////////////////////////
+
+#ifdef DO_TIME_SPEC
+	//hull
+	time_output << ros::Time::now()-begin << ",";
+#endif
 
 	/////////////////////////////////////////////////////////
 	//	compute RANSAC lines of the hull ////////////////////
@@ -143,6 +179,11 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 		i++;
 	}
+
+#ifdef DO_TIME_SPEC
+	//borders detect
+	time_output << ros::Time::now()-begin << ",";
+#endif
 
 	ROS_DEBUG("borders used %d",borders_param_lines.size());
 	ROS_DEBUG("vertices found %d",table_vertices.size());
@@ -243,6 +284,11 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	}
 	/////////////////////////////////////////////////////////
 
+#ifdef DO_TIME_SPEC
+	//best rect
+	time_output << ros::Time::now()-begin << ",";
+#endif
+
 
 	if (plane_center_found){
 		ROS_DEBUG("table correctly defined");
@@ -258,6 +304,11 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		dimensions_publisher.publish(dimensions_msg);
 		tf_br.sendTransform(tf::StampedTransform(plane_tf, ros::Time::now(), "camera_depth_optical_frame", "/plane_segmented"));
 	}
+
+#ifdef DO_TIME_SPEC
+	//pub dim
+	time_output << ros::Time::now()-begin << ",";
+#endif
 
 
 	//publish the marker
@@ -316,6 +367,12 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	for (int i=0; i<table_vertices.size();i++){
 		delete table_vertices[i];
 	}
+
+#ifdef DO_TIME_SPEC
+	//other pub + end
+	time_output << ros::Time::now()-begin << "\n";
+	time_output.flush();
+#endif
 	
 	return;
 }
@@ -346,6 +403,11 @@ int main (int argc, char** argv)
 
 	nh->param("incoming_pcl_sampling_period", param_interval, 1);
 
+#ifdef DO_TIME_SPEC
+	time_output.open("rect_detect_time_caract_output.csv");
+	time_output << "init       ,get vert   ,convert msg,sel range  ,sac plane  ,union-find ,hull       ,borders    ,best rect  ,pub dim    ,end\n";
+#endif
+
 	ROS_INFO("starting ransac orthogonal plane detection");
 	// Create a ROS subscriber for the input point cloud
 	ros::Subscriber sub = nh->subscribe ("input", 1, cloud_cb);
@@ -365,4 +427,7 @@ int main (int argc, char** argv)
 
 	// Spin
 	ros::spin ();
+#ifdef DO_TIME_SPEC
+	time_output.close();
+#endif
 }
