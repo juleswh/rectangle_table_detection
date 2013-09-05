@@ -119,27 +119,89 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa8e279532f066d47ba4356caa53bf87b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__compute_8h.html#aa8e279532f066d47ba4356caa53bf87b">ransac_plane_compute</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr cloud, Eigen::ParametrizedLine&lt; float, 3 &gt; vert_camera, double ransac_model_epsilon, double ransac_dist_threshold, pcl::IndicesPtr inliers, Eigen::VectorXf &amp;coefficients, double min_height_plane, double max_height_plane)</td></tr>
-<tr class="memdesc:aa8e279532f066d47ba4356caa53bf87b"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute ransac over the point cloud to find a plan normal to the vertical and in the height interval.  <a href="#aa8e279532f066d47ba4356caa53bf87b">More...</a><br/></td></tr>
-<tr class="separator:aa8e279532f066d47ba4356caa53bf87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10f87d00f4c7f5193cf21c8fc1c0ad57"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a10f87d00f4c7f5193cf21c8fc1c0ad57"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>filter_out_of_range_points</b> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr cloud, std::vector&lt; int &gt; &amp;inliers, Eigen::ParametrizedLine&lt; float, 3 &gt; vertical_param_line_camera, double min_height_plane, double max_height_plane)</td></tr>
-<tr class="separator:a10f87d00f4c7f5193cf21c8fc1c0ad57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad314f967cc5334b9c9e042eb1ce4a21b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__compute_8h.html#ad314f967cc5334b9c9e042eb1ce4a21b">ransac_plane_compute</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, Eigen::ParametrizedLine&lt; float, 3 &gt; vert_camera, double ransac_model_epsilon, double ransac_dist_threshold, pcl::IndicesPtr inliers, Eigen::VectorXf &amp;coefficients, double min_height_plane, double max_height_plane)</td></tr>
+<tr class="memdesc:ad314f967cc5334b9c9e042eb1ce4a21b"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute ransac over the point cloud to find a plan normal to the vertical and in the height interval.  <a href="#ad314f967cc5334b9c9e042eb1ce4a21b">More...</a><br/></td></tr>
+<tr class="separator:ad314f967cc5334b9c9e042eb1ce4a21b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0631046128fc97276ae99ee9674e2543"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__compute_8h.html#a0631046128fc97276ae99ee9674e2543">ransac_plane_compute</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, Eigen::ParametrizedLine&lt; float, 3 &gt; vert_camera, double ransac_model_epsilon, double ransac_dist_threshold, pcl::IndicesConstPtr indices_to_use, pcl::IndicesPtr inliers, Eigen::VectorXf &amp;coefficients, double min_height_plane, double max_height_plane)</td></tr>
+<tr class="memdesc:a0631046128fc97276ae99ee9674e2543"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute ransac over the points of the point cloud indicated by indices_to_use to find a plane normal to the vertical and in the given height range  <a href="#a0631046128fc97276ae99ee9674e2543">More...</a><br/></td></tr>
+<tr class="separator:a0631046128fc97276ae99ee9674e2543"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf1d4c835e4b41c5623f8e634340eb1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__compute_8h.html#abf1d4c835e4b41c5623f8e634340eb1a">filter_out_of_range_points</a> (pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr cloud, pcl::IndicesPtr &amp;indices, Eigen::ParametrizedLine&lt; float, 3 &gt; vertical_param_line_camera, double min_height_plane, double max_height_plane)</td></tr>
+<tr class="memdesc:abf1d4c835e4b41c5623f8e634340eb1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">select points that are in the heigh range.  <a href="#abf1d4c835e4b41c5623f8e634340eb1a">More...</a><br/></td></tr>
+<tr class="separator:abf1d4c835e4b41c5623f8e634340eb1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9db7f057170bfd040bcfdb5104fc1b4c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9db7f057170bfd040bcfdb5104fc1b4c"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_point_in_user_range</b> (Eigen::ParametrizedLine&lt; float, 3 &gt; line_vertical, pcl::PointXYZRGBA point_of_plane, double min_height_plane, double max_height_plane)</td></tr>
 <tr class="separator:a9db7f057170bfd040bcfdb5104fc1b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>File containing the function to find a normal plane with a ransac method, within a defined height interval. </p>
+<dl class="section author"><dt>Author</dt><dd>Jules Waldhart </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aa8e279532f066d47ba4356caa53bf87b"></a>
+<a class="anchor" id="abf1d4c835e4b41c5623f8e634340eb1a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void filter_out_of_range_points </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr&#160;</td>
+          <td class="paramname"><em>cloud</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">pcl::IndicesPtr &amp;&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::ParametrizedLine&lt; float, 3 &gt;&#160;</td>
+          <td class="paramname"><em>vertical_param_line_camera</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_height_plane</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_height_plane</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>select points that are in the heigh range. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cloud</td><td></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">indices</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertical_param_line_camera</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">min_height_plane</td><td></td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_height_plane</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Projects each point over the line <code>vertical_param_line_camera</code> and if the height (distance between origin of the line and the projected point) is in the range, we add it to the indices array.</p>
+<dl class="section note"><dt>Note</dt><dd><code>indices</code> can be empty, we create a new array. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad314f967cc5334b9c9e042eb1ce4a21b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void ransac_plane_compute </td>
           <td>(</td>
-          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr&#160;</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr&#160;</td>
           <td class="paramname"><em>cloud</em>, </td>
         </tr>
         <tr>
@@ -206,14 +268,106 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>is_point_in_user_rang
   </table>
   </dd>
 </dl>
-<p>this function firstly selects all the points that are in the given range, then search for a plane definition with RANSAC method within this points selection. </p>
+<p>this function search for a plane definition with RANSAC method </p>
+
+</div>
+</div>
+<a class="anchor" id="a0631046128fc97276ae99ee9674e2543"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ransac_plane_compute </td>
+          <td>(</td>
+          <td class="paramtype">pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr&#160;</td>
+          <td class="paramname"><em>cloud</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::ParametrizedLine&lt; float, 3 &gt;&#160;</td>
+          <td class="paramname"><em>vert_camera</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>ransac_model_epsilon</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>ransac_dist_threshold</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">pcl::IndicesConstPtr&#160;</td>
+          <td class="paramname"><em>indices_to_use</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">pcl::IndicesPtr&#160;</td>
+          <td class="paramname"><em>inliers</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Eigen::VectorXf &amp;&#160;</td>
+          <td class="paramname"><em>coefficients</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>min_height_plane</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>max_height_plane</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>compute ransac over the points of the point cloud indicated by indices_to_use to find a plane normal to the vertical and in the given height range </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">cloud</td><td>the cloud </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vert_camera</td><td>a parametrized line representing the axis to use as the normal of the plan and the point at a 0 height </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ransac_model_epsilon</td><td>the epsilon value for the ransac plane model </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">ransac_dist_threshold</td><td>the maximum distance to the ransac plane model </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">inliers</td><td>the inliers indices of the plane found </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">coefficients</td><td>the coefficients of the plane found </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">min_height_plane</td><td>the minimum height of the plane to search for </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">max_height_plane</td><td>the maximum height of the plane to search for </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices_to_use</td><td>the point indices to use in the cloud (if pointer is empty, takes all the point cloud)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>this function search for a plane definition with RANSAC method within this points selection. </p>
+<dl class="section warning"><dt>Warning</dt><dd>the parameter indices_to_use is ignored if the pointer is empty, not if the vector is empty. <div class="fragment"><div class="line">* <span class="keywordflow">if</span>(indices_to_use)</div>
+<div class="line">*       <span class="comment">//use only points indicated by *indices_to_use</span></div>
+<div class="line">* }<span class="keywordflow">else</span>{</div>
+<div class="line">*       <span class="comment">//use all the point cloud</span></div>
+<div class="line">* }</div>
+<div class="line">* </div>
+</div><!-- fragment --> </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 13:59:12 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

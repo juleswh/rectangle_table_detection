@@ -142,9 +142,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a3e1686f4fab6faca9b44bd000945fdc3"><td class="memItemLeft" align="right" valign="top">tf::Transform&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a3e1686f4fab6faca9b44bd000945fdc3">computeTransform</a> (Eigen::Vector3f origin, Eigen::Vector3f x_axis, Eigen::Vector3f y_axis, double <a class="el" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a>)</td></tr>
 <tr class="memdesc:a3e1686f4fab6faca9b44bd000945fdc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a transform so that the child frame have given x and y axis.  <a href="#a3e1686f4fab6faca9b44bd000945fdc3">More...</a><br/></td></tr>
 <tr class="separator:a3e1686f4fab6faca9b44bd000945fdc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1d48a978460ba0bc24377537e646186"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#ab1d48a978460ba0bc24377537e646186">get_vertical_referecence</a> (tf::Vector3 &amp;vertical, tf::Vector3 &amp;origin, std::string reference_tf_name)</td></tr>
-<tr class="memdesc:ab1d48a978460ba0bc24377537e646186"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the world's vertical reference from tf.  <a href="#ab1d48a978460ba0bc24377537e646186">More...</a><br/></td></tr>
-<tr class="separator:ab1d48a978460ba0bc24377537e646186"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5f9a3fa20493f0bcd7c759184fc775b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#aa5f9a3fa20493f0bcd7c759184fc775b">get_vertical_referecence</a> (tf::Vector3 &amp;vertical, tf::Vector3 &amp;origin, const std::string &amp;reference_tf_name, const std::string &amp;camera_tf_name)</td></tr>
+<tr class="memdesc:aa5f9a3fa20493f0bcd7c759184fc775b"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the world's vertical reference from tf.  <a href="#aa5f9a3fa20493f0bcd7c759184fc775b">More...</a><br/></td></tr>
+<tr class="separator:aa5f9a3fa20493f0bcd7c759184fc775b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structures and functions in relation to the geometry of a table. </p>
@@ -246,7 +246,7 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ab1d48a978460ba0bc24377537e646186"></a>
+<a class="anchor" id="aa5f9a3fa20493f0bcd7c759184fc775b"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -265,8 +265,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>reference_tf_name</em>&#160;</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>reference_tf_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>camera_tf_name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -279,8 +285,8 @@ Functions</h2></td></tr>
 <p>compute the world's vertical reference from tf. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">vertical</td><td>a vector colinear to the z axis of the &lt;reference_tf_name&gt; expressed in the &lt;camera_tf_name&gt; coordinates. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">the</td><td>origin of the &lt;reference_tf_name&gt; frame in the &lt;camera_tf_name&gt; coordinates. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">vertical</td><td>a vector colinear to the z axis of the <code>reference_tf_name</code> expressed in the <code>camera_tf_name</code> coordinates. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">origin</td><td>the origin of the <code>reference_tf_name</code> frame in the <code>camera_tf_name</code> coordinates. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">reference_tf_name</td><td>the name of the reference (world) frame, in tf. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">camera_tf_name</td><td>the name of the camera frame in tf. </td></tr>
   </table>
@@ -393,7 +399,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 13:59:12 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

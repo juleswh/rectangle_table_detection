@@ -1,0 +1,7 @@
+\form#0:$a*vect_x + b*vect_y$
+\form#1:$ a \cdot \overrightarrow{x_vect} + b \cdot vect_y$
+\form#2:$ a \cdot \overrightarrow{x} + b \cdot \overrightarrow{y}$
+\form#3:$(a,b) \geq (0,0)$
+\form#4:$\overrightarrow{x}$
+\form#5:$\overrightarrow{y}$
+\form#6:$\overrightarrow{x} \times \overrightarrow{y}$

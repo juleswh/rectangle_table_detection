@@ -141,6 +141,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>a clustering method using union-find algorithm to look for groups of points. </p>
+<dl class="section author"><dt>Author</dt><dd>Jules Waldhart</dd></dl>
 <p>Uses a kdtree to find k-nearest neighbors over a point cloud. Usefull to find a group of points in a point cloud </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a324866b83628749587d18282bddb0a7a"></a>
@@ -177,18 +178,20 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="grou
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">cloud</td><td>the cloud to compute </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">K</td><td>the <code>K</code> nearest neighbors of a point will be considered to belong to the same group. A high value will speed up the process, while a low value would be more accurate. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">inliers</td><td>the inliers of cloud belonging to the biggest group</td></tr>
   </table>
   </dd>
 </dl>
-<p>Uses a union find algorithm and uses K nearest neighbors pcl algorithm the K nearest neighbors of a point are added to the same group than the point </p>
+<p>Uses a union find algorithm and uses K nearest neighbors pcl algorithm the K nearest neighbors of a point are added to the same group than the point</p>
+<dl class="section note"><dt>Note</dt><dd>The pcl::KdTreeFLANN object used in this function doesn't accept an inliers array and compute only an entire point cloud. That's why this function doesn't accept it neither. </dd></dl>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Sep 3 2013 18:10:25 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 13:59:12 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
