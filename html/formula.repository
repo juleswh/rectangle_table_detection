@@ -5,3 +5,5 @@
 \form#4:$\overrightarrow{x}$
 \form#5:$\overrightarrow{y}$
 \form#6:$\overrightarrow{x} \times \overrightarrow{y}$
+\form#7:$ \overrightarrow{v_1} \cdot \overrightarrow{v_2} $
+\form#8:$ \overrightarrow{x} x \overrightarrow{y} $

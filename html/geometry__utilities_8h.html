@@ -130,9 +130,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a3066cabb5b660aa77d8cf63811076815"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a3066cabb5b660aa77d8cf63811076815">dot_product</a> (const Eigen::Vector3f &amp;v1, const Eigen::Vector3f &amp;v2)</td></tr>
+<tr class="memdesc:a3066cabb5b660aa77d8cf63811076815"><td class="mdescLeft">&#160;</td><td class="mdescRight">A redefinition of the dot product.  <a href="#a3066cabb5b660aa77d8cf63811076815">More...</a><br/></td></tr>
+<tr class="separator:a3066cabb5b660aa77d8cf63811076815"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60364ae187c2564af4e33712670d4177"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a60364ae187c2564af4e33712670d4177">recursively_find_connected_vertices</a> (std::vector&lt; <a class="el" href="struct_vertex__def.html">Vertex_def</a> * &gt; &amp;vertices, <a class="el" href="struct_line__def.html">Line_def</a> *edge)</td></tr>
 <tr class="memdesc:a60364ae187c2564af4e33712670d4177"><td class="mdescLeft">&#160;</td><td class="mdescRight">recursively explore the vertices of an edge an add connected points to vertices.  <a href="#a60364ae187c2564af4e33712670d4177">More...</a><br/></td></tr>
 <tr class="separator:a60364ae187c2564af4e33712670d4177"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3804578386d1d9b85ee3fd11e372222a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a3804578386d1d9b85ee3fd11e372222a">find_all_possible_rectangles</a> (std::vector&lt; <a class="el" href="struct_rectangle.html">Rectangle</a> &gt; &amp;possible_rectangles, const std::vector&lt; <a class="el" href="struct_line__def.html">Line_def</a> * &gt; &amp;borders_param_lines, const Eigen::Vector3f &amp;vertical, float <a class="el" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a>)</td></tr>
+<tr class="memdesc:a3804578386d1d9b85ee3fd11e372222a"><td class="mdescLeft">&#160;</td><td class="mdescRight">runs over all vertices and tries to find all the possible rectangles.  <a href="#a3804578386d1d9b85ee3fd11e372222a">More...</a><br/></td></tr>
+<tr class="separator:a3804578386d1d9b85ee3fd11e372222a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b55daa2ba97cdcb6ed63191937175af"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="geometry__utilities_8h.html#a9b55daa2ba97cdcb6ed63191937175af">select_best_matching_rectangle</a> (const std::vector&lt; <a class="el" href="struct_rectangle.html">Rectangle</a> &gt; &amp;possible_rectangles, pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr pc_plan, pcl::PointIndices::ConstPtr indices, float required_score, float lead_score, int n_samples)</td></tr>
 <tr class="memdesc:a9b55daa2ba97cdcb6ed63191937175af"><td class="mdescLeft">&#160;</td><td class="mdescRight">select the rectangle that best describes the plane in the point cloud pc_plan.  <a href="#a9b55daa2ba97cdcb6ed63191937175af">More...</a><br/></td></tr>
 <tr class="separator:a9b55daa2ba97cdcb6ed63191937175af"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -243,6 +249,100 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the transform, as described.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>axes CAN be not normalized </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a3066cabb5b660aa77d8cf63811076815"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float dot_product </td>
+          <td>(</td>
+          <td class="paramtype">const Eigen::Vector3f &amp;&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3f &amp;&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A redefinition of the dot product. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">v1</td><td>first vector </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v2</td><td>2nd vector </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the dot product <img class="formulaInl" alt="$ \overrightarrow{v_1} \cdot \overrightarrow{v_2} $" src="form_7.png"/></dd></dl>
+<p>Apparently, the Eigen dot product is not efficient </p>
+
+</div>
+</div>
+<a class="anchor" id="a3804578386d1d9b85ee3fd11e372222a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int find_all_possible_rectangles </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="struct_rectangle.html">Rectangle</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>possible_rectangles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_line__def.html">Line_def</a> * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>borders_param_lines</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const Eigen::Vector3f &amp;&#160;</td>
+          <td class="paramname"><em>vertical</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>param_cos_ortho_tolerance</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>runs over all vertices and tries to find all the possible rectangles. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">possible_rectangles</td><td>the list of rectangles found in the vertices list. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">borders_param_lines</td><td>the list of lines. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">vertical</td><td>a vector indicating the vertical, for oriented rectangle computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">param_cos_ortho_tolerance</td><td>the tolerance on the cosinus for orthogonal assertion. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -399,7 +499,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 5 2013 13:59:12 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 17:14:58 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

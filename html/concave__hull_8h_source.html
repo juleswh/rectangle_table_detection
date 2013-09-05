@@ -110,21 +110,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define _PRINT_HERE_(s) ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::Ptr <a class="code" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831">calc_concave_hull</a>(pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients, <span class="keywordtype">double</span> alpha=0.05);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::Ptr <a class="code" href="concave__hull_8h.html#abb9ea76a9b9c26347a32ba3536f53f79">calc_convex_hull</a>(pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordtype">void</span> <a class="code" href="concave__hull_8h.html#a0f9f8f79c76e6b08b3fa544b52f008e1">find_line_ransac</a>(pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::ConstPtr plane_hull, <span class="keyword">const</span> <span class="keywordtype">double</span> dist_thresh, pcl::IndicesPtr inliers, Eigen::VectorXf&amp; coefficients);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#endif //_CONCAVE_HULL_H_</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::Ptr <a class="code" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831">calc_concave_hull</a>(pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients, <span class="keywordtype">double</span> alpha=0.05);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::Ptr <a class="code" href="concave__hull_8h.html#abb9ea76a9b9c26347a32ba3536f53f79">calc_convex_hull</a>(pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">void</span> <a class="code" href="concave__hull_8h.html#a0f9f8f79c76e6b08b3fa544b52f008e1">find_line_ransac</a>(pcl::PointCloud&lt;pcl::PointXYZRGBA&gt;::ConstPtr plane_hull, <span class="keyword">const</span> <span class="keywordtype">double</span> dist_thresh, pcl::IndicesPtr inliers, Eigen::VectorXf&amp; coefficients);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">#endif //_CONCAVE_HULL_H_</span></div>
 <div class="ttc" id="concave__hull_8h_html_abb9ea76a9b9c26347a32ba3536f53f79"><div class="ttname"><a href="concave__hull_8h.html#abb9ea76a9b9c26347a32ba3536f53f79">calc_convex_hull</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr calc_convex_hull(pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients)</div><div class="ttdoc">As calc_concave_hull(), but for convex hull. </div></div>
 <div class="ttc" id="concave__hull_8h_html_a8e38d14560cee516f3dbe8578e37c831"><div class="ttname"><a href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831">calc_concave_hull</a></div><div class="ttdeci">pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::Ptr calc_concave_hull(pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr cloud, pcl::PointIndices::Ptr inliers, pcl::ModelCoefficients::Ptr coefficients, double alpha=0.05)</div><div class="ttdoc">Compute concave hull of a plan. </div></div>
 <div class="ttc" id="concave__hull_8h_html_a0f9f8f79c76e6b08b3fa544b52f008e1"><div class="ttname"><a href="concave__hull_8h.html#a0f9f8f79c76e6b08b3fa544b52f008e1">find_line_ransac</a></div><div class="ttdeci">void find_line_ransac(pcl::PointCloud&lt; pcl::PointXYZRGBA &gt;::ConstPtr plane_hull, const double dist_thresh, pcl::IndicesPtr inliers, Eigen::VectorXf &amp;coefficients)</div><div class="ttdoc">Search a line in a point cloud with RANSAC method. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 5 2013 13:59:11 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 17:14:58 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

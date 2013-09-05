@@ -185,8 +185,11 @@ User-set Parameters</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_REFERENCE_TF</b>&#160;&#160;&#160;&quot;/world&quot;</td></tr>
 <tr class="separator:af04a39766651303a76674090f531afae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ca08df3d95366eadbff57aa4631d2b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ca08df3d95366eadbff57aa4631d2b8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_RANSAC_DIST_THRESH</b>&#160;&#160;&#160;0.01</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_RANSAC_DIST_THRESH</b>&#160;&#160;&#160;0.05</td></tr>
 <tr class="separator:a0ca08df3d95366eadbff57aa4631d2b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac10a1e88a80e4381f073f2c487a177f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aac10a1e88a80e4381f073f2c487a177f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_RANSAC_LINE_DIST_THRESH</b>&#160;&#160;&#160;0.01</td></tr>
+<tr class="separator:aac10a1e88a80e4381f073f2c487a177f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c8acd4a97fcadc053fa0af40a6c93f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c8acd4a97fcadc053fa0af40a6c93f8"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_ORTHO_RAD_THRESH</b>&#160;&#160;&#160;0.08</td></tr>
 <tr class="separator:a0c8acd4a97fcadc053fa0af40a6c93f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,6 +202,9 @@ User-set Parameters</h2></td></tr>
 <tr class="memitem:ad48845b40bdd87188c92bfcc791c7dd6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad48845b40bdd87188c92bfcc791c7dd6"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_MIN_HEIGHT</b>&#160;&#160;&#160;0.65</td></tr>
 <tr class="separator:ad48845b40bdd87188c92bfcc791c7dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a987edcf01768154646713d3cb3c32ef1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a987edcf01768154646713d3cb3c32ef1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_CONCAVE_HULL_ALPHA</b>&#160;&#160;&#160;0.05</td></tr>
+<tr class="separator:a987edcf01768154646713d3cb3c32ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae33db55a8c244d0bea8c4f9c67f78941"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae33db55a8c244d0bea8c4f9c67f78941"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>reference_tf_name</b></td></tr>
 <tr class="separator:ae33db55a8c244d0bea8c4f9c67f78941"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,6 +214,12 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>ransac_model_epsilo
 <tr class="memitem:afb3f5327470aacdf8c7e75c43607cdd9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb3f5327470aacdf8c7e75c43607cdd9"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>ransac_dist_threshold</b></td></tr>
 <tr class="separator:afb3f5327470aacdf8c7e75c43607cdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f443871960134f20de596b0426c3d15"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f443871960134f20de596b0426c3d15"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ransac_line_dist_threshold</b></td></tr>
+<tr class="separator:a3f443871960134f20de596b0426c3d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9437d0a81c54b9bd9ae8c30d4b0869a8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9437d0a81c54b9bd9ae8c30d4b0869a8"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>concave_hull_alpha</b></td></tr>
+<tr class="separator:a9437d0a81c54b9bd9ae8c30d4b0869a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ff4b8014507a19e41c50fce10baeda4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ff4b8014507a19e41c50fce10baeda4"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>max_height_plane</b></td></tr>
 <tr class="separator:a4ff4b8014507a19e41c50fce10baeda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -300,7 +312,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>param_interval</b></td
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 5 2013 13:59:12 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 17:14:58 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

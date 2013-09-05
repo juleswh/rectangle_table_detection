@@ -143,33 +143,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;ros::Publisher output_pcl_outliers_pub;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">#define DEFAULT_REFERENCE_TF &quot;/world&quot;</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_RANSAC_DIST_THRESH 0.01</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_ORTHO_RAD_THRESH 0.08</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_RANSAC_MODEL_EPSILON 0.05</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_MAX_HEIGHT 0.9</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_MIN_HEIGHT 0.65</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;std::string reference_tf_name;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keywordtype">double</span> ransac_model_epsilon;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keywordtype">double</span> ransac_dist_threshold;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordtype">double</span> max_height_plane;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordtype">double</span> min_height_plane;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="keywordtype">bool</span> param_publish_rviz_marker;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keywordtype">bool</span> param_publish_plane_pcl;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keywordtype">bool</span> param_publish_hull_pcl;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="keywordtype">bool</span> param_publish_outliers_pcl;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">  101</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keywordtype">int</span> param_interval;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ransac__plane__detection_8h.html#a2ecc7830b8d0c24f1149525c50c487c1">cloud_cb</a> (<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr&amp; input);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_RANSAC_DIST_THRESH 0.05</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_RANSAC_LINE_DIST_THRESH 0.01</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_ORTHO_RAD_THRESH 0.08</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_RANSAC_MODEL_EPSILON 0.05</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_MAX_HEIGHT 0.9</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_MIN_HEIGHT 0.65</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define DEFAULT_CONCAVE_HULL_ALPHA 0.05</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;std::string reference_tf_name;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keywordtype">double</span> ransac_model_epsilon;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordtype">double</span> ransac_dist_threshold;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keywordtype">double</span> ransac_line_dist_threshold;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">double</span> concave_hull_alpha;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keywordtype">double</span> max_height_plane;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keywordtype">double</span> min_height_plane;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordtype">bool</span> param_publish_rviz_marker;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keywordtype">bool</span> param_publish_plane_pcl;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="keywordtype">bool</span> param_publish_hull_pcl;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="keywordtype">bool</span> param_publish_outliers_pcl;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">  105</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keywordtype">int</span> param_interval;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ransac__plane__detection_8h.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif // _RANSAC_PLANE_DETECTION_H</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keywordtype">void</span> <a class="code" href="ransac__plane__detection_8h.html#a2ecc7830b8d0c24f1149525c50c487c1">cloud_cb</a> (<span class="keyword">const</span> sensor_msgs::PointCloud2ConstPtr&amp; input);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ransac__plane__detection_8h.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a> (<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#endif // _RANSAC_PLANE_DETECTION_H</span></div>
 <div class="ttc" id="geometry__utilities_8h_html"><div class="ttname"><a href="geometry__utilities_8h.html">geometry_utilities.h</a></div><div class="ttdoc">Data structures and functions in relation to the geometry of a table. </div></div>
 <div class="ttc" id="ransac__plane__detection_8h_html_a3c04138a5bfe5d72780bb7e82a18e627"><div class="ttname"><a href="ransac__plane__detection_8h.html#a3c04138a5bfe5d72780bb7e82a18e627">main</a></div><div class="ttdeci">int main(int argc, char **argv)</div><div class="ttdoc">Main function. </div></div>
 <div class="ttc" id="ransac__plane__detection_8h_html_a12a8121d12e58395babc0af3e1bc825c"><div class="ttname"><a href="ransac__plane__detection_8h.html#a12a8121d12e58395babc0af3e1bc825c">hull_pcl_pub</a></div><div class="ttdeci">ros::Publisher hull_pcl_pub</div><div class="ttdoc">publisher for the output point cloud representing the hull of the detected table. ...</div><div class="ttdef"><b>Definition:</b> ransac_plane_detection.h:62</div></div>
@@ -180,11 +184,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="ransac__plane__detection_8h_html_a2ecc7830b8d0c24f1149525c50c487c1"><div class="ttname"><a href="ransac__plane__detection_8h.html#a2ecc7830b8d0c24f1149525c50c487c1">cloud_cb</a></div><div class="ttdeci">void cloud_cb(const sensor_msgs::PointCloud2ConstPtr &amp;input)</div><div class="ttdoc">The callback where we call for all other functions and do all the computation. </div></div>
 <div class="ttc" id="concave__hull_8h_html"><div class="ttname"><a href="concave__hull_8h.html">concave_hull.h</a></div><div class="ttdoc">2D hull computation utilities for point clouds. </div></div>
 <div class="ttc" id="ransac__plane__compute_8h_html"><div class="ttname"><a href="ransac__plane__compute_8h.html">ransac_plane_compute.h</a></div><div class="ttdoc">File containing the function to find a normal plane with a ransac method, within a defined height int...</div></div>
-<div class="ttc" id="ransac__plane__detection_8h_html_abccd4ca00795d8339d0efc0b110609cd"><div class="ttname"><a href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a></div><div class="ttdeci">double param_cos_ortho_tolerance</div><div class="ttdoc">threshold to consideer cos ~= 0. </div><div class="ttdef"><b>Definition:</b> ransac_plane_detection.h:101</div></div>
+<div class="ttc" id="ransac__plane__detection_8h_html_abccd4ca00795d8339d0efc0b110609cd"><div class="ttname"><a href="ransac__plane__detection_8h.html#abccd4ca00795d8339d0efc0b110609cd">param_cos_ortho_tolerance</a></div><div class="ttdeci">double param_cos_ortho_tolerance</div><div class="ttdoc">threshold to consideer cos ~= 0. </div><div class="ttdef"><b>Definition:</b> ransac_plane_detection.h:105</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 5 2013 13:59:12 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 5 2013 17:14:58 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
