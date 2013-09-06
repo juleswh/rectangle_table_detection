@@ -1,4 +1,4 @@
-Basic Use
+Basic Use										{#basicuse}
 =========
 
 Compilation
@@ -10,7 +10,7 @@ Then clone in the src/ directory the git repository:
 
     git clone https://github.com/julesw/rectangle_table_detection.git
 
-Then   `catkin_make` in your workspace.
+Then do `catkin_make` in your workspace.
 
 
 Execution
@@ -36,4 +36,22 @@ also be a frame fixed to your robot like `/base_link`,...) and one that correspo
 need all of the frames `<camera_name>_rgb_optical`, `<camera_name>_depth_optical`, ...)
 
 Now you are ready for launching our table detection.
-We recommand to use a launch file, to manage the numerous parameter.
+We recommand to use a launch file, to manage the numerous parameter. You can use the `detection.launch`
+launch file as a basis, and modify some parameters.
+
+Results
+-------
+
+To visualize the results, in a human friendly interface, use rviz and set it to show the input point cloud,
+the tf frames, and the rviz marker (the node does not publish it by default, set `publish_marker_rviz` to 
+see it).
+You will certainly want to use the output data in another ros node, to do so, use tf and the published topic `table_dimensions`.
+
+
+Troubleshooting
+---------------
+
+Well, if you are here, it's that you're not satisfied with the results.
+First of all, check for your parameters to see if they are valid, and if
+the node effectively receives an input cloud and the transform tree is valid.
+See [the documentation main page](@ref index) for more info on parameters and topics.
