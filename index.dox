@@ -15,7 +15,7 @@ http://julesw.github.io/rectangle_table_detection/html
 
 This is a ROS package, developped for <a href="http://www.ros.org">ROS Groovy</a>.
 
-For a quick start guide, directly go to (\ref basicuse)
+For a quick start guide, directly go to \ref basicuse.
 
 This package was created with the purpose of providing a table-detection
 tool for robotic manipulation, or any other purpose. Most of the existing
@@ -43,57 +43,63 @@ Defined here: ransac_plane_detection.h.
 The node that actually does the computation. It uses RanSAC methods for detecting the plane and its borders.
 
 \subsubsection sec_detection_param Parameters
-\par \p reference_tf (string, default: "/world")\n
+\par \p reference_tf (string, default: "/world")
 The name of the reference frame. The program will seek a plane that is orthogonal to the z axis of this frame.
 
-\par \p ransac_dist_threshold (float, default: 0.05)\n
+\par \p max_height (float, default: 0.9)
+The maximal height of the table we search. (in meters)
+
+\par \p min_height (float, default: 0.65)
+The minimal height of the table we search. (in meters)
+
+\par RanSaC-specific parameters
+\par \p ransac_dist_threshold (float, default: 0.05)
 Threshold for pcl ransac method, when searching for the table plane.
 
-\par \p ransac_line_dist_threshold (float, default: 0.01)\n
+\par \p ransac_line_dist_threshold (float, default: 0.01)
 Threshold for pcl ransac method when searching for borders of the table.
 
 \note The value for this parameter should be choosen carrefuly. It is a common source of negatives detections,
 as the lines detected can be different from the real ones, and then the program does not find a rectangle
 in these lines.
 
-\par \p concave_hull_alpha (float, default: 0.05)\n
-The alpha parameter for the calc_concave_hull() function (the smaller, the more detailed is the hull). Only >0 values.
-
-\par \p ransac_model_espilon (float, default: 0.05)\n
+\par \p ransac_model_espilon (float, default: 0.05)
 For pcl ransac method, the epsilon angle offset for plane matching.
 
-\par \p ortho_rad_thresh (float, default: 0.08)\n
+\par Other detection parameters
+\par \p concave_hull_alpha (float, default: 0.05)
+The alpha parameter for the calc_concave_hull() function (the smaller, the more detailed is the hull). Only >0 values.
+
+\par \p ortho_rad_thresh (float, default: 0.08)
 The angle threshold that will be used to determine if an angle is ~pi/2 (90°).
 
-\par \p publish_outliers_pcl (boolean, default: false)\n
+\par Outputs selectors
+\par \p publish_outliers_pcl (boolean, default: false)
 Choose to publish the outliers of the plane detection (all points but the plane).
 
-\par \p publish_plane_pcl (boolean, default: false)\n
+\par \p publish_plane_pcl (boolean, default: false)
 Choose to publish the point cloud of the detected table (inliers).
 
-\par \p publish_hull_pcl (boolean, default: false)\n
+\par \p publish_hull_pcl (boolean, default: false)
 Deprecated: only usefull for debug, should be removed.
 Choose to publish the detected hull (for debug).
 
-\par \p publish_marker_rviz (boolean, default: false)\n
+\par \p publish_marker_rviz (boolean, default: false)
 Choose to publish an rviz marker to visualize detection results in rviz.
 
-\par \p max_height (float, default: 0.9)\n
-The maximal height of the table we search. (in meters)
-
-\par \p min_height (float, default: 0.65)\n
-The minimal height of the table we search. (in meters)
-
 \subsubsection sec_detection_sub_topics Subscribed topics
-\par \p ~input (sensor_msgs/PointCloud2)\n
+\par \p ~input (sensor_msgs/PointCloud2)
 Input pointcloud, organized or not (can be filtered)
 
 \subsubsection sec_detection_pub_topics Published topics
-\par \p ~output (sensor_msgs/PointCloud2)\n
+\par \p ~output (sensor_msgs/PointCloud2)
 Pointcloud of inliers (the pointcloud of the plane)
 
+\par \p ~table_dimensions (geometry_msgs/Point)
+The dimensions of the table are published in the x and y elements of the published point.
+
 \subsubsection sec_detection_tf Published transform
-\par /camera_depth_optical_frame -> /plane\n
+\par /camera_depth_optical_frame -> /plane
 The transform from the camera to the estimated center of the plane
 
 \todo end node documentation \ref sec_node_detection 

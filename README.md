@@ -4,7 +4,7 @@ Basic Use										{#basicuse}
 Compilation
 -----------
 
-Be sure to have a catkin workspace (http://wiki.ros.org/catkin/Tutorials/create_a_workspace), and you've sourced the devel/setup.bash of it.
+Be sure to have a [catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace), and you've sourced the devel/setup.bash of it.
 
 Then clone in the src/ directory the git repository:
 
