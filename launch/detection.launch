@@ -1,0 +1,34 @@
+<launch>
+	<arg name="filter" default="true"/>
+	<arg name="camera" default="/camera"/>
+	<arg name="detection_source" if="$(arg filter)" value="/filtering/output"/>
+	<arg name="detection_source" unless="$(arg filter)" value="$(arg camera)/depth_registered/points"/>
+	<arg name="node_name" default="table_detection"/>
+
+	<!-- launch the filtering node, the ransac node, and link them together-->
+	<!--group if="$(arg filter)"-->
+	<node name="filtering" pkg="rectangular_table_detection" type="simple_filtering" args="/filtering/input:=/camera/depth_registered/points"/>
+	<!--/group-->
+	<node name="$(arg node_name)" pkg="rectangular_table_detection" type="ransac_plane_detection" args="/$(arg node_name)/input:=$(arg ransac_source)" output="screen">
+		<!-- the reference frame name, which indicates the world reference repair -->
+		<param name="reference_tf" value="/map"/>
+
+		<!-- publish options -->
+		<param name="publish_outliers_pcl" value="false"/>
+		<param name="publish_hull_pcl" value="false"/>
+		<param name="publish_marker_rviz" value="true"/>
+		<param name="publish_plane_pcl" value="true"/>
+
+		<!-- the height range of the table we are seeking -->
+		<param name="min_height" value="0.65"/>
+		<param name="max_height" value="0.8"/>
+
+		<!-- some parameters for the ransac methods -->
+		<param name="ransac_dist_threshold" value="0.05"/>
+		<!--param name="ransac_line_dist_threshold" value="0.05"/>
+		<param name="ortho_rad_thresh" value="0.08"/-->
+		<!--param name="incoming_pcl_sampling_period" value="4"/-->
+
+		<!--param name="ransac_model_epsilon" value="0.05"/-->
+	</node>
+</launch>

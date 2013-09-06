@@ -63,6 +63,9 @@ For pcl ransac method, the epsilon angle offset for plane matching.
 \par \p ortho_rad_thresh (float, default: 0.08)\n
 The angle threshold that will be used to determine if an angle is ~pi/2 (90°).
 
+\par \p publish_outliers_pcl (boolean, default: false)\n
+Choose to publish the outliers of the plane detection (all points but the plane).
+
 \par \p publish_plane_pcl (boolean, default: false)\n
 Choose to publish the point cloud of the detected table (inliers).
 
