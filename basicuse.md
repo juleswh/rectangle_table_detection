@@ -4,8 +4,6 @@ Basic Use										{#basicuse}
 Compilation
 -----------
 
-(also find this documentation [here](http://julesw.github.io/rectangle_table_detection/html/basicuse.html))
-
 Be sure to have a [catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace), and you've sourced the devel/setup.bash of it.
 
 Then clone in the src/ directory the git repository:
@@ -56,4 +54,4 @@ Troubleshooting
 Well, if you are here, it's that you're not satisfied with the results.
 First of all, check for your parameters to see if they are valid, and if
 the node effectively receives an input cloud and the transform tree is valid.
-See [the documentation main page](http://julesw.github.io/rectangle_table_detection/html/index.html) for more info on parameters and topics.
+See [the documentation main page](@ref index) for more info on parameters and topics.
