@@ -100,6 +100,7 @@ Links</h1>
 <h1><a class="anchor" id="sec_overview"></a>
 Overview</h1>
 <p>This is a ROS package, developped for <a href="http://www.ros.org">ROS Groovy</a>.</p>
+<p>For a quick start guide, directly go to <a class="el" href="basicuse.html">Basic Use</a>.</p>
 <p>This package was created with the purpose of providing a table-detection tool for robotic manipulation, or any other purpose. Most of the existing table-detection tools only detects plane. We wanted a tool that could give us dimensions of the table. We also needed to give the system some indications about that table, so that it can 'choose' between several possibilities. These indications are the normal of the plane, a bounding box were the plane table is expected to be, or at least a height range (for standard table we will be looking for a plane that is normal to the vertical, and in the range 70 - 90 cm)</p>
 <p>This package provides a tool for seeking a plane that is orthogonal to the 'z' axis of a provided tf frame. It also provides an implementation of the filtering process (from pcl tutorial). Contains an helpfull launcher, for demo.</p>
 <h1><a class="anchor" id="sec_nodes"></a>
@@ -117,23 +118,28 @@ rqthraph of the ransac_plane_detection node</div></div>
 <h3><a class="anchor" id="sec_detection_param"></a>
 Parameters</h3>
 <dl class="section user"><dt><code>reference_tf</code> (string, default: "/world")</dt><dd>The name of the reference frame. The program will seek a plane that is orthogonal to the z axis of this frame.</dd></dl>
+<dl class="section user"><dt><code>max_height</code> (float, default: 0.9)</dt><dd>The maximal height of the table we search. (in meters)</dd></dl>
+<dl class="section user"><dt><code>min_height</code> (float, default: 0.65)</dt><dd>The minimal height of the table we search. (in meters)</dd></dl>
+<dl class="section user"><dt>RanSaC-specific parameters</dt><dd></dd></dl>
 <dl class="section user"><dt><code>ransac_dist_threshold</code> (float, default: 0.05)</dt><dd>Threshold for pcl ransac method, when searching for the table plane.</dd></dl>
 <dl class="section user"><dt><code>ransac_line_dist_threshold</code> (float, default: 0.01)</dt><dd>Threshold for pcl ransac method when searching for borders of the table.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>The value for this parameter should be choosen carrefuly. It is a common source of negatives detections, as the lines detected can be different from the real ones, and then the program does not find a rectangle in these lines.</dd></dl>
-<dl class="section user"><dt><code>concave_hull_alpha</code> (float, default: 0.05)</dt><dd>The alpha parameter for the <a class="el" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831" title="Compute concave hull of a plan. ">calc_concave_hull()</a> function (the smaller, the more detailed is the hull). Only &gt;0 values.</dd></dl>
 <dl class="section user"><dt><code>ransac_model_espilon</code> (float, default: 0.05)</dt><dd>For pcl ransac method, the epsilon angle offset for plane matching.</dd></dl>
+<dl class="section user"><dt>Other detection parameters</dt><dd></dd></dl>
+<dl class="section user"><dt><code>concave_hull_alpha</code> (float, default: 0.05)</dt><dd>The alpha parameter for the <a class="el" href="concave__hull_8h.html#a8e38d14560cee516f3dbe8578e37c831" title="Compute concave hull of a plan. ">calc_concave_hull()</a> function (the smaller, the more detailed is the hull). Only &gt;0 values.</dd></dl>
 <dl class="section user"><dt><code>ortho_rad_thresh</code> (float, default: 0.08)</dt><dd>The angle threshold that will be used to determine if an angle is ~pi/2 (90°).</dd></dl>
+<dl class="section user"><dt>Outputs selectors</dt><dd></dd></dl>
+<dl class="section user"><dt><code>publish_outliers_pcl</code> (boolean, default: false)</dt><dd>Choose to publish the outliers of the plane detection (all points but the plane).</dd></dl>
 <dl class="section user"><dt><code>publish_plane_pcl</code> (boolean, default: false)</dt><dd>Choose to publish the point cloud of the detected table (inliers).</dd></dl>
 <dl class="section user"><dt><code>publish_hull_pcl</code> (boolean, default: false)</dt><dd>Deprecated: only usefull for debug, should be removed. Choose to publish the detected hull (for debug).</dd></dl>
 <dl class="section user"><dt><code>publish_marker_rviz</code> (boolean, default: false)</dt><dd>Choose to publish an rviz marker to visualize detection results in rviz.</dd></dl>
-<dl class="section user"><dt><code>max_height</code> (float, default: 0.9)</dt><dd>The maximal height of the table we search. (in meters)</dd></dl>
-<dl class="section user"><dt><code>min_height</code> (float, default: 0.65)</dt><dd>The minimal height of the table we search. (in meters)</dd></dl>
 <h3><a class="anchor" id="sec_detection_sub_topics"></a>
 Subscribed topics</h3>
 <dl class="section user"><dt><code>~input</code> (sensor_msgs/PointCloud2)</dt><dd>Input pointcloud, organized or not (can be filtered)</dd></dl>
 <h3><a class="anchor" id="sec_detection_pub_topics"></a>
 Published topics</h3>
 <dl class="section user"><dt><code>~output</code> (sensor_msgs/PointCloud2)</dt><dd>Pointcloud of inliers (the pointcloud of the plane)</dd></dl>
+<dl class="section user"><dt><code>~table_dimensions</code> (geometry_msgs/Point)</dt><dd>The dimensions of the table are published in the x and y elements of the published point.</dd></dl>
 <h3><a class="anchor" id="sec_detection_tf"></a>
 Published transform</h3>
 <dl class="section user"><dt>/camera_depth_optical_frame -&gt; /plane</dt><dd>The transform from the camera to the estimated center of the plane</dd></dl>
@@ -144,7 +150,7 @@ Node simple_filtering</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Sep 5 2013 17:14:58 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 6 2013 16:13:17 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
