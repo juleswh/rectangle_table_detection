@@ -270,7 +270,7 @@ boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>& vertice
 
 	if(ok){
 		//if there is no error, we return a ptr to the rectangle, otherwise an empty ptr
-		p_rect = boos::shared_ptr<Rectangle>(rect);
+		p_rect = boost::shared_ptr<Rectangle>(rect);
 	}
 
 	return p_rect;

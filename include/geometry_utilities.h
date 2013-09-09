@@ -26,6 +26,9 @@
 //a debug utility
 #define _PRINT_HERE_(s) ROS_DEBUG_STREAM("in " << __FILE__ << " line " << __LINE__ << "\t-\t" << s)
 
+
+class geometryModel {
+
 struct Line_def;
 
 /**
