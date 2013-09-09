@@ -25,13 +25,12 @@ inline float dot_product(const Eigen::Vector3f& v1, const Eigen::Vector3f& v2){
 	return (v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]);
 }
 
-int find_all_possible_rectangles(std::vector<Rectangle>& possible_rectangles, const std::vector<Line_def*>& borders_param_lines, const Eigen::Vector3f& vertical, float param_cos_ortho_tolerance){
+int find_all_possible_rectangles(std::vector<boost::shared_ptr<Rectangle> >& possible_rectangles, const std::vector<Line_def*>& borders_param_lines, const Eigen::Vector3f& vertical, float param_cos_ortho_tolerance){
 	//we search groups of connected vertices
 	//i.e. (pieces of) rectangles
 	for (int i=0; i<borders_param_lines.size(); i++){
 		std::vector<Vertex_def*> connected_points;
 		recursively_find_connected_vertices(connected_points,borders_param_lines[i]);
-		//get the vertex that will be used as the frame of the plane 
 		if (connected_points.size()==4){
 			possible_rectangles.push_back(compute_rectangle(connected_points,vertical,param_cos_ortho_tolerance));
 		}else if ((connected_points.size() >4) && connected_points.size() <=6){
@@ -57,6 +56,26 @@ int find_all_possible_rectangles(std::vector<Rectangle>& possible_rectangles, co
 	}
 
 	return possible_rectangles.size();
+}
+
+void recursively_find_rectangles(std::vector<boost::shared_ptr<Rectangles> >& rectangles, std::vector<Vertex_def*>& vertices, const Line_def* prev_edge){
+	if (vertices.size() == 5){
+		if (vertices.back() == vertices.front()){
+			rectangles.push_back(compute_rectangle(vertices.begin(),vertices.begin()+4,vertical, param_cos_ortho_tolerance));
+		}
+	}else{
+		for (int i=0; i< vertices.back()->edges.size()){
+			if ( vertices.back()->edges[i] != prev_edge ){
+				for (int p=0; p<vertices.back()->edges[i]->vertices.size();p++){
+					if (vertices.back()->edges[i]->vertices[p] != vertices.front()){
+						vertices.push_back(vertices.back()->edges[i]->vertices[p]);
+						recursively_find_rectangles(rectangles, vertices,vertices.back());
+					}
+				}
+			}
+		}
+	}
+	vertices.pop_back();
 }
 
 void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge){
@@ -207,33 +226,22 @@ int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectan
 	* vect_x and vect_y are choosen so that vect_x x vect_y have (approx) the same direction 
 	* than the given vertical
 	**/
-Rectangle compute_rectangle(std::vector<Vertex_def*>& vertices, Eigen::Vector3f vertical, double param_cos_ortho_tolerance){
-	static Eigen::Vector3f previous_main_vertex(0,0,0);
-	size_t min_i=0;
-	float min_dist = FLT_MAX;
+boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>& vertices, Eigen::Vector3f vertical, double param_cos_ortho_tolerance){
+	bool ok = true;
+	boost::shared_ptr<Rectangle> p_rect;
 	Rectangle rect;
 	std::vector<Eigen::Vector3f> vectors;
 
 	if (vertices.size() != 4 ){
 		ROS_WARN("they want me to compute a rectangle with %d vertices?!?",vertices.size());
-		return rect;
+		return p_rect;
 	}
 
-	for (size_t i=0 ; i<vertices.size() ; i++){
-		Eigen::Vector3f diff = vertices[i]->vertex - previous_main_vertex;
-		if( diff.norm() < min_dist ){
-			min_dist = diff.norm();
-			min_i=i;
-		}
-	}
-	previous_main_vertex = vertices[min_i]->vertex;
-	rect.point = previous_main_vertex;
+	rect.point = vertices[0]->vertex;
 
 	//compute vectors from main vertex to other vertices
-	for (size_t i=0 ; i < vertices.size() ; i++){
-		if(i != min_i){ 
-			vectors.push_back(vertices[i]->vertex - rect.point);
-		}
+	for (size_t i=1 ; i < vertices.size() ; i++){
+		vectors.push_back(vertices[i]->vertex - rect.point);
 	}
 
 	//from these vectors, find the two that defines the rectangle
@@ -252,11 +260,20 @@ Rectangle compute_rectangle(std::vector<Vertex_def*>& vertices, Eigen::Vector3f 
 					rect.vect_x = vectors[j];
 					rect.vect_y = vectors[i];
 				}
+			}else if (std::abs(vectors[i].norm() - vectors[j].norm())/(vectors[i].norm() + vectors[j].norm()) > 0.1){
+				//if two borders that are not orthogonal have a difference of distance > 10%, there is an error
+				ok=false;
 			}
+
 		}
 	}
 
-	return rect;
+	if(ok){
+		//if there is no error, we return a ptr to the rectangle, otherwise an empty ptr
+		p_rect = boos::shared_ptr<Rectangle>(rect);
+	}
+
+	return p_rect;
 }
 
 /**

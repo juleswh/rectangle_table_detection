@@ -13,13 +13,15 @@ http://julesw.github.io/rectangle_table_detection/html
 
 \section sec_overview Overview
 
-This is a ROS package, developped for <a href="http://www.ros.org">ROS Groovy</a>.
+This is a ROS package, developped for [ROS Groovy](http://wiki.ros.org/groovy).
 
 For a quick start guide, directly go to \ref basicuse.
 
 This package was created with the purpose of providing a table-detection
 tool for robotic manipulation, or any other purpose. Most of the existing
-table-detection tools only detects plane. We wanted a tool that could give
+table-detection tools only detects plane (ROS' [tabletop_object_detector](http://wiki.ros.org/tabletop_object_detector),
+PCL [plane segmentation](http://www.pointclouds.org/documentation/tutorials/planar_segmentation.php#planar-segmentation)).
+We wanted a tool that could give
 us dimensions of the table. We also needed to give the system some indications
 about that table, so that it can 'choose' between several possibilities. These
 indications are the normal of the plane, a bounding box were the plane table is 

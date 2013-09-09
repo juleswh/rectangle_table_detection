@@ -47,6 +47,7 @@ Results
 To visualize the results, in a human friendly interface, use rviz and set it to show the input point cloud,
 the tf frames, and the rviz marker (the node does not publish it by default, set `publish_marker_rviz` to 
 see it).
+
 You will certainly want to use the output data in another ros node, to do so, use tf and the published topic `table_dimensions`.
 
 
