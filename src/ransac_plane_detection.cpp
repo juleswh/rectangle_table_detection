@@ -41,7 +41,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	tf::Vector3 vert_camera,origin_world_camera;
 	get_vertical_referecence(vert_camera,origin_world_camera, reference_tf_name,input->header.frame_id);
 	//from these, create a line that will be used to get the height of the plane we find
-	Eigen::ParametrizedLine<float,3> vertical_param_line_camera(Eigen::Vector3f(origin_world_camera[0],origin_world_camera[1],origin_world_camera[2]),Eigen::Vector3f(vert_camera[0],vert_camera[1],vert_camera[2]));
+	geometryModel geometry_model(Eigen::Vector3f(origin_world_camera[0],origin_world_camera[1],origin_world_camera[2]),Eigen::Vector3f(vert_camera[0],vert_camera[1],vert_camera[2]),param_cos_ortho_tolerance);
 
 #ifdef DO_TIME_SPEC
 	//get vertical
@@ -124,11 +124,9 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	/////////////////////////////////////////////////////////
 	//	compute RANSAC lines of the hull ////////////////////
 
-	std::vector<pcl::IndicesPtr> lines_inliers;
-	std::vector<Line_def*> borders_param_lines;
+	//std::vector<Line_def*> borders_param_lines;
 	pcl::ExtractIndices<pcl::PointXYZRGBA> extract;
-	std::vector<Eigen::VectorXf> lines_coeffs;
-	std::vector<Vertex_def*> table_vertices;
+	//std::vector<Vertex_def*> table_vertices;
 	Rectangle table_rectangle;
 	//a copy of the hull Pt Cld that will be modifided
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr borders_hull_cloud(new pcl::PointCloud<pcl::PointXYZRGBA>(*hull));
@@ -137,45 +135,34 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	size_t i=0;
 	//while we have points in the point cloud (more than a certain percentage of the initial hull)
 	while((borders_hull_cloud->size()>hull->size()*0.1) && (i < 10)){
-		lines_inliers.push_back(pcl::IndicesPtr(new std::vector<int>));
-		lines_coeffs.push_back(Eigen::VectorXf());
+		pcl::IndicesPtr line_inliers(new std::vector<int>);
+		Eigen::VectorXf line_coeffs;
 
-		find_line_ransac(borders_hull_cloud, ransac_line_dist_threshold, lines_inliers.back(),lines_coeffs.back());
+		find_line_ransac(borders_hull_cloud, ransac_line_dist_threshold, line_inliers,line_coeffs);
 
 		//check if we found a line or not, if not, exits loop
-		if (lines_inliers.back()->size() == 0) {
-			ROS_WARN("found only %d vertices with %d lines", table_vertices.size(),i);
+		if (line_inliers->size() == 0) {
+			ROS_WARN("found only %d vertices with %d lines", geometry_model.vertices.size(),i);
 			break;
 		}
 
 		//creates a parametrized line representing the border
-		Eigen::Vector3f direction(lines_coeffs[i][3],lines_coeffs[i][4],lines_coeffs[i][5]);
-		direction.normalize();
-
-		borders_param_lines.push_back(new Line_def);
-		borders_param_lines.back()->line=Eigen::ParametrizedLine<float,3>(Eigen::Vector3f(lines_coeffs[i][0],lines_coeffs[i][1],lines_coeffs[i][2]),direction);
-		borders_param_lines.back()->marked=false;
+		geometry_model.addBorder(line_coeffs);
 
 		//finds vertices, defined as the intersection of 2 orthogonals edges
 		for (size_t j=0 ; j < i ; j++){
 			//TODO : correct bug when less than 4 vertices are found
-			//ROS_DEBUG_STREAM("edges angle " << std::abs(borders_param_lines[j].direction().dot(borders_param_lines[i].direction())));
-			if ( std::abs(borders_param_lines[j]->line.direction().dot(borders_param_lines[i]->line.direction())) < param_cos_ortho_tolerance ){
+			//ROS_DEBUG_STREAM("edges angle " << std::abs(geometry_model.borders[j].direction().dot(geometry_model.borders[i].direction())));
+			if ( geometry_model.areBorderOrthogonals(i,j) ){
 				//if they are orthogonals
 				//we get a vertex of the table
-				//we find their intersection = the projection of a point of the 1st line on the 2nd
-				table_vertices.push_back(new Vertex_def);
-				table_vertices.back()->vertex = borders_param_lines[j]->line.projection(borders_param_lines[i]->line.origin());
-				table_vertices.back()->edges.push_back(borders_param_lines[i]);
-				table_vertices.back()->edges.push_back(borders_param_lines[j]);
-				borders_param_lines[i]->vertices.push_back(table_vertices.back());
-				borders_param_lines[j]->vertices.push_back(table_vertices.back());
+				geometry_model.addVertexFromEdges(i,j);
 			}
 		}
 
 		//remove points of the line we just found to find another one in the next iteration
 		extract.setInputCloud (borders_hull_cloud);
-		extract.setIndices (lines_inliers.back());
+		extract.setIndices (line_inliers);
 		extract.setNegative (true);
 		extract.filter (*borders_hull_cloud);
 
@@ -187,17 +174,14 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	time_output << ros::Time::now()-begin << ",";
 #endif
 
-	ROS_DEBUG("borders used %d",borders_param_lines.size());
-	ROS_DEBUG("vertices found %d",table_vertices.size());
-	std::vector<Rectangle> possible_rectangles;
-
-	pcl::PointIndices::Ptr not_matched_points(new pcl::PointIndices);
+	ROS_DEBUG("borders used %d",geometry_model.borders.size());
+	ROS_DEBUG("vertices found %d",geometry_model.vertices.size());
 
 	//if we have more than 4 vertices, it's ok, otherwise, we notify the user
-	if(table_vertices.size() >= 4 ){
-		find_all_possible_rectangles(possible_rectangles,borders_param_lines,vertical_param_line_camera.direction(),param_cos_ortho_tolerance);
+	if(geometry_model.verticesCount() >= 4 ){
+		geometry_model.find_all_possible_rectangles();
 
-		ROS_DEBUG("possible rectangles = %d",possible_rectangles.size());
+		ROS_DEBUG("possible rectangles = %d",geometry_model.possibleRectanglesCount());
 
 		//select the best rectangle
 		//let's play a match
@@ -205,6 +189,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		float best_score;
 		int best_index;
 		int best_rectangle_index=select_best_matching_rectangle(possible_rectangles,plane_cloud,table_indices,0.80,0.,plane_cloud->size()/10,best_score,best_index,not_matched_points);
+		pcl::PointIndices::Ptr not_matched_points(new pcl::PointIndices);
 
 		if (best_rectangle_index >=0){
 			ROS_DEBUG("max score = %f, not matched : %d",best_score, not_matched_points->indices.size());
@@ -217,17 +202,17 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 			std::ofstream debug_log_file;
 			debug_log_file.open("debug_graph_file.tex",ios::app | ios::out);
 			debug_log_file << "\\begin{figure}\n\\center\n";
-			for (int i=0;i<borders_param_lines.size();i++){
+			for (int i=0;i<geometry_model.borders.size();i++){
 				debug_log_file <<"\\begin{tikzpicture}\n";
-				if(print_graph(borders_param_lines[i],0,debug_log_file) !=0 ){
+				if(print_graph(geometry_model.borders[i],0,debug_log_file) !=0 ){
 					debug_log_file <<"\\end{tikzpicture}\noooooo\\\\ \n";
 				}else{
 					debug_log_file <<"\\end{tikzpicture}\n";
 				}
 			}
 			debug_log_file << "\\caption{possible rectangles = " << possible_rectangles.size()
-				<< "; edges = " << borders_param_lines.size() 
-				<< "; vertices = " << table_vertices.size() 
+				<< "; edges = " << geometry_model.borders.size() 
+				<< "; vertices = " << geometry_model.vertices.size() 
 				<< "best score = " << best_score
 				<<", best dimensions " << possible_rectangles[best_index].vect_x.norm() 
 				<< " " << possible_rectangles[best_index].vect_y.norm() 
@@ -251,7 +236,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 #endif
 
 	}else{
-		ROS_WARN_STREAM("table not defined, "<< table_vertices.size() << "vertices found");
+		ROS_WARN_STREAM("table not defined, "<< geometry_model.vertices.size() << "vertices found");
 		plane_center_found = false;
 	}
 	/////////////////////////////////////////////////////////
@@ -332,11 +317,11 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		hull_pcl_pub.publish (msg_hull);
 	}
 
-	for (int i=0; i<borders_param_lines.size();i++){
-		delete borders_param_lines[i];
+	for (int i=0; i<geometry_model.borders.size();i++){
+		delete geometry_model.borders[i];
 	}
-	for (int i=0; i<table_vertices.size();i++){
-		delete table_vertices[i];
+	for (int i=0; i<geometry_model.vertices.size();i++){
+		delete geometry_model.vertices[i];
 	}
 
 #ifdef DO_TIME_SPEC

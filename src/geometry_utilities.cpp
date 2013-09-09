@@ -1,7 +1,57 @@
 #include "geometry_utilities.h"
 
+geometryModel::geometryModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double this->cos_ortho_tolerance){
+	this->_vertical_line = Eigen::ParametrizedLine(origin,vertical);
+	this->cos_ortho_tolerance = this->cos_ortho_tolerance;
+}
+
+bool geometryModel::addVertexFromEdges(int i,int j){
+	bool rval;
+	if ((i<this->bordersCount() ) && ( j<this->bordersCount() )){
+		this->vertices.push_back(new Vertex_def);
+		this->vertices.back()->vertex = this->borders[j]->line.projection(this->borders[i]->line.origin());
+		this->vertices.back()->edges.push_back(this->borders[i]);
+		this->vertices.back()->edges.push_back(this->borders[j]);
+		this->borders[i]->vertices.push_back(this->vertices.back());
+		this->borders[j]->vertices.push_back(this->vertices.back());
+		rval=true;
+	}else
+		rval=false;
+
+	return rval;
+}
+
+
+void geometryModel::addBorder(const Eigen::VectorXf& coeffs){
+	Eigen::Vector3f direction(coeffs[3],coeffs[4],coeffs[5]);
+	direction.normalize();
+
+	this->borders.push_back(new Line_def);
+	this->borders.back()->line=Eigen::ParametrizedLine<float,3>(Eigen::Vector3f(coeffs[0],coeffs[1],coeffs[2]),direction);
+	this->borders.back()->marked=false;
+}
+
+bool geometryModel::areBorderOrthogonals(int i, int j){
+ return (std::abs(this->borders[j]->line.direction().dot(this->borders[i]->line.direction())) < this->cos_ortho_tolerance );
+}
+
+bool geometryModel::addPossibleRectangle(const std::vector<int>& vertex_indices){
+	boost::shared_ptr<Rectangle> rect;
+	rect = this->compute_rectangle(vertices_indices);
+	if(rect){
+		this->possible_rectangles.push_back(rect);
+		return true;
+	}else{
+		return false;
+	}
+}
+
+	
+
+
+
 #ifdef _DEBUG_FUNCTIONS_
-int print_graph(Line_def* edge, int index,std::ostream& outstream){
+int geometryModel::print_graph(Line_def* edge, int index,std::ostream& outstream){
 	int r=0;
 	if(edge==NULL) return r;
 	if(!edge->marked) return r;
@@ -21,20 +71,20 @@ int print_graph(Line_def* edge, int index,std::ostream& outstream){
 }
 #endif
 
-inline float dot_product(const Eigen::Vector3f& v1, const Eigen::Vector3f& v2){
+inline float geometryModel::dot_product(const Eigen::Vector3f& v1, const Eigen::Vector3f& v2){
 	return (v1[0]*v2[0]+v1[1]*v2[1]+v1[2]*v2[2]);
 }
 
-int find_all_possible_rectangles(std::vector<boost::shared_ptr<Rectangle> >& possible_rectangles, const std::vector<Line_def*>& borders_param_lines, const Eigen::Vector3f& vertical, float param_cos_ortho_tolerance){
+int geometryModel::find_all_possible_rectangles(){
 	//we search groups of connected vertices
 	//i.e. (pieces of) rectangles
-	for (int i=0; i<borders_param_lines.size(); i++){
-		std::vector<Vertex_def*> connected_points;
-		recursively_find_connected_vertices(connected_points,borders_param_lines[i]);
+	for (int i=0; i<this->borders.size(); i++){
+		std::vector<int> connected_points;
+		recursively_find_connected_vertices(connected_points,this->borders[i]);
 		if (connected_points.size()==4){
-			possible_rectangles.push_back(compute_rectangle(connected_points,vertical,param_cos_ortho_tolerance));
+			this->addPossibleRectangle(connected_points);
 		}else if ((connected_points.size() >4) && connected_points.size() <=6){
-			std::vector<Vertex_def*> connected_points_sub(4);
+			std::vector<int> connected_points_sub(4);
 			for(int i1=0; i1<connected_points.size();i1++){
 				connected_points_sub[0]=connected_points[i1];
 				for(int i2=0; i2<i1;i2++){
@@ -43,8 +93,7 @@ int find_all_possible_rectangles(std::vector<boost::shared_ptr<Rectangle> >& pos
 						connected_points_sub[2]=connected_points[i3];
 						for(int i4=0; i4<i3;i4++){
 							connected_points_sub[3]=connected_points[i4];
-							possible_rectangles.push_back(compute_rectangle(connected_points_sub,vertical, param_cos_ortho_tolerance));
-						}
+							this->addPossibleRectangle(connected_points_sub);
 					}
 				}
 			}
@@ -55,13 +104,13 @@ int find_all_possible_rectangles(std::vector<boost::shared_ptr<Rectangle> >& pos
 		}
 	}
 
-	return possible_rectangles.size();
+	return this->possible_rectangles.size();
 }
 
-void recursively_find_rectangles(std::vector<boost::shared_ptr<Rectangles> >& rectangles, std::vector<Vertex_def*>& vertices, const Line_def* prev_edge){
+void geometryModel::recursively_find_rectangles(std::vector<boost::shared_ptr<Rectangle> >& rectangles, std::vector<Vertex_def*>& vertices, const Line_def* prev_edge){
 	if (vertices.size() == 5){
 		if (vertices.back() == vertices.front()){
-			rectangles.push_back(compute_rectangle(vertices.begin(),vertices.begin()+4,vertical, param_cos_ortho_tolerance));
+			rectangles.push_back(compute_rectangle(vertices.begin(),vertices.begin()+4,vertical, this->cos_ortho_tolerance));
 		}
 	}else{
 		for (int i=0; i< vertices.back()->edges.size()){
@@ -78,7 +127,7 @@ void recursively_find_rectangles(std::vector<boost::shared_ptr<Rectangles> >& re
 	vertices.pop_back();
 }
 
-void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge){
+void geometryModel::recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge){
 	if(edge==NULL) return;
 	//if already visited, we're done with this one
 	if(edge->marked) return;
@@ -100,7 +149,7 @@ void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Lin
 	return;
 }
 
-bool point_is_in_rectangle(const pcl::PointXYZRGBA point, const Rectangle& rect, float relative_thresh=0.01){
+bool geometryModel::point_is_in_rectangle(const pcl::PointXYZRGBA point, const Rectangle& rect, float relative_thresh=0.01){
 	bool rval;
 	Eigen::Vector3f p(point.x, point.y,point.z);
 	p-=rect.point;
@@ -140,7 +189,7 @@ bool point_is_in_rectangle(const pcl::PointXYZRGBA point, const Rectangle& rect,
  * we return it's index
  * returns -1 if no good rectangle found
  **/
-int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
+int geometryModel::select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
 		pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan,
 	 	pcl::PointIndices::ConstPtr indices,
 	 	float required_score, float lead_score,
@@ -200,7 +249,7 @@ int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectan
 	return r_val;
 }
 
-int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
+int geometryModel::select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
 		pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan,
 	 	pcl::PointIndices::ConstPtr indices,
 	 	float required_score, float lead_score,
@@ -226,7 +275,7 @@ int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectan
 	* vect_x and vect_y are choosen so that vect_x x vect_y have (approx) the same direction 
 	* than the given vertical
 	**/
-boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>& vertices, Eigen::Vector3f vertical, double param_cos_ortho_tolerance){
+boost::shared_ptr<Rectangle> geometryModel::compute_rectangle(const std::vector<int>& vertices_indices){
 	bool ok = true;
 	boost::shared_ptr<Rectangle> p_rect;
 	Rectangle rect;
@@ -249,7 +298,7 @@ boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>& vertice
 		for (size_t j=0 ; j < i ; j++){
 			double cos_angle = vectors[i].dot(vectors[j]) / (vectors[i].norm() * vectors[j].norm());
 			//if the cos of the angle between i and j is approx = 0, (i.e. angle ~ 90 degrees)
-			if (std::abs(cos_angle) < param_cos_ortho_tolerance){
+			if (std::abs(cos_angle) < this->cos_ortho_tolerance){
 				float dir = vectors[i].cross(vectors[j]).dot(vertical);
 				//if the dot product is >0, the angle from i to j is >0, so i is x and j is y
 				//inverted otherwise
@@ -280,12 +329,12 @@ boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>& vertice
 	* compute a transform so that the child frame have given x and y axis
 	* (nota : axis CAN be not normalized)
 	**/
-tf::Transform computeTransform(Eigen::Vector3f origin, Eigen::Vector3f x_axis,Eigen::Vector3f y_axis,double param_cos_ortho_tolerance)
+tf::Transform geometryModel::computeTransform(Eigen::Vector3f origin, Eigen::Vector3f x_axis,Eigen::Vector3f y_axis,double this->cos_ortho_tolerance)
 {
 	tf::Transform transform;
 	Eigen::Quaternionf rotation1_e, rotation2_e;
 
-	if (std::abs(x_axis.dot(y_axis)/(x_axis.norm()*y_axis.norm())) > param_cos_ortho_tolerance){
+	if (std::abs(x_axis.dot(y_axis)/(x_axis.norm()*y_axis.norm())) > this->cos_ortho_tolerance){
 		ROS_WARN("given axes are not orthogonals for transfrom computation, aborting\n(cos value : %f)",x_axis.dot(y_axis)/(x_axis.norm()*y_axis.norm()));
 
 	}else{
@@ -303,7 +352,7 @@ tf::Transform computeTransform(Eigen::Vector3f origin, Eigen::Vector3f x_axis,Ei
 	return transform;
 }
 
-void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name, const std::string& camera_tf_name){
+static void geometryModel::get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name, const std::string& camera_tf_name){
 	static tf::TransformListener tf_listener;
 	tf::StampedTransform cam_world_tf;
 	tf::Vector3 z(0,0,1);
