@@ -22,7 +22,7 @@ include_directories(include
 )
 
 add_executable(simple_filtering src/simple_filtering.cpp)
-add_executable(ransac_plane_detection src/ransac_plane_detection.cpp src/concave_hull.cpp src/ransac_plane_compute.cpp src/rviz_publish.cpp src/group_matrix.cpp src/geometry_utilities.cpp)
+add_executable(ransac_plane_detection src/ransac_plane_detection.cpp src/concave_hull.cpp src/ransac_plane_compute.cpp src/rviz_publish.cpp src/group_matrix.cpp src/tableDetectionGeometricModel.cpp)
 #add_executable(test_union_find src/group_matrix.cpp)
 
 target_link_libraries(simple_filtering

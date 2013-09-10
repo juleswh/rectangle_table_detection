@@ -38,7 +38,7 @@
 #include "ransac_plane_compute.h"
 #include "rviz_publish.h"
 #include "group_matrix.h"
-#include "geometry_utilities.h"
+#include "tableDetectionGeometricModel.h"
 
 //for printing durations of functions
 #define DO_TIME_SPEC
@@ -105,6 +105,14 @@ bool param_publish_outliers_pcl;
 double param_cos_ortho_tolerance;
 int param_interval;
 ///@}
+
+/** compute the world's vertical reference from tf.
+ * \param[out] vertical a vector colinear to the z axis of the \c reference_tf_name expressed in the \c camera_tf_name coordinates.
+ * \param[out] origin the origin of the \c reference_tf_name frame in the \c camera_tf_name coordinates.
+ * \param[in] reference_tf_name the name of the reference (world) frame, in tf.
+ * \param[in] camera_tf_name the name of the camera frame in tf.
+ */
+void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name,const std::string& camera_tf_name);
 
 /** The callback where we call for all other functions and do all the computation.
  */

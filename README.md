@@ -30,6 +30,9 @@ optionnaly, you can add following arguments to `openni.launch`, if you already h
 
 See the `openni_launch` documentation for more info on this part. You also should take a look at the calibration
 of your camera.
+If you never heard about calibration and simply want to see a result right now, do the following in a console:
+    rosrun dynamic_reconfigure dynparam set /camera/driver depth_registration True
+Change 'camera' to your camera name if you do not use the default `openni_launch` name.
 
 The program also uses tf to place the camera and the table. So be sure to have at least 2 frames,
 including one which indicate the vertical reference of the world (commonly `/world` or `/map`, can

@@ -31,7 +31,7 @@
  * A class for handling all geometric operations on the model.
  * This class manages the geometric model of the table we wantto detect
  */
-class geometryModel {
+class tableDetectionGeometricModel {
 
 	public:
 
@@ -70,25 +70,40 @@ class geometryModel {
 			Eigen::Vector3f point; /**< a point that is a vertex of the rectangle**/
 		};
 
-		geometryModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double param_cos_ortho_tolerance);
-		virtual ~geometryModel();
+		tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double param_cos_ortho_tolerance);
+		tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double cos_ortho_tolerance, Eigen::Vector3f& previous_main_vertex);
+		virtual ~tableDetectionGeometricModel();
 			
 
 	private:
 		Eigen::ParametrizedLine<float, 3> _vertical_line;
 
-		double cos_ortho_tolerance;
+		double _cos_ortho_tolerance;
+
+		Eigen::Vector3f _previous_main_vertex;
 
 	public:
-		std::vector<Line_def*> borders;
-		std::vector<Vertex_def*> vertices;
-		std::vector<boost::shared_ptr<Rectangle> > possible_rectangles;
+		std::vector<Line_def*> borders_;
+		std::vector<Vertex_def*> vertices_;
+		std::vector<boost::shared_ptr<Rectangle> > possible_rectangles_;
 
 	public:
 
 		bool areBorderOrthogonals(int i,int j);
 		bool addVertexFromEdges(int i,int j);
 		void addBorder(const Eigen::VectorXf& coeffs);
+
+		bool addPossibleRectangle(const std::vector<int>& vertices_indices);
+		bool addPossibleRectangle(const std::vector<Vertex_def*>::iterator& first_vertex, const std::vector<Vertex_def*>::iterator& last_vertex);
+		bool addPossibleRectangle(const std::vector<Vertex_def*>& vertices);
+
+		Eigen::ParametrizedLine<float,3> getVerticalLine();
+		Eigen::Vector3f getVerticalOrigin();
+		Eigen::Vector3f getVerticalDirection();
+		int verticesCount();
+		int bordersCount();
+		int possibleRectanglesCount();
+
 
 #ifdef _DEBUG_FUNCTIONS_
 		//TODO remove debug function
@@ -115,17 +130,20 @@ class geometryModel {
 		 **/
 		void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge);
 
+		void recursively_find_rectangles(std::vector<Vertex_def*>& vertices,
+			 	const Line_def* prev_edge);
+
 		/**
 		 * runs over all vertices and tries to find all the possible rectangles.
-		 * \param[out] possible_rectangles the list of rectangles found in the vertices list.
-		 * \param[in] borders_param_lines the list of lines.
-		 * \param[in] vertical a vector indicating the vertical, for oriented rectangle computation.
-		 * \param[in] param_cos_ortho_tolerance the tolerance on the cosinus for orthogonal assertion.
 		 *
 		 */
 		int find_all_possible_rectangles();
 
 #ifdef _DEBUG_FUNCTIONS_
+	public:
+#else
+	private:
+#endif
 		/**
 		 * select the rectangle that best describes the plane in the point cloud pc_plan.
 		 *
@@ -153,15 +171,12 @@ class geometryModel {
 		 * \note the last 3 parameters are for debug. Use overriding function select_best_matching_rectangle() for general use.
 		 *
 		 **/
-		int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan, pcl::PointIndices::ConstPtr indices,float required_score,float lead_score, int n_samples, float& best_score,int& best_index,pcl::PointIndices::Ptr not_matched_points);
+		int select_best_matching_rectangle(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan, pcl::PointIndices::ConstPtr indices,float required_score,float lead_score, int n_samples, float& best_score,int& best_index,pcl::PointIndices::Ptr not_matched_points);
 
-#endif
-
-
+	public:
 		/**
 		 * select the rectangle that best describes the plane in the point cloud pc_plan.
 		 *
-		 * \param[in] possible_rectangles an array of rectangles to compare.
 		 * \param[in] pc_plan the point cloud containing the plane we want to represent.
 		 * \param[in] indices the indices of the points in pc_plan that actually represent the plane.
 		 * \param[in] required_score the minimum score(in proportion of matching points) required
@@ -180,11 +195,12 @@ class geometryModel {
 		 * we return it's index.
 		 *
 		 **/
-		int select_best_matching_rectangle(const std::vector<Rectangle>& possible_rectangles,
-				pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan,
+		int select_best_matching_rectangle(pcl::PointCloud<pcl::PointXYZRGBA>::ConstPtr pc_plan,
 				pcl::PointIndices::ConstPtr indices,
 				float required_score, float lead_score,
 				int n_samples);
+
+		bool point_is_in_rectangle(const pcl::PointXYZRGBA point, const boost::shared_ptr<Rectangle> rect, float relative_thresh=0.01);
 
 		/**
 		 * returns a rectangle from the given vertices.
@@ -198,6 +214,8 @@ class geometryModel {
 		 * than the given vertical
 		 **/
 		boost::shared_ptr<Rectangle> compute_rectangle(const std::vector<int>& vertices_indices);
+		boost::shared_ptr<Rectangle> compute_rectangle(const std::vector<Vertex_def*>& vertices);
+			boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>::const_iterator from_vertex, std::vector<Vertex_def*>::const_iterator to_vertex);
 
 		/**
 		 * Compute a transform so that the child frame have given x and y axis.
@@ -208,15 +226,7 @@ class geometryModel {
 		 *
 		 * \note axes CAN be not normalized
 		 **/
-		tf::Transform computeTransform(Eigen::Vector3f origin, Eigen::Vector3f x_axis,Eigen::Vector3f y_axis);
-
-		/** compute the world's vertical reference from tf.
-		 * \param[out] vertical a vector colinear to the z axis of the \c reference_tf_name expressed in the \c camera_tf_name coordinates.
-		 * \param[out] origin the origin of the \c reference_tf_name frame in the \c camera_tf_name coordinates.
-		 * \param[in] reference_tf_name the name of the reference (world) frame, in tf.
-		 * \param[in] camera_tf_name the name of the camera frame in tf.
-		 */
-		static void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name,const std::string& camera_tf_name);
+		tf::Transform computeTransform(const Eigen::Vector3f& origin, const Eigen::Vector3f& x_axis,const Eigen::Vector3f& y_axis);
 
 };
 #endif // _GEOMETRY_UTILITIES_H_
