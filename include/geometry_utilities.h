@@ -27,6 +27,10 @@
 #define _PRINT_HERE_(s) ROS_DEBUG_STREAM("in " << __FILE__ << " line " << __LINE__ << "\t-\t" << s)
 
 
+/**
+ * A class for handling all geometric operations on the model.
+ * This class manages the geometric model of the table we wantto detect
+ */
 class geometryModel {
 
 	public:
