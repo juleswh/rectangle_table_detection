@@ -22,6 +22,8 @@
 #include <pcl/point_types.h>
 #include <pcl/ModelCoefficients.h>
 
+//#define _DEBUG_FUNCTIONS_
+
 
 //a debug utility
 #define _PRINT_HERE_(s) ROS_DEBUG_STREAM("in " << __FILE__ << " line " << __LINE__ << "\t-\t" << s)
@@ -71,8 +73,15 @@ class tableDetectionGeometricModel {
 		};
 
 		tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double param_cos_ortho_tolerance);
-		tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double cos_ortho_tolerance, Eigen::Vector3f& previous_main_vertex);
+		tableDetectionGeometricModel(double param_cos_ortho_tolerance=0.);
+		void init(double cos_ortho_tolerance);
 		virtual ~tableDetectionGeometricModel();
+		
+		/** Clear this object.
+		 * Call this between each new modelisation to clear all stored vertices, borders and rectangles.
+		 * Preserves vertical line and cos_ortho_tolerance, and private attributes used for model continuity.
+		 */
+		void clear();
 			
 
 	private:
@@ -80,7 +89,7 @@ class tableDetectionGeometricModel {
 
 		double _cos_ortho_tolerance;
 
-		Eigen::Vector3f _previous_main_vertex;
+		boost::shared_ptr<Rectangle> _previous_best_rectangle;
 
 	public:
 		std::vector<Line_def*> borders_;
@@ -97,13 +106,14 @@ class tableDetectionGeometricModel {
 		bool addPossibleRectangle(const std::vector<Vertex_def*>::iterator& first_vertex, const std::vector<Vertex_def*>::iterator& last_vertex);
 		bool addPossibleRectangle(const std::vector<Vertex_def*>& vertices);
 
+		void setVerticalLine(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction);
+		void setVerticalLine(const Eigen::ParametrizedLine<float,3>& vertical_line);
 		Eigen::ParametrizedLine<float,3> getVerticalLine();
 		Eigen::Vector3f getVerticalOrigin();
 		Eigen::Vector3f getVerticalDirection();
 		int verticesCount();
 		int bordersCount();
 		int possibleRectanglesCount();
-
 
 #ifdef _DEBUG_FUNCTIONS_
 		//TODO remove debug function

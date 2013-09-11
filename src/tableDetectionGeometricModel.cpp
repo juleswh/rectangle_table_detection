@@ -5,13 +5,19 @@ typedef tableDetectionGeometricModel::Vertex_def Vertex_def;
 typedef tableDetectionGeometricModel::Line_def Line_def;
 
 tableDetectionGeometricModel::tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double cos_ortho_tolerance){
-	this->_vertical_line = Eigen::ParametrizedLine<float,3>(origin,vertical);
-	this->_cos_ortho_tolerance = cos_ortho_tolerance;
+	this->init(cos_ortho_tolerance);
+	this->setVerticalLine(origin,vertical);
 }
 
-tableDetectionGeometricModel::tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double cos_ortho_tolerance, Eigen::Vector3f& previous_main_vertex){
-	tableDetectionGeometricModel(origin,vertical,cos_ortho_tolerance);
-	this->_previous_main_vertex = previous_main_vertex;
+tableDetectionGeometricModel::tableDetectionGeometricModel(double cos_ortho_tolerance){
+	this->init(cos_ortho_tolerance);
+}
+
+void tableDetectionGeometricModel::init(double cos_ortho_tolerance){
+	Eigen::Vector3f vzero(0,0,0);
+	this->_cos_ortho_tolerance = cos_ortho_tolerance;
+	this->_previous_best_rectangle = boost::shared_ptr<Rectangle>(new Rectangle);
+	this->_previous_best_rectangle->vect_x = this->_previous_best_rectangle->vect_y = this->_previous_best_rectangle->point = vzero;
 }
 
 tableDetectionGeometricModel::~tableDetectionGeometricModel(){
@@ -22,6 +28,19 @@ tableDetectionGeometricModel::~tableDetectionGeometricModel(){
 		delete this->vertices_[i];
 	}
 }
+
+void tableDetectionGeometricModel::clear(){
+	for (int i=0; i<this->borders_.size();i++){
+		delete this->borders_[i];
+	}
+	this->borders_.clear();
+	for (int i=0; i<this->vertices_.size();i++){
+		delete this->vertices_[i];
+	}
+	this->vertices_.clear();
+	this->possible_rectangles_.clear();
+}
+
 
 bool tableDetectionGeometricModel::addVertexFromEdges(int i,int j){
 	bool rval;
@@ -86,6 +105,13 @@ bool tableDetectionGeometricModel::addPossibleRectangle(const std::vector<Vertex
 	}
 }
 
+
+void tableDetectionGeometricModel::setVerticalLine(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction){
+	this->setVerticalLine(Eigen::ParametrizedLine<float,3>(origin,direction));
+}
+void tableDetectionGeometricModel::setVerticalLine(const Eigen::ParametrizedLine<float,3>& vertical_line){
+	this->_vertical_line = vertical_line;
+}
 
 Eigen::ParametrizedLine<float,3> tableDetectionGeometricModel::getVerticalLine(){
 	return this->_vertical_line;
@@ -259,6 +285,9 @@ int tableDetectionGeometricModel::select_best_matching_rectangle(pcl::PointCloud
 	 	int n_samples,
 	 	float& best_score, int& best_index,
 	 	pcl::PointIndices::Ptr not_matched_points){
+
+	if(this->possibleRectanglesCount()<=0)
+		return -1;
 	
 	std::vector<float> scores(this->possible_rectangles_.size());
 	std::vector<pcl::PointIndices::Ptr> not_matched;
@@ -268,13 +297,13 @@ int tableDetectionGeometricModel::select_best_matching_rectangle(pcl::PointCloud
 	int i = 0;
 	int r_val;
 	int rand_index;
-	float max_score=0,second_score=-1;
+	float max_score=-1,second_score=-2;
 	int max_score_index=-1,second_score_index=-2;
 	while (i<n_samples){
 		rand_index = rand() % indices->indices.size();
 
 		for (int rect_i=0; rect_i<this->possible_rectangles_.size(); rect_i++){
-			if (point_is_in_rectangle(pc_plan->at(indices->indices[rand_index]), this->possible_rectangles_[rect_i])){
+			if (this->point_is_in_rectangle(pc_plan->at(indices->indices[rand_index]), this->possible_rectangles_[rect_i])){
 				scores[rect_i]++;
 			}else if(not_matched_points){
 				not_matched[rect_i]->indices.push_back(indices->indices[rand_index]);
@@ -300,13 +329,15 @@ int tableDetectionGeometricModel::select_best_matching_rectangle(pcl::PointCloud
 	//TODO : implement "prolongations" if no good rectangle is found : use more samples
 	if ((max_score > required_score) && (max_score - second_score > lead_score)) {
 		r_val = max_score_index;
+		this->_previous_best_rectangle = this->possible_rectangles_[max_score_index];
 	}else{
 		r_val = -1;
 	}
 	best_score = max_score;
 	best_index = max_score_index;
+	ROS_DEBUG_STREAM("best score = "<<best_score << " index= "<<best_index);
 	if(not_matched_points){
-		*not_matched_points = *not_matched[max_score_index];
+		not_matched_points = pcl::PointIndices::Ptr(not_matched[max_score_index]);
 		ROS_WARN("not_matched size = %d, return %d",not_matched[max_score_index]->indices.size(),not_matched_points->indices.size());
 	}
 	return r_val;
@@ -350,8 +381,8 @@ boost::shared_ptr<Rectangle> tableDetectionGeometricModel::compute_rectangle(std
 		return p_rect;
 	}
 
-	for (std::vector<Vertex_def*>::const_iterator vertex = from_vertex+1; vertex!=to_vertex; vertex++ ){
-		Eigen::Vector3f diff = (*vertex)->vertex - this->_previous_main_vertex;
+	for (std::vector<Vertex_def*>::const_iterator vertex = from_vertex; vertex!=to_vertex; vertex++ ){
+		Eigen::Vector3f diff = (*vertex)->vertex - this->_previous_best_rectangle->point;
 		if( diff.norm() < min_dist ){
 			min_dist = diff.norm();
 			min_vertex = vertex;
@@ -361,8 +392,9 @@ boost::shared_ptr<Rectangle> tableDetectionGeometricModel::compute_rectangle(std
 	p_rect->point = (*min_vertex)->vertex;
 
 	//compute vectors from main vertex to other vertices
-	for (std::vector<Vertex_def*>::const_iterator vertex = from_vertex+1; vertex!=to_vertex; vertex++ ){
-		vectors.push_back((*vertex)->vertex - p_rect->point);
+	for (std::vector<Vertex_def*>::const_iterator vertex = from_vertex; vertex!=to_vertex; vertex++ ){
+		if(min_vertex!=vertex)
+			vectors.push_back((*vertex)->vertex - p_rect->point);
 	}
 
 	//from these vectors, find the two that defines the rectangle
@@ -389,7 +421,6 @@ boost::shared_ptr<Rectangle> tableDetectionGeometricModel::compute_rectangle(std
 		//if there is no error, we return a ptr to the rectangle, otherwise an empty ptr
 		p_rect.reset();
 	}
-
 	return p_rect;
 }
 

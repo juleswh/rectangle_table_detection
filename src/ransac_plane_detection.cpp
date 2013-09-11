@@ -12,6 +12,7 @@ void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const s
 	}
 	catch (tf::TransformException ex){
 		ROS_WARN("%s",ex.what());
+		return;
 	}
 	//compute the world z axis
 	//the matrix representing the rotation of the transform
@@ -64,8 +65,12 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	//get the vertical reference of the world in the camera coordinates
 	tf::Vector3 vert_camera,origin_world_camera;
 	get_vertical_referecence(vert_camera,origin_world_camera, reference_tf_name,input->header.frame_id);
+	if(vert_camera.length()<=0.01){
+		ROS_WARN("no vertical reference");
+		return;
+	}
 	//from these, create a line that will be used to get the height of the plane we find
-	tableDetectionGeometricModel geometry_model(Eigen::Vector3f(origin_world_camera[0],origin_world_camera[1],origin_world_camera[2]),Eigen::Vector3f(vert_camera[0],vert_camera[1],vert_camera[2]),param_cos_ortho_tolerance);
+	geometry_model.setVerticalLine(Eigen::Vector3f(origin_world_camera[0],origin_world_camera[1],origin_world_camera[2]),Eigen::Vector3f(vert_camera[0],vert_camera[1],vert_camera[2]));
 
 #ifdef DO_TIME_SPEC
 	//get vertical
@@ -74,8 +79,11 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 
 	// Convert the sensor_msgs/PointCloud2 data to pcl/PointCloud
 	pcl::PointCloud<pcl::PointXYZRGBA>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZRGBA>());
-	ROS_DEBUG_STREAM("input height " << input->height);
 	pcl::fromROSMsg (*input, *cloud);
+	if(cloud->size()<=1){
+		ROS_WARN("no points in input cloud");
+		return;
+	}
 
 #ifdef DO_TIME_SPEC
 	//convert msg
@@ -201,6 +209,9 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	ROS_DEBUG("borders used %d",geometry_model.borders_.size());
 	ROS_DEBUG("vertices found %d",geometry_model.vertices_.size());
 
+#ifdef _DEBUG_FUNCTIONS_
+	pcl::PointIndices::Ptr not_matched_points(new pcl::PointIndices);
+#endif
 	//if we have more than 4 vertices, it's ok, otherwise, we notify the user
 	if(geometry_model.verticesCount() >= 4 ){
 		geometry_model.find_all_possible_rectangles();
@@ -213,11 +224,10 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		float best_score;
 		int best_index;
 		int best_rectangle_index=geometry_model.select_best_matching_rectangle(plane_cloud,table_indices,0.80,0.,plane_cloud->size()/10,best_score,best_index,not_matched_points);
-		pcl::PointIndices::Ptr not_matched_points(new pcl::PointIndices);
 
 		if (best_rectangle_index >=0){
-			ROS_DEBUG("max score = %f, not matched : %d",best_score, not_matched_points->indices.size());
-			table_rectangle = geometry_model.possible_rectangles_[best_rectangle_index];
+			//ROS_DEBUG("max score = %f, not matched : %d",best_score, not_matched_points->indices.size());
+			table_rectangle = *geometry_model.possible_rectangles_[best_rectangle_index];
 			plane_center_found = true;
 		}else{
 			ROS_WARN("did not find a good definition of the table");
@@ -228,7 +238,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 			debug_log_file << "\\begin{figure}\n\\center\n";
 			for (int i=0;i<geometry_model.borders_.size();i++){
 				debug_log_file <<"\\begin{tikzpicture}\n";
-				if(print_graph(geometry_model.borders_[i],0,debug_log_file) !=0 ){
+				if(geometry_model.print_graph(geometry_model.borders_[i],0,debug_log_file) !=0 ){
 					debug_log_file <<"\\end{tikzpicture}\noooooo\\\\ \n";
 				}else{
 					debug_log_file <<"\\end{tikzpicture}\n";
@@ -238,8 +248,8 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 				<< "; edges = " << geometry_model.borders_.size() 
 				<< "; vertices = " << geometry_model.vertices_.size() 
 				<< "best score = " << best_score
-				<<", best dimensions " << geometry_model.possible_rectangles_[best_index].vect_x.norm() 
-				<< " " << geometry_model.possible_rectangles_[best_index].vect_y.norm() 
+				<<", best dimensions " << geometry_model.possible_rectangles_[best_index]->vect_x.norm() 
+				<< " " << geometry_model.possible_rectangles_[best_index]->vect_y.norm() 
 				<< ", not matched " << not_matched_points->indices.size() 
 				<< "}\n";
 			debug_log_file << "\\end{figure}\n";
@@ -358,6 +368,8 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		hull_pcl_pub.publish (msg_hull);
 	}
 
+	geometry_model.clear();
+
 #ifdef DO_TIME_SPEC
 	//other pub + end
 	time_output << ros::Time::now()-begin << "\n";
@@ -399,6 +411,8 @@ int main (int argc, char** argv)
 	time_output.open("rect_detect_time_caract_output.csv");
 	time_output << "init       ,get vert   ,convert msg,sel range  ,sac plane  ,union-find ,hull       ,borders    ,best rect  ,pub dim    ,end\n";
 #endif
+
+	geometry_model = tableDetectionGeometricModel(param_cos_ortho_tolerance);
 
 	ROS_INFO("starting ransac orthogonal plane detection");
 	// Create a ROS subscriber for the input point cloud

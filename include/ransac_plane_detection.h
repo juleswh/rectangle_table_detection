@@ -41,11 +41,10 @@
 #include "tableDetectionGeometricModel.h"
 
 //for printing durations of functions
-#define DO_TIME_SPEC
+//#define DO_TIME_SPEC
 #ifdef DO_TIME_SPEC
 std::ofstream time_output;
 #endif
-
 
 //a debug utility
 #define _PRINT_HERE_(s) ROS_DEBUG_STREAM("in " << __FILE__ << " line " << __LINE__ << "\t-\t" << s)
@@ -69,6 +68,10 @@ ros::Publisher dimensions_publisher;
 ros::Publisher marker_pub;
 ros::Publisher output_pcl_outliers_pub;
 ///@}
+
+/** Geometric model used to describe the scene and find the table definition
+ */
+tableDetectionGeometricModel geometry_model;
 
 /**
  * \name User-set Parameters
