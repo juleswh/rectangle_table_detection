@@ -1,0 +1,7 @@
+<map id="include/ransac_plane_detection.h" name="include/ransac_plane_detection.h">
+<area shape="rect" id="node47" href="$concave__hull_8h.html" title="2D hull computation utilities for point clouds. " alt="" coords="2444,101,2553,131"/>
+<area shape="rect" id="node62" href="$ransac__plane__compute_8h.html" title="File containing the function to find a normal plane with a ransac method, within a defined height int..." alt="" coords="2153,101,2319,131"/>
+<area shape="rect" id="node78" href="$rviz__publish_8h_source.html" title="rviz_publish.h" alt="" coords="2932,101,3033,131"/>
+<area shape="rect" id="node82" href="$group__matrix_8h.html" title="a clustering method using union&#45;find algorithm to look for groups of points. " alt="" coords="1441,101,1548,131"/>
+<area shape="rect" id="node97" href="$geometry__utilities_8h.html" title="Data structures and functions in relation to the geometry of a table. " alt="" coords="1060,101,1193,131"/>
+</map>
