@@ -91,17 +91,20 @@ roslaunch openni_launch openni.launch
 </pre><p>optionnaly, you can add following arguments to openni.launch, if you already have a tf publisher that places your camera: </p>
 <pre class="fragment">camera:=&lt;camera_name&gt;
 publish_tf:="false"
-</pre><p>See the <code>openni_launch</code> documentation for more info on this part. You also should take a look at the calibration of your camera.</p>
+</pre><p>See the <code>openni_launch</code> documentation for more info on this part. You also should take a look at the calibration of your camera. If you never heard about calibration and simply want to see a result right now, do the following in a console: </p>
+<pre class="fragment">rosrun dynamic_reconfigure dynparam set /camera/driver depth_registration True
+</pre><p>Change <code>camera</code> to your camera name if you do not use the default <code>openni_launch</code> name.</p>
 <p>The program also uses tf to place the camera and the table. So be sure to have at least 2 frames, including one which indicate the vertical reference of the world (commonly <code>/world</code> or <code>/map</code>, can also be a frame fixed to your robot like <code>/base_link</code>,...) and one that correspond to the camera (<code>&lt;camera_name&gt;_link</code> if you use openni.launch with <code>publish_tf</code> = true (default), otherwise you need all of the frames <code>&lt;camera_name&gt;_rgb_optical</code>, <code>&lt;camera_name&gt;_depth_optical</code>, ...)</p>
 <p>Now you are ready for launching our table detection. We recommand to use a launch file, to manage the numerous parameter. You can use the <code>detection.launch</code> launch file as a basis, and modify some parameters.</p>
 <h2>Results </h2>
-<p>To visualize the results, in a human friendly interface, use rviz and set it to show the input point cloud, the tf frames, and the rviz marker (the node does not publish it by default, set <code>publish_marker_rviz</code> to see it). You will certainly want to use the output data in another ros node, to do so, use tf and the published topic <code>table_dimensions</code>.</p>
+<p>To visualize the results, in a human friendly interface, use rviz and set it to show the input point cloud, the tf frames, and the rviz marker (the node does not publish it by default, set <code>publish_marker_rviz</code> to see it).</p>
+<p>You will certainly want to use the output data in another ros node, to do so, use tf and the published topic <code>table_dimensions</code>.</p>
 <h2>Troubleshooting </h2>
 <p>Well, if you are here, it's that you're not satisfied with the results. First of all, check for your parameters to see if they are valid, and if the node effectively receives an input cloud and the transform tree is valid. See <a class="el" href="index.html">the documentation main page</a> for more info on parameters and topics. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 6 2013 17:14:03 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 11 2013 14:32:02 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

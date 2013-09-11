@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rectangle',['Rectangle',['../struct_rectangle.html',1,'']]]
+  ['rectangle',['Rectangle',['../structtable_detection_geometric_model_1_1_rectangle.html',1,'tableDetectionGeometricModel']]]
 ];

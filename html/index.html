@@ -99,9 +99,9 @@ Links</h1>
 <p>Documentation (this) <a href="http://julesw.github.io/rectangle_table_detection/html">http://julesw.github.io/rectangle_table_detection/html</a></p>
 <h1><a class="anchor" id="sec_overview"></a>
 Overview</h1>
-<p>This is a ROS package, developped for <a href="http://www.ros.org">ROS Groovy</a>.</p>
+<p>This is a ROS package, developped for <a href="http://wiki.ros.org/groovy">ROS Groovy</a>.</p>
 <p>For a quick start guide, directly go to <a class="el" href="basicuse.html">Basic Use</a>.</p>
-<p>This package was created with the purpose of providing a table-detection tool for robotic manipulation, or any other purpose. Most of the existing table-detection tools only detects plane. We wanted a tool that could give us dimensions of the table. We also needed to give the system some indications about that table, so that it can 'choose' between several possibilities. These indications are the normal of the plane, a bounding box were the plane table is expected to be, or at least a height range (for standard table we will be looking for a plane that is normal to the vertical, and in the range 70 - 90 cm)</p>
+<p>This package was created with the purpose of providing a table-detection tool for robotic manipulation, or any other purpose. Most of the existing table-detection tools only detects plane (ROS' <a href="http://wiki.ros.org/tabletop_object_detector">tabletop_object_detector</a>, PCL <a href="http://www.pointclouds.org/documentation/tutorials/planar_segmentation.php#planar-segmentation">plane segmentation</a>). We wanted a tool that could give us dimensions of the table. We also needed to give the system some indications about that table, so that it can 'choose' between several possibilities. These indications are the normal of the plane, a bounding box were the plane table is expected to be, or at least a height range (for standard table we will be looking for a plane that is normal to the vertical, and in the range 70 - 90 cm)</p>
 <p>This package provides a tool for seeking a plane that is orthogonal to the 'z' axis of a provided tf frame. It also provides an implementation of the filtering process (from pcl tutorial). Contains an helpfull launcher, for demo.</p>
 <h1><a class="anchor" id="sec_nodes"></a>
 Nodes</h1>
@@ -150,7 +150,7 @@ Node simple_filtering</h2>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 6 2013 17:14:03 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 11 2013 14:32:02 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

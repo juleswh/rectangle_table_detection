@@ -90,7 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>a vertex representation with a list of lines passing through this point.  
+<p>A class for handling all geometric operations on the model.  
  <a href="struct_vertex__def.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="geometry__utilities_8h_source.html">geometry_utilities.h</a>&gt;</code></p>
@@ -107,16 +107,22 @@ Eigen::Vector3f&#160;</td><td class="memItemRight" valign="bottom"><a class="el"
 <tr class="separator:a440f6344cbdf3330be82271eb000712c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>a vertex representation with a list of lines passing through this point. </p>
-<p>This structure represent a node of a graph formed by vertices and lines </p>
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="geometry__utilities_8h.html#a60364ae187c2564af4e33712670d4177" title="recursively explore the vertices of an edge an add connected points to vertices. ">recursively_find_connected_vertices()</a> </dd></dl>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<div class="textblock"><p>A class for handling all geometric operations on the model. </p>
+<p>This class manages the geometric model of the table we wantto detect class geometryModel { </p>
+<pre class="fragment">    public:
+
+            struct Line_def;
+
+            /**
+               a vertex representation with a list of lines passing through this point.
+               This structure represent a node of a graph formed by vertices and lines
+               \see recursively_find_connected_vertices()</pre> </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="geometry__utilities_8h_source.html">geometry_utilities.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 6 2013 17:14:03 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Sep 10 2013 10:52:35 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

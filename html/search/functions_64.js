@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dot_5fproduct',['dot_product',['../geometry__utilities_8h.html#a3066cabb5b660aa77d8cf63811076815',1,'geometry_utilities.h']]]
+  ['dot_5fproduct',['dot_product',['../classtable_detection_geometric_model.html#a6369194af2d6ef3403cf8bff7e7165ca',1,'tableDetectionGeometricModel']]]
 ];

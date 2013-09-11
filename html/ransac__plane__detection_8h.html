@@ -122,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &quot;<a class="el" href="ransac__plane__compute_8h_source.html">ransac_plane_compute.h</a>&quot;</code><br/>
 <code>#include &quot;rviz_publish.h&quot;</code><br/>
 <code>#include &quot;<a class="el" href="group__matrix_8h_source.html">group_matrix.h</a>&quot;</code><br/>
-<code>#include &quot;<a class="el" href="geometry__utilities_8h_source.html">geometry_utilities.h</a>&quot;</code><br/>
+<code>#include &quot;tableDetectionGeometricModel.h&quot;</code><br/>
 </div>
 <p><a href="ransac__plane__detection_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -131,15 +131,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a525335710b53cb064ca56b936120431e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a525335710b53cb064ca56b936120431e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>_USE_MATH_DEFINES</b></td></tr>
 <tr class="separator:a525335710b53cb064ca56b936120431e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6d8f248c4f702bc9ccddbff7fb206fd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6d8f248c4f702bc9ccddbff7fb206fd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DO_TIME_SPEC</b></td></tr>
-<tr class="separator:ae6d8f248c4f702bc9ccddbff7fb206fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d77c68a9afcbe333c55765fa50545b6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d77c68a9afcbe333c55765fa50545b6"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>_PRINT_HERE_</b>(s)&#160;&#160;&#160;ROS_DEBUG_STREAM(&quot;in &quot; &lt;&lt; __FILE__ &lt;&lt; &quot; line &quot; &lt;&lt; __LINE__ &lt;&lt; &quot;\t-\t&quot; &lt;&lt; s)</td></tr>
 <tr class="separator:a6d77c68a9afcbe333c55765fa50545b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aa5f9a3fa20493f0bcd7c759184fc775b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#aa5f9a3fa20493f0bcd7c759184fc775b">get_vertical_referecence</a> (tf::Vector3 &amp;vertical, tf::Vector3 &amp;origin, const std::string &amp;reference_tf_name, const std::string &amp;camera_tf_name)</td></tr>
+<tr class="memdesc:aa5f9a3fa20493f0bcd7c759184fc775b"><td class="mdescLeft">&#160;</td><td class="mdescRight">compute the world's vertical reference from tf.  <a href="#aa5f9a3fa20493f0bcd7c759184fc775b">More...</a><br/></td></tr>
+<tr class="separator:aa5f9a3fa20493f0bcd7c759184fc775b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ecc7830b8d0c24f1149525c50c487c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2ecc7830b8d0c24f1149525c50c487c1"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#a2ecc7830b8d0c24f1149525c50c487c1">cloud_cb</a> (const sensor_msgs::PointCloud2ConstPtr &amp;input)</td></tr>
 <tr class="memdesc:a2ecc7830b8d0c24f1149525c50c487c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The callback where we call for all other functions and do all the computation. <br/></td></tr>
@@ -150,9 +150,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rans
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a84a589d56dc9404f081bee7d525ae14f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84a589d56dc9404f081bee7d525ae14f"></a>
-std::ofstream&#160;</td><td class="memItemRight" valign="bottom"><b>time_output</b></td></tr>
-<tr class="separator:a84a589d56dc9404f081bee7d525ae14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adabcb6ef11ded4ad2f9ed9834839d1b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adabcb6ef11ded4ad2f9ed9834839d1b7"></a>
+<a class="el" href="classtable_detection_geometric_model.html">tableDetectionGeometricModel</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ransac__plane__detection_8h.html#adabcb6ef11ded4ad2f9ed9834839d1b7">geometry_model</a></td></tr>
+<tr class="memdesc:adabcb6ef11ded4ad2f9ed9834839d1b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Geometric model used to describe the scene and find the table definition. <br/></td></tr>
+<tr class="separator:adabcb6ef11ded4ad2f9ed9834839d1b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr><td colspan="2"><div class="groupHeader">ROS-specific objects</div></td></tr>
 <tr class="memitem:a898856750d65dc6e6706ea4772115d04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a898856750d65dc6e6706ea4772115d04"></a>
 ros::NodeHandle *&#160;</td><td class="memItemRight" valign="bottom"><b>nh</b></td></tr>
@@ -249,6 +250,55 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>param_interval</b></td
 <div class="textblock"><p>The main file header for the ransac_plane_detection node. </p>
 <dl class="section author"><dt>Author</dt><dd>Jules Waldhart </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="aa5f9a3fa20493f0bcd7c759184fc775b"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void get_vertical_referecence </td>
+          <td>(</td>
+          <td class="paramtype">tf::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>vertical</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">tf::Vector3 &amp;&#160;</td>
+          <td class="paramname"><em>origin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>reference_tf_name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>camera_tf_name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>compute the world's vertical reference from tf. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">vertical</td><td>a vector colinear to the z axis of the <code>reference_tf_name</code> expressed in the <code>camera_tf_name</code> coordinates. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">origin</td><td>the origin of the <code>reference_tf_name</code> frame in the <code>camera_tf_name</code> coordinates. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">reference_tf_name</td><td>the name of the reference (world) frame, in tf. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">camera_tf_name</td><td>the name of the camera frame in tf. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="a3c04138a5bfe5d72780bb7e82a18e627"></a>
 <div class="memitem">
 <div class="memproto">
@@ -312,7 +362,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>param_interval</b></td
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 6 2013 17:14:03 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Sep 11 2013 14:32:02 for rectangular_table_detection by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>

@@ -2,6 +2,6 @@ var searchData=
 [
   ['filter_5fout_5fof_5frange_5fpoints',['filter_out_of_range_points',['../ransac__plane__compute_8h.html#abf1d4c835e4b41c5623f8e634340eb1a',1,'ransac_plane_compute.h']]],
   ['find',['find',['../group__matrix_8h.html#a432dbeccfce05fc25c64f068d4c47691',1,'group_matrix.h']]],
-  ['find_5fall_5fpossible_5frectangles',['find_all_possible_rectangles',['../geometry__utilities_8h.html#a3804578386d1d9b85ee3fd11e372222a',1,'geometry_utilities.h']]],
+  ['find_5fall_5fpossible_5frectangles',['find_all_possible_rectangles',['../classtable_detection_geometric_model.html#a46c8f3ae233ac516ec9c8879cccbe7d1',1,'tableDetectionGeometricModel']]],
   ['find_5fline_5fransac',['find_line_ransac',['../concave__hull_8h.html#a0f9f8f79c76e6b08b3fa544b52f008e1',1,'concave_hull.h']]]
 ];
