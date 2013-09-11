@@ -185,7 +185,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		for (size_t j=0 ; j < i ; j++){
 			//TODO : correct bug when less than 4 vertices are found
 			//ROS_DEBUG_STREAM("edges angle " << std::abs(geometry_model.borders[j].direction().dot(geometry_model.borders[i].direction())));
-			if ( geometry_model.areBorderOrthogonals(i,j) ){
+			if ( geometry_model.areBordersOrthogonal(i,j) ){
 				//if they are orthogonals
 				//we get a vertex of the table
 				geometry_model.addVertexFromEdges(i,j);
@@ -412,7 +412,7 @@ int main (int argc, char** argv)
 	time_output << "init       ,get vert   ,convert msg,sel range  ,sac plane  ,union-find ,hull       ,borders    ,best rect  ,pub dim    ,end\n";
 #endif
 
-	geometry_model = tableDetectionGeometricModel(param_cos_ortho_tolerance);
+	geometry_model.setCosOrthoTolerance(param_cos_ortho_tolerance);
 
 	ROS_INFO("starting ransac orthogonal plane detection");
 	// Create a ROS subscriber for the input point cloud

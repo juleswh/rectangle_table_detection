@@ -68,7 +68,7 @@ void tableDetectionGeometricModel::addBorder(const Eigen::VectorXf& coeffs){
 	this->borders_.back()->marked=false;
 }
 
-bool tableDetectionGeometricModel::areBorderOrthogonals(int i, int j){
+bool tableDetectionGeometricModel::areBordersOrthogonal(int i, int j){
  return (std::abs(this->borders_[j]->line.direction().dot(this->borders_[i]->line.direction())) < this->_cos_ortho_tolerance );
 }
 
@@ -131,7 +131,12 @@ int tableDetectionGeometricModel::bordersCount(){
 int tableDetectionGeometricModel::possibleRectanglesCount(){
 	return this->possible_rectangles_.size();
 }
-
+void tableDetectionGeometricModel::setCosOrthoTolerance(double tol){
+	this->_cos_ortho_tolerance = tol;
+}
+double tableDetectionGeometricModel::getCosOrthoTolerance(){
+	return this->_cos_ortho_tolerance;
+}
 
 
 
@@ -164,6 +169,7 @@ inline float tableDetectionGeometricModel::dot_product(const Eigen::Vector3f& v1
 int tableDetectionGeometricModel::find_all_possible_rectangles(){
 	//we search groups of connected vertices
 	//i.e. (pieces of) rectangles
+	/**
 	for (int i=0; i<this->borders_.size(); i++){
 		std::vector<Vertex_def*> connected_points;
 		recursively_find_connected_vertices(connected_points,this->borders_[i]);
@@ -190,23 +196,42 @@ int tableDetectionGeometricModel::find_all_possible_rectangles(){
 			ROS_WARN("not enougth vertices to compute a rectangle %d", connected_points.size());
 		}
 	}
+	*/
+
+	for (std::vector<Vertex_def*>::const_iterator it=this->vertices_.begin(); it!=this->vertices_.end();++it){
+		this->recursively_find_rectangles_from(*it);
+	}
+
+	for (int i=0;i<this->_verticesLoopsMngr._loops_collection.size();i++){
+		this->addPossibleRectangle(this->_verticesLoopsMngr._loops_collection[i]);
+		ROS_DEBUG("add rect x=%f y=%f", this->possible_rectangles_.back()->vect_x.norm(), this->possible_rectangles_.back()->vect_y.norm() );
+	}
+	this->_verticesLoopsMngr._loops_collection.clear();
 
 	return this->possible_rectangles_.size();
 }
 
+void tableDetectionGeometricModel::recursively_find_rectangles_from(Vertex_def* vertex){
+	std::vector<Vertex_def*> vertices;
+	vertices.push_back(vertex);
+	this->recursively_find_rectangles(vertices,NULL);
+}
+	
+
 void tableDetectionGeometricModel::recursively_find_rectangles(std::vector<Vertex_def*>& vertices, const Line_def* prev_edge){
 	//simple case : we have 5 vertices, simply determine if the first = the last
 	if (vertices.size() == 5){
-		if (vertices.back() == vertices.front()){
+		if (vertices.back()->vertex == vertices.front()->vertex){
 			//the rectangle formed by this 4 vertices is a rectangle :
-			this->addPossibleRectangle(vertices.begin(),vertices.begin()+4);
+			this->_verticesLoopsMngr.addLoop(std::vector<Vertex_def*>(vertices.begin(),vertices.begin()+4));
 		}
 	}else{
 		//otherwise, recurse in the edges/vertices tree
 		for (int i=0; i< vertices.back()->edges.size();i++){
-			if ( vertices.back()->edges[i] != prev_edge ){
+			//TODO take a look at this, which could be made by comparing the pointers, not the lines themselves
+			if ((prev_edge==NULL) || ( !vertices.back()->edges[i]->line.isApprox(prev_edge->line) )){
 				for (int p=0; p<vertices.back()->edges[i]->vertices.size();p++){
-					if (vertices.back()->edges[i]->vertices[p] != vertices.front()){
+					if (vertices.back()->edges[i]->vertices[p] != vertices.back()){
 						vertices.push_back(vertices.back()->edges[i]->vertices[p]);
 						recursively_find_rectangles(vertices,vertices.back()->edges[i]);
 					}

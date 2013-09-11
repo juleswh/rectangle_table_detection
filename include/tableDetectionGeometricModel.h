@@ -22,6 +22,8 @@
 #include <pcl/point_types.h>
 #include <pcl/ModelCoefficients.h>
 
+#include "UniqueLoopsMngr.h"
+
 //#define _DEBUG_FUNCTIONS_
 
 
@@ -74,7 +76,6 @@ class tableDetectionGeometricModel {
 
 		tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double param_cos_ortho_tolerance);
 		tableDetectionGeometricModel(double param_cos_ortho_tolerance=0.);
-		void init(double cos_ortho_tolerance);
 		virtual ~tableDetectionGeometricModel();
 		
 		/** Clear this object.
@@ -82,6 +83,9 @@ class tableDetectionGeometricModel {
 		 * Preserves vertical line and cos_ortho_tolerance, and private attributes used for model continuity.
 		 */
 		void clear();
+
+	private:
+		void init(double cos_ortho_tolerance);
 			
 
 	private:
@@ -90,6 +94,7 @@ class tableDetectionGeometricModel {
 		double _cos_ortho_tolerance;
 
 		boost::shared_ptr<Rectangle> _previous_best_rectangle;
+		UniqueLoopsMngr<Vertex_def*> _verticesLoopsMngr;
 
 	public:
 		std::vector<Line_def*> borders_;
@@ -97,11 +102,20 @@ class tableDetectionGeometricModel {
 		std::vector<boost::shared_ptr<Rectangle> > possible_rectangles_;
 
 	public:
-
-		bool areBorderOrthogonals(int i,int j);
+		/**test if the borders indicated by i and j are orthogonals.
+		 * Test is made with the tolerance indicated by the attribute
+		 * \see setCosOrthoTolerance()
+		 */
+		bool areBordersOrthogonal(int i,int j);
+		/** adds a vertex to the model from two edges of the model.
+		 * \warning Does NOT checks if borders are orthogonal. You MUST do it before so the model is not corrupted.
+		 */
 		bool addVertexFromEdges(int i,int j);
+		/// Add a border to the model.
 		void addBorder(const Eigen::VectorXf& coeffs);
 
+		///Constructs and add a rectangle to the list of detected rectangles.
+		///\see compute_rectangle()
 		bool addPossibleRectangle(const std::vector<int>& vertices_indices);
 		bool addPossibleRectangle(const std::vector<Vertex_def*>::iterator& first_vertex, const std::vector<Vertex_def*>::iterator& last_vertex);
 		bool addPossibleRectangle(const std::vector<Vertex_def*>& vertices);
@@ -114,6 +128,8 @@ class tableDetectionGeometricModel {
 		int verticesCount();
 		int bordersCount();
 		int possibleRectanglesCount();
+		void setCosOrthoTolerance(double tol);
+		double getCosOrthoTolerance();
 
 #ifdef _DEBUG_FUNCTIONS_
 		//TODO remove debug function
@@ -140,6 +156,7 @@ class tableDetectionGeometricModel {
 		 **/
 		void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge);
 
+		void recursively_find_rectangles_from(Vertex_def* vertex);
 		void recursively_find_rectangles(std::vector<Vertex_def*>& vertices,
 			 	const Line_def* prev_edge);
 

@@ -69,10 +69,6 @@ ros::Publisher marker_pub;
 ros::Publisher output_pcl_outliers_pub;
 ///@}
 
-/** Geometric model used to describe the scene and find the table definition
- */
-tableDetectionGeometricModel geometry_model;
-
 /**
  * \name User-set Parameters
  * These variables can be set by user to control behavior of the program
@@ -108,6 +104,10 @@ bool param_publish_outliers_pcl;
 double param_cos_ortho_tolerance;
 int param_interval;
 ///@}
+
+/** Geometric model used to describe the scene and find the table definition
+ */
+tableDetectionGeometricModel geometry_model;
 
 /** compute the world's vertical reference from tf.
  * \param[out] vertical a vector colinear to the z axis of the \c reference_tf_name expressed in the \c camera_tf_name coordinates.
