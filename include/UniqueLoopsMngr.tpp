@@ -47,7 +47,6 @@ bool UniqueLoopsMngr<T>::compareLoops(const std::vector<T>& loop1,const std::vec
 	}
 	it2=common;
 	bool equal =true;
-
 	for (it1=loop1.begin(); it1!=loop1.end(); ++it1){
 		if (*it1!=*it2){
 			equal=false;
@@ -60,6 +59,7 @@ bool UniqueLoopsMngr<T>::compareLoops(const std::vector<T>& loop1,const std::vec
 	}
 
 	if(!equal){
+		equal=true;
 		it2=common;
 		//also check in reverse order
 		for (it1=loop1.begin(); it1!=loop1.end(); ++it1){

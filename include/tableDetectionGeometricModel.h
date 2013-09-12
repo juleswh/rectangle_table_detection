@@ -242,7 +242,7 @@ class tableDetectionGeometricModel {
 		 **/
 		boost::shared_ptr<Rectangle> compute_rectangle(const std::vector<int>& vertices_indices);
 		boost::shared_ptr<Rectangle> compute_rectangle(const std::vector<Vertex_def*>& vertices);
-			boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>::const_iterator from_vertex, std::vector<Vertex_def*>::const_iterator to_vertex);
+		boost::shared_ptr<Rectangle> compute_rectangle(std::vector<Vertex_def*>::const_iterator from_vertex, std::vector<Vertex_def*>::const_iterator to_vertex);
 
 		/**
 		 * Compute a transform so that the child frame have given x and y axis.

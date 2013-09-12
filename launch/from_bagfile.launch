@@ -1,8 +1,8 @@
 <launch>
 	<arg name="kinect_room" default="false"/>
-	<arg name="filter" default="true"/>
+	<arg name="filter" default="false"/>
 	<arg name="ransac_source" if="$(arg filter)" value="/filtering/output"/>
-	<arg name="ransac_source" unless="$(arg filter)" value="/camera/depth_registered/points"/>
+	<arg name="ransac_source" unless="$(arg filter)" value="/simple_filtering/output"/>
   <env name="ROSCONSOLE_CONFIG_FILE" 
        value="$(find rectangular_table_detection)/rosconsole_debug.conf"/>
 	<!-- creates 2 transforms :
@@ -20,7 +20,7 @@
 
 	<!-- launch the filtering node, the ransac node, and link them together-->
 	<group if="$(arg filter)">
-	<node name="filtering" pkg="rectangular_table_detection" type="simple_filtering" args="/filtering/input:=/camera/depth_registered/points"/>
+		<node name="filtering" pkg="rectangular_table_detection" type="simple_filtering" args="/filtering/input:=/camera/depth_registered/points"/>
 	</group>
 	<node name="ransac_ortho_plane" pkg="rectangular_table_detection" type="ransac_plane_detection" args="/ransac_ortho_plane/input:=$(arg ransac_source)" output="screen">
 		<param name="reference_tf" value="/world"/>
@@ -29,11 +29,11 @@
 		<param name="publish_plane_pcl" value="true"/>
 		<param name="min_height" value="0.65"/>
 		<param name="max_height" value="0.8"/>
-		<param name="incoming_pcl_sampling_period" value="4"/>
-		<param name="ransac_dist_threshold" value="0.05"/>
+		<param name="incoming_pcl_sampling_period" value="1"/>
+		<param name="ransac_dist_threshold" value="0.02"/>
 		<!--param name="ransac_line_dist_threshold" value="0.05"/>
 		<param name="ortho_rad_thresh" value="0.08"/-->
 
-		<!--param name="ransac_model_epsilon" value="0.05"/-->
+		<param name="ransac_model_epsilon" value="0.01"/>
 	</node>
 </launch>

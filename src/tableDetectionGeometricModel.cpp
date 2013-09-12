@@ -200,6 +200,7 @@ int tableDetectionGeometricModel::find_all_possible_rectangles(){
 
 	for (std::vector<Vertex_def*>::const_iterator it=this->vertices_.begin(); it!=this->vertices_.end();++it){
 		this->recursively_find_rectangles_from(*it);
+
 	}
 
 	for (int i=0;i<this->_verticesLoopsMngr._loops_collection.size();i++){
@@ -220,20 +221,20 @@ void tableDetectionGeometricModel::recursively_find_rectangles_from(Vertex_def* 
 
 void tableDetectionGeometricModel::recursively_find_rectangles(std::vector<Vertex_def*>& vertices, const Line_def* prev_edge){
 	//simple case : we have 5 vertices, simply determine if the first = the last
-	if (vertices.size() == 5){
-		if (vertices.back()->vertex == vertices.front()->vertex){
+	int depth = vertices.size()-1;
+	if (depth == 4){
+		if (vertices[depth]->vertex == vertices.front()->vertex){
 			//the rectangle formed by this 4 vertices is a rectangle :
 			this->_verticesLoopsMngr.addLoop(std::vector<Vertex_def*>(vertices.begin(),vertices.begin()+4));
 		}
 	}else{
 		//otherwise, recurse in the edges/vertices tree
-		for (int i=0; i< vertices.back()->edges.size();i++){
-			//TODO take a look at this, which could be made by comparing the pointers, not the lines themselves
-			if ((prev_edge==NULL) || ( !vertices.back()->edges[i]->line.isApprox(prev_edge->line) )){
-				for (int p=0; p<vertices.back()->edges[i]->vertices.size();p++){
-					if (vertices.back()->edges[i]->vertices[p] != vertices.back()){
-						vertices.push_back(vertices.back()->edges[i]->vertices[p]);
-						recursively_find_rectangles(vertices,vertices.back()->edges[i]);
+		for (int i=0; i< vertices[depth]->edges.size();i++){
+			if (prev_edge!=vertices[depth]->edges[i]){
+				for (int p=0; p<vertices[depth]->edges[i]->vertices.size();p++){
+					if (vertices[depth]->edges[i]->vertices[p] != vertices[depth]){
+						vertices.push_back(vertices[depth]->edges[i]->vertices[p]);
+						recursively_find_rectangles(vertices,vertices[depth]->edges[i]);
 					}
 				}
 			}
