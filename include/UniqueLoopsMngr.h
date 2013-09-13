@@ -1,3 +1,7 @@
+/** \file UniqueLoopsMngr.h
+ * Definition of the class UniqueLoopsMngr.
+ * \author Jules Waldhart
+ */
 #ifndef _UNIQUE_LOOPS_MNGR_
 #define _UNIQUE_LOOPS_MNGR_
 #include <iostream>

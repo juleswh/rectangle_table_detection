@@ -1,7 +1,85 @@
+/**\file detect_normal_planes.cpp
+ * 
+ * Main file of the node detect_normal_planes that detect (all) planes that are normal to a given vector, in a given height range.
+ *
+ * Actually, the user can define some limits for the plane detection:
+ * -a minimal number of inliers of the plane, so too small planes are not detected.
+ * -a number of planes to detect
+ * When the first of the above limition is met, the program stops and waits for an other input point cloud.
+ *
+ * The method used is pcl ransac method, and it detects geometrical planes; points can be not grouped,
+ * or even not define a physical plane.
+ */
+
+/**
+ * \mainpage Node detect_normal_planes
+ * This documentation presents the node detect_normal_planes. In this page you'll find it's usage, and on other
+ * pages the documentation of the code.
+ *
+ * \section Overview
+ * This node computes it's incoming point cloud data with a ransac method to find planes in the data.
+ * The planes it searchs for have to be normal to the 'z' axis of the given reference frame (from tf).
+ * The user can set a few parameters so the program can adapt to different cases. These parameters are
+ * described in the next section.
+ * 
+ * \section Parameters
+ *
+ * \par \p plane_min_inliers (int, default: 100)
+ * Indicates the minimum number of points that a plane must contain to be considered as valid.
+ *
+ * \par \p planes_to_detect (int, default: 0)
+ * Indicates the max number of planes to seek. 0 means no limit.
+ *
+ * \par \p reference_tf (string, default: "/map")
+ * The name of the tf frame to use as reference. This frame indicates both the vertical direction,
+ * which is it's 'z' axis, and the height reference : it's origin is at an height of 0.
+ * The node seek planes normal to this vertical reference.
+ *
+ * \par \p model_distance_max (float, default: 0.05)
+ * The max distance of a point to the ransac model.
+ *
+ * \par \p normal_angle_deviation (float, default: 0.05)
+ * The max tolerance over the angle between the plane and the given reference. (in radians)
+ *
+ * \par \p max_height_plane (float, default: 0)
+ * \par \p min_height_plane (float, default: 0)
+ * This two parameters indicate in which height range we should search for planes.
+ * All points that are not in this range are removed before the search, so this can 
+ * speed the process if you have lots of points and you are only seeking planes
+ * in a given range.
+ *
+ * \par \p publish_plane_pcl (boolean, default: false)
+ * Choose to publish a point cloud that contains all the planes.
+ *
+ * \par \p publish_outliers_pcl (boolean, default: false)
+ * Choose to publish a point cloud of the outliers (point that do not belong to any detected plane)
+ *
+ * \par \p incoming_pcl_sampling_period (int, default: 1)
+ * The node can compute only some point clouds, usefull if your table is not moving too fast and
+ * your CPU time is precious. So this is the sampling period.
+ * Warning! 0 will cause you some issues...
+ *
+ * \section Subscribed topics
+ * \par \p ~input (sensor_msgs/PointCloud2)
+ * The point cloud to process.
+ * 
+ * \section Published topics
+ * \par \p ~planes_detected (rectangular_table_detection/PlaneArray)
+ * The points and normals of the detected points.
+ *
+ * \par \p ~output (sensor_msgs/PointCloud2)
+ * (optional) a point cloud that contains all the planes.
+ *
+ * \par \p ~outliers
+ * (optional) a point cloud of the outliers (points that do not belong to any detected plane)
+ *
+ */
 #include <ros/ros.h>
 #include <geometry_msgs/Point.h>
 #include <tf/transform_broadcaster.h>
 #include <tf/transform_listener.h>
+
+#include <pcl/common/centroid.h>
 
 #include "ransac_plane_compute.h"
 #include <rectangular_table_detection/PlaneArray.h>
@@ -31,7 +109,6 @@ ros::Publisher output_pcl_pub;
 ros::Publisher output_pcl_outliers_pub;
 ros::Publisher planes_publisher;
 ros::NodeHandle* nh;
-
 
 
 void get_vertical_referecence(tf::Vector3& vertical,tf::Vector3& origin, const std::string& reference_tf_name, const std::string& camera_tf_name){
@@ -81,6 +158,7 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 	//output values
 	Eigen::VectorXf coefficients;
 	pcl::IndicesPtr plane_inliers(new std::vector<int>);
+	pcl::IndicesPtr all_planes_inliers(new std::vector<int>);
 
 	rectangular_table_detection::PlaneArray plane_array;
 
@@ -136,14 +214,27 @@ void cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
 		}else{
 			ROS_DEBUG("plane found");
 
-			//add the plane to the msg array
-			plane_msg.point.x=cloud->at((*plane_inliers)[0]).x;
-			plane_msg.point.y=cloud->at((*plane_inliers)[0]).y;
-			plane_msg.point.z=cloud->at((*plane_inliers)[0]).z;
+			all_planes_inliers->insert(all_planes_inliers->end(),plane_inliers->begin(),plane_inliers->end());
 
-			plane_msg.normal.x=coefficients[0];
-			plane_msg.normal.y=coefficients[1];
-			plane_msg.normal.z=coefficients[2];
+			Eigen::Vector3f normal(coefficients[0],coefficients[1],coefficients[2]);
+			Eigen::Vector4f centroid;
+			pcl::compute3DCentroid(*cloud, *plane_inliers,centroid);
+
+			//flip the normal so it's in the same direction than vertical line direction (if necessary)
+			if(normal.dot(vertical_line.direction()) < 0){
+				normal[0] = -normal[0];
+				normal[1] = -normal[1];
+				normal[2] = -normal[2];
+			}
+
+			//add the plane to the msg array
+			plane_msg.point.x=centroid[0];
+			plane_msg.point.y=centroid[1];
+			plane_msg.point.z=centroid[2];
+
+			plane_msg.normal.x=normal[0];
+			plane_msg.normal.y=normal[1];
+			plane_msg.normal.z=normal[2];
 
 			plane_array.planes.push_back(plane_msg);
 

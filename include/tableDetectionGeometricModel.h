@@ -1,6 +1,6 @@
 /**
  * Data structures and functions in relation to the geometry of a table.
- * \file geometry_utilities.h
+ * \file tableDetectionGeometricModel.h
  *
  * These function mainly work over Eigen and are used to compute a model of the table
  **/
@@ -74,7 +74,11 @@ class tableDetectionGeometricModel {
 			Eigen::Vector3f point; /**< a point that is a vertex of the rectangle**/
 		};
 
+		/**Full builder*/
 		tableDetectionGeometricModel(Eigen::Vector3f origin, Eigen::Vector3f vertical, double param_cos_ortho_tolerance);
+		/**Simple builder.
+		 * \warning you must call setVerticalLine() before using methods of this instance.
+		 */
 		tableDetectionGeometricModel(double param_cos_ortho_tolerance=0.);
 		virtual ~tableDetectionGeometricModel();
 		
@@ -121,14 +125,27 @@ class tableDetectionGeometricModel {
 		bool addPossibleRectangle(const std::vector<Vertex_def*>& vertices);
 
 		void setVerticalLine(const Eigen::Vector3f& origin, const Eigen::Vector3f& direction);
+		/**Sets the vertical line to use as reference*/
 		void setVerticalLine(const Eigen::ParametrizedLine<float,3>& vertical_line);
+		/** returns the vertical line as set by the user*/
 		Eigen::ParametrizedLine<float,3> getVerticalLine();
+		/** get the origin of the vertical reference line set by the user.
+		 * \warning vertical line must be specified
+		 */
 		Eigen::Vector3f getVerticalOrigin();
+		/** get the direction of the vertical reference line set by the user.
+		 * \warning vertical line must be specified
+		 */
 		Eigen::Vector3f getVerticalDirection();
+		/**vertices in the model*/
 		int verticesCount();
+		/**borders in the model*/
 		int bordersCount();
+		/**possible rectangles in the model*/
 		int possibleRectanglesCount();
+		/** set the tolerance to use to determine if the cosinus of an angle is approx 0.*/
 		void setCosOrthoTolerance(double tol);
+		/** get the tolerance set by the user*/
 		double getCosOrthoTolerance();
 
 #ifdef _DEBUG_FUNCTIONS_
@@ -156,10 +173,12 @@ class tableDetectionGeometricModel {
 		 **/
 		void recursively_find_connected_vertices(std::vector<Vertex_def*>& vertices, Line_def* edge);
 
+	private:
 		void recursively_find_rectangles_from(Vertex_def* vertex);
 		void recursively_find_rectangles(std::vector<Vertex_def*>& vertices,
 			 	const Line_def* prev_edge);
 
+	public:
 		/**
 		 * runs over all vertices and tries to find all the possible rectangles.
 		 *
