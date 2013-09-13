@@ -14,14 +14,28 @@ template <class T>
 class UniqueLoopsMngr{
 
 	public:
+		/** creates a new manager.
+		 * Does nothing
+		 */
 		UniqueLoopsMngr();
 
 	public:
 		std::vector<std::vector<T> > _loops_collection;
 
 	public:
+		/** Add a loop, check if it exists before
+		 * \param[in] loop the loop to add.
+		 * \return true if the loop is added, false if it was already in the managed loops
+		 */
 		bool addLoop(const std::vector<T>& loop);
+		/** Check if the given loop is already in this manager.
+		 * Uses compareLoops()
+		 */
 		bool loopAlreadyExists(const std::vector<T>& loop);
+		/** Compare 2 loops.
+		 * \return true if they are equal (in the meaning of a non-oriented loop, do not
+		 * compare vectors, but their contents
+		 */
 		bool compareLoops(const std::vector<T>& loop1,const std::vector<T>& loop2);
 
 

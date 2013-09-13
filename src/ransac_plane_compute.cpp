@@ -2,6 +2,9 @@
 
 bool is_point_in_user_range(Eigen::ParametrizedLine<float, 3> line_vertical, pcl::PointXYZRGBA point_of_plane, double min_height_plane, double max_height_plane){
 	bool is_ok = false;
+	if(min_height_plane==max_height_plane)
+		return true;
+
 	Eigen::Vector3f projection_on_line = line_vertical.projection(Eigen::Vector3f(point_of_plane.x,point_of_plane.y,point_of_plane.z));
 	Eigen::Vector3f vert_to_point = - line_vertical.origin() + projection_on_line;
 	if ( (vert_to_point.norm() < max_height_plane) && (vert_to_point.norm() > min_height_plane)){
