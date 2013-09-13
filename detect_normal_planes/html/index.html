@@ -77,15 +77,34 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">Node detect_normal_planes </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This documentation presents the node detect_normal_planes. In this page you'll find it's usage, and on other</p>
-<p>pages the documentation of the code.</p>
-<h1><a class="anchor" id="Intro"></a>
-Intro</h1>
-<p>balb </p>
+<div class="textblock"><p>This documentation presents the node detect_normal_planes. In this page you'll find it's usage, and on other pages the documentation of the code.</p>
+<h1><a class="anchor" id="Overview"></a>
+Overview</h1>
+<p>This node computes it's incoming point cloud data with a ransac method to find planes in the data. The planes it searchs for have to be normal to the 'z' axis of the given reference frame (from tf). The user can set a few parameters so the program can adapt to different cases. These parameters are described in the next section.</p>
+<h1><a class="anchor" id="Parameters"></a>
+Parameters</h1>
+<dl class="section user"><dt><code>plane_min_inliers</code> (int, default: 100)</dt><dd>Indicates the minimum number of points that a plane must contain to be considered as valid.</dd></dl>
+<dl class="section user"><dt><code>planes_to_detect</code> (int, default: 0)</dt><dd>Indicates the max number of planes to seek. 0 means no limit.</dd></dl>
+<dl class="section user"><dt><code>reference_tf</code> (string, default: "/map")</dt><dd>The name of the tf frame to use as reference. This frame indicates both the vertical direction, which is it's 'z' axis, and the height reference : it's origin is at an height of 0. The node seek planes normal to this vertical reference.</dd></dl>
+<dl class="section user"><dt><code>model_distance_max</code> (float, default: 0.05)</dt><dd>The max distance of a point to the ransac model.</dd></dl>
+<dl class="section user"><dt><code>normal_angle_deviation</code> (float, default: 0.05)</dt><dd>The max tolerance over the angle between the plane and the given reference. (in radians)</dd></dl>
+<dl class="section user"><dt><code>max_height_plane</code> (float, default: 0)</dt><dd></dd></dl>
+<dl class="section user"><dt><code>min_height_plane</code> (float, default: 0)</dt><dd>This two parameters indicate in which height range we should search for planes. All points that are not in this range are removed before the search, so this can speed the process if you have lots of points and you are only seeking planes in a given range.</dd></dl>
+<dl class="section user"><dt><code>publish_plane_pcl</code> (boolean, default: false)</dt><dd>Choose to publish a point cloud that contains all the planes.</dd></dl>
+<dl class="section user"><dt><code>publish_outliers_pcl</code> (boolean, default: false)</dt><dd>Choose to publish a point cloud of the outliers (point that do not belong to any detected plane)</dd></dl>
+<dl class="section user"><dt><code>incoming_pcl_sampling_period</code> (int, default: 1)</dt><dd>The node can compute only some point clouds, usefull if your table is not moving too fast and your CPU time is precious. So this is the sampling period. Warning! 0 will cause you some issues...</dd></dl>
+<h1><a class="anchor" id="Subscribed"></a>
+topics</h1>
+<dl class="section user"><dt><code>~input</code> (sensor_msgs/PointCloud2)</dt><dd>The point cloud to process.</dd></dl>
+<h1><a class="anchor" id="Published"></a>
+topics</h1>
+<dl class="section user"><dt><code>~planes_detected</code> (rectangular_table_detection/PlaneArray)</dt><dd>The points and normals of the detected points.</dd></dl>
+<dl class="section user"><dt><code>~output</code> (sensor_msgs/PointCloud2)</dt><dd>(optional) a point cloud that contains all the planes.</dd></dl>
+<dl class="section user"><dt><code>~outliers</code> </dt><dd>(optional) a point cloud of the outliers (points that do not belong to any detected plane) </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Sep 13 2013 15:43:33 for rectangular_table_detection/ detect_normal_planes by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Sep 13 2013 16:54:22 for rectangular_table_detection/ detect_normal_planes by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.5
 </small></address>
