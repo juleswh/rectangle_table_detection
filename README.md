@@ -4,7 +4,7 @@ Basic Use
 Compilation
 -----------
 
-(also find this documentation [here](http://julesw.github.io/rectangle_table_detection/html/basicuse.html))
+(also find this documentation [here](http://julesw.github.io/rectangle_table_detection/rectangle_table_detection/html/basicuse.html))
 
 Be sure to have a [catkin workspace](http://wiki.ros.org/catkin/Tutorials/create_a_workspace), and you've sourced the devel/setup.bash of it.
 
